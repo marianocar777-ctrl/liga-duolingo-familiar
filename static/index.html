@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liga Duolingo Familiar</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      color: #263238;
+    }
+
+    header {
+      background: linear-gradient(135deg, #58cc02, #46a302);
+      color: white;
+      text-align: center;
+      padding: 32px 15px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 30px;
+    }
+
+    header p {
+      margin: 8px 0 0;
+      opacity: 0.95;
+    }
+
+    main {
+      max-width: 700px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+      margin-top: 0;
+      color: #58a700;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-top: 14px;
+      margin-bottom: 6px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 18px;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: #58cc02;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:active {
+      background: #46a302;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      padding: 12px 7px;
+      text-align: center;
+      border-bottom: 1px solid #eee;
+    }
+
+    th {
+      color: #777;
+      font-size: 14px;
+    }
+
+    .primero {
+      background: #fff8d8;
+      font-weight: bold;
+    }
+
+    .xp {
+      color: #58a700;
+      font-weight: bold;
+    }
+
+    .nota {
+      font-size: 13px;
+      color: #777;
+      margin-top: 12px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      color: #888;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>🦉 Liga Duolingo Familiar</h1>
+  <p>¡Aprender, competir y divertirnos en familia!</p>
+</header>
+
+<main>
+
+  <section class="card">
+    <h2>🏆 Ranking semanal</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Pos.</th>
+          <th>Participante</th>
+          <th>XP</th>
+        </tr>
+      </thead>
+
+      <tbody id="ranking">
+        <tr class="primero">
+          <td>🥇</td>
+          <td>Wendy Aguirre</td>
+          <td class="xp">50.000</td>
+        </tr>
+
+        <tr>
+          <td>🥈</td>
+          <td>Majo Díaz</td>
+          <td class="xp">40.000</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="card">
+    <h2>📝 Registrar XP semanal</h2>
+
+    <label for="nombre">Participante</label>
+    <input id="nombre" type="text" placeholder="Nombre">
+
+    <label for="xp">XP obtenidos</label>
+    <input id="xp" type="number" min="0" placeholder="Ejemplo: 12500">
+
+    <label for="multa">Multa de XP</label>
+    <input id="multa" type="number" min="0" value="0">
+
+    <p class="nota">
+      La multa se resta únicamente de los XP obtenidos durante la semana.
+    </p>
+
+    <button onclick="agregarResultado()">
+      Guardar resultado
+    </button>
+  </section>
+
+  <section class="card">
+    <h2>🎁 Tributo semanal</h2>
+
+    <p>
+      ⭐ Wendy Aguirre: <strong>5.000 XP</strong>
+    </p>
+
+    <p>
+      ⭐ Majo Díaz: <strong>5.000 XP</strong>
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  Liga Duolingo Familiar 🦉
+</footer>
+
+<script>
+  function agregarResultado() {
+
+    const nombre = document.getElementById("nombre").value.trim();
+    const xp = Number(document.getElementById("xp").value);
+    const multa = Number(document.getElementById("multa").value);
+
+    if (!nombre || xp < 0) {
+      alert("Por favor completa los datos.");
+      return;
+    }
+
+    const xpFinal = Math.max(0, xp - multa);
+
+    const fila = document.createElement("tr");
+
+    fila.innerHTML = `
+      <td>•</td>
+      <td>${nombre}</td>
+      <td class="xp">${xpFinal.toLocaleString("es-CO")}</td>
+    `;
+
+    document.getElementById("ranking").appendChild(fila);
+
+    document.getElementById("nombre").value = "";
+    document.getElementById("xp").value = "";
+    document.getElementById("multa").value = "0";
+  }
+</script>
+
+</body>
+</html>
