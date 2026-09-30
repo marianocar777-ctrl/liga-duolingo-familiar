@@ -5,55 +5,460 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Liga Duolingo Familiar</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f5f7fa;color:#263238}header{background:linear-gradient(135deg,#58cc02,#46a302);color:#fff;text-align:center;padding:28px 15px}header h1{margin:0;font-size:30px}header p{margin:8px 0 0;opacity:.95}main{max-width:760px;margin:auto;padding:18px}.card{background:#fff;border-radius:18px;padding:20px;margin-bottom:18px;box-shadow:0 4px 14px rgba(0,0,0,.08)}h2{margin-top:0;color:#58a700}.tabs{display:flex;gap:8px;margin-bottom:18px}.tabs button{margin:0;background:#fff;color:#58a700;border:2px solid #58cc02}.tabs button.active{background:#58cc02;color:#fff}.hidden{display:none}.participant{background:#f3faed;border:1px solid #d8efc8;border-radius:14px;padding:16px;text-align:center;margin:12px 0}.participant .count{font-size:13px;color:#777}.participant .name{font-size:24px;font-weight:800;margin:5px 0}.participant .user{font-size:13px;color:#777}label{display:block;font-weight:bold;margin-top:14px;margin-bottom:6px}input{width:100%;padding:12px;border-radius:10px;border:1px solid #ccc;font-size:17px}button{width:100%;margin-top:14px;padding:14px;border:0;border-radius:12px;background:#58cc02;color:#fff;font-size:16px;font-weight:bold;cursor:pointer}.secondary{background:#eef2ee;color:#425047}.danger{background:#e5484d}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.nota{font-size:13px;color:#777;margin-top:10px}.status{padding:10px;border-radius:10px;background:#eef8e7;margin-top:12px;font-size:14px}table{width:100%;border-collapse:collapse;margin-top:10px}th,td{padding:10px 6px;text-align:center;border-bottom:1px solid #eee}th{color:#777;font-size:13px}.xp{color:#58a700;font-weight:bold}.fine{color:#c63c3c}.prize{font-weight:bold;color:#8b6b00}.general-name{text-align:left;font-weight:bold}footer{text-align:center;padding:25px;color:#888;font-size:13px}@media(max-width:600px){main{padding:12px}.card{padding:15px}.row{grid-template-columns:1fr}th,td{font-size:13px;padding:9px 4px}.hide-mobile{display:none}}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f5f7fa;color:#263238}
+header{background:linear-gradient(135deg,#58cc02,#46a302);color:#fff;text-align:center;padding:28px 15px}
+header h1{margin:0;font-size:30px}
+header p{margin:8px 0 0;opacity:.95}
+main{max-width:760px;margin:auto;padding:18px}
+.card{background:#fff;border-radius:18px;padding:20px;margin-bottom:18px;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+h2{margin-top:0;color:#58a700}
+.tabs{display:flex;gap:8px;margin-bottom:18px}
+.tabs button{margin:0;background:#fff;color:#58a700;border:2px solid #58cc02}
+.tabs button.active{background:#58cc02;color:#fff}
+.hidden{display:none}
+.participant{background:#f3faed;border:1px solid #d8efc8;border-radius:14px;padding:16px;text-align:center;margin:12px 0}
+.participant .count{font-size:13px;color:#777}
+.participant .name{font-size:24px;font-weight:800;margin:5px 0}
+.participant .user{font-size:13px;color:#777}
+label{display:block;font-weight:bold;margin-top:14px;margin-bottom:6px}
+input{width:100%;padding:12px;border-radius:10px;border:1px solid #ccc;font-size:17px}
+button{width:100%;margin-top:14px;padding:14px;border:0;border-radius:12px;background:#58cc02;color:#fff;font-size:16px;font-weight:bold;cursor:pointer}
+.secondary{background:#eef2ee;color:#425047}
+.danger{background:#e5484d}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.nota{font-size:13px;color:#777;margin-top:10px}
+.status{padding:10px;border-radius:10px;background:#eef8e7;margin-top:12px;font-size:14px}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+th,td{padding:10px 6px;text-align:center;border-bottom:1px solid #eee}
+th{color:#777;font-size:13px}
+.xp{color:#58a700;font-weight:bold}
+.fine{color:#c63c3c}
+.prize{font-weight:bold;color:#8b6b00}
+.general-name{text-align:left;font-weight:bold}
+footer{text-align:center;padding:25px;color:#888;font-size:13px}
+@media(max-width:600px){
+main{padding:12px}
+.card{padding:15px}
+.row{grid-template-columns:1fr}
+th,td{font-size:13px;padding:9px 4px}
+.hide-mobile{display:none}
+}
 </style>
 </head>
+
 <body>
-<header><h1>🦉 Liga Duolingo Familiar</h1><p>¡Aprender, competir y divertirnos en familia!</p></header>
+
+<header>
+<h1>🦉 Liga Duolingo Familiar</h1>
+<p>¡Aprender, competir y divertirnos en familia!</p>
+</header>
+
 <main>
-<div class="tabs"><button id="tabSemanal" class="active" onclick="showTab('semanal')">Semana</button><button id="tabGeneral" onclick="showTab('general')">Acumulado</button></div>
+
+<div class="tabs">
+<button id="tabSemanal" class="active" onclick="showTab('semanal')">Semana</button>
+<button id="tabGeneral" onclick="showTab('general')">Acumulado</button>
+</div>
+
 <section id="semanal">
-  <section class="card"><h2>🏆 Ranking semanal</h2><div id="weeklyTable"></div></section>
-  <section class="card">
-    <h2>📝 Registrar XP semanal</h2>
-    <div class="participant"><div class="count" id="contador"></div><div class="name" id="nombreActual"></div><div class="user" id="usuarioActual"></div></div>
-    <label for="xp">XP obtenidos</label><input id="xp" type="number" min="0" placeholder="Ejemplo: 12500" inputmode="numeric">
-    <label for="multa">Multa de XP</label><input id="multa" type="number" min="0" value="0" inputmode="numeric">
-    <p class="nota">La multa se aplica desde que guardas y solo reduce los XP efectivos de esta semana. No descuenta puntos acumulados.</p>
-    <div id="efectivos" class="status">XP efectivos: 0</div>
-    <button onclick="guardarYSiguiente()">Guardar y siguiente</button>
-    <div class="row"><button class="secondary" onclick="anterior()">← Anterior</button><button class="secondary" onclick="siguienteSinGuardar()">Siguiente →</button></div>
-    <div id="guardado" class="nota"></div>
-  </section>
-  <section class="card"><h2>🎁 Tributo semanal</h2><p>⭐ Wendy Aguirre: <strong>5.000 XP</strong></p><p>⭐ Majo Díaz: <strong>5.000 XP</strong></p></section>
-  <section class="card"><h2>🔒 Cierre del concurso semanal</h2><p class="nota">Puedes guardar o corregir XP y multas cualquier día. Solo este botón suma los premios semanales a los puntos acumulados.</p><button class="danger" onclick="cerrarSemana()">Cerrar concurso y premiar</button></section>
+
+<section class="card">
+<h2>🏆 Ranking semanal</h2>
+<div id="weeklyTable"></div>
 </section>
-<section id="general" class="hidden"><section class="card"><h2>📊 Puntos acumulados</h2><div id="generalTable"></div></section><section class="card"><h2>📚 Histórico de cierres</h2><div id="history"></div></section></section>
+
+<section class="card">
+<h2>📝 Registrar XP semanal</h2>
+
+<div class="participant">
+<div class="count" id="contador"></div>
+<div class="name" id="nombreActual"></div>
+<div class="user" id="usuarioActual"></div>
+</div>
+
+<label for="xp">XP obtenidos</label>
+<input id="xp" type="number" min="0"
+placeholder="Ejemplo: 12500" inputmode="numeric">
+
+<label for="multa">Multa de XP</label>
+<input id="multa" type="number" min="0"
+value="0" inputmode="numeric">
+
+<p class="nota">
+La multa se aplica desde que guardas y solo reduce los XP efectivos
+de esta semana. No descuenta puntos acumulados.
+</p>
+
+<div id="efectivos" class="status">XP efectivos: 0</div>
+
+<button onclick="guardarYSiguiente()">Guardar y siguiente</button>
+
+<div class="row">
+<button class="secondary" onclick="anterior()">← Anterior</button>
+<button class="secondary" onclick="siguienteSinGuardar()">Siguiente →</button>
+</div>
+
+<div id="guardado" class="nota"></div>
+</section>
+
+<section class="card">
+<h2>🎁 Tributo semanal</h2>
+<p>⭐ Wendy Aguirre: <strong>5.000 XP</strong></p>
+<p>⭐ Majo Díaz: <strong>5.000 XP</strong></p>
+</section>
+
+<section class="card">
+<h2>🔒 Cierre del concurso semanal</h2>
+<p class="nota">
+Puedes guardar o corregir XP y multas cualquier día.
+Solo este botón suma los premios semanales a los puntos acumulados.
+</p>
+<button class="danger" onclick="cerrarSemana()">
+Cerrar concurso y premiar
+</button>
+</section>
+
+</section>
+
+<section id="general" class="hidden">
+
+<section class="card">
+<h2>📊 Puntos acumulados</h2>
+<div id="generalTable"></div>
+</section>
+
+<section class="card">
+<h2>📚 Histórico de cierres</h2>
+<div id="history"></div>
+</section>
+
+</section>
+
 </main>
+
 <footer>Liga Duolingo Familiar 🦉</footer>
+
 <script>
+
 const base=[
-{name:'JAIDER',username:'JAIDER110612',points:0},{name:'ESTEBAN',username:'ESTEBAAN._.',points:0},{name:'LUISA',username:'LUISAFERNA212571',points:0},{name:'ISABELA',username:'LACOLOMBIANIT417',points:20000},{name:'SILVANA',username:'SILVIXDD',points:0},{name:'DANILO',username:'ANGELDANILO83',points:0},{name:'ERIKA',username:'ERIKA7AGUIRRE30',points:50000},{name:'CRISTIAN',username:'CCARRENOL',points:60000},{name:'LUCIANA SULO',username:'LUCISULO15',points:50000},{name:'EMILY',username:'YP53TZR235',points:50000},{name:'MAPIS',username:'MAPIS01836',points:140000},{name:'JUAN DIEGO',username:'JUANDIEGOC828037',points:10000},{name:'MAJO DIAZ',username:'MAJO08_D',points:230000},{name:'SAMUEL',username:'KEVIN211943',points:0},{name:'ANDRES DAVID',username:'ANDRESHERN170903',points:0},{name:'MAJO LOZANO',username:'MAJOLOZANO265',points:0},{name:'MILE',username:'MILE691276',points:0},{name:'MARIANO',username:'MARIANO409',points:40000},{name:'LUCIANA ENCISO',username:'LUCIANA1527.',points:20000},{name:'VALERIA',username:'VALERIAOSORIO555',points:60000},{name:'WENDY AGUIRRE',username:'WENDYLAG93',points:130000},{name:'ISABELA AGUIRRE',username:'ISAQUIAGUI13',points:30000}];
-const prizes=[50000,40000,30000,20000,10000]; const key='duolingoFamilyLeagueV2';
+{name:'JAIDER',username:'JAIDER110612',points:0},
+{name:'ESTEBAN',username:'ESTEBAAN._.',points:0},
+{name:'LUISA',username:'LUISAFERNA212571',points:0},
+{name:'ISABELA',username:'LACOLOMBIANIT417',points:20000},
+{name:'SILVANA',username:'SILVIXDD',points:0},
+{name:'DANILO',username:'ANGELDANILO83',points:0},
+{name:'ERIKA',username:'ERIKA7AGUIRRE30',points:50000},
+{name:'CRISTIAN',username:'CCARRENOL',points:60000},
+{name:'LUCIANA SULO',username:'LUCISULO15',points:50000},
+{name:'EMILY',username:'YP53TZR235',points:50000},
+{name:'MAPIS',username:'MAPIS01836',points:140000},
+{name:'JUAN DIEGO',username:'JUANDIEGOC828037',points:10000},
+{name:'MAJO DIAZ',username:'MAJO08_D',points:230000},
+{name:'SAMUEL',username:'KEVIN211943',points:0},
+{name:'ANDRES DAVID',username:'ANDRESHERN170903',points:0},
+{name:'MAJO LOZANO',username:'MAJOLOZANO265',points:0},
+{name:'MILE',username:'MILE691276',points:0},
+{name:'MARIANO',username:'MARIANO409',points:40000},
+{name:'LUCIANA ENCISO',username:'LUCIANA1527.',points:20000},
+{name:'VALERIA',username:'VALERIAOSORIO555',points:60000},
+{name:'WENDY AGUIRRE',username:'WENDYLAG93',points:130000},
+{name:'ISABELA AGUIRRE',username:'ISAQUIAGUI13',points:30000}
+];
+
+const prizes=[50000,40000,30000,20000,10000];
+const key='duolingoFamilyLeagueV2';
+
 let state=JSON.parse(localStorage.getItem(key)||'null');
-if(!state||!Array.isArray(state.people)||state.people.length!==base.length){state={people:base.map(p=>({...p,xp:0,fine:0})),history:[],current:0};}
-let current=Math.min(Math.max(Number(state.current)||0,0),base.length-1);
+
+if(!state||!Array.isArray(state.people)||state.people.length!==base.length){
+state={
+people:base.map(p=>({...p,xp:0,fine:0})),
+history:[],
+current:0
+};
+}
+
+let current=Math.min(
+Math.max(Number(state.current)||0,0),
+base.length-1
+);
+
 const fmt=n=>Number(n||0).toLocaleString('es-CO');
-function persist(){state.current=current;localStorage.setItem(key,JSON.stringify(state));renderAll();}
-function effective(p){return Math.max(0,(+p.xp||0)-(+p.fine||0));}
-function ranked(){return [...state.people].sort((a,b)=>effective(b)-effective(a)||a.name.localeCompare(b.name));}
-function renderForm(){const p=state.people[current];document.getElementById('contador').textContent=`Participante ${current+1} de ${state.people.length}`;document.getElementById('nombreActual').textContent=p.name;document.getElementById('usuarioActual').textContent='@'+p.username;document.getElementById('xp').value=p.xp||'';document.getElementById('multa').value=p.fine||0;updateEffective();}
-function updateEffective(){const x=Math.max(0,+document.getElementById('xp').value||0),f=Math.max(0,+document.getElementById('multa').value||0);document.getElementById('efectivos').textContent='XP efectivos: '+fmt(Math.max(0,x-f));}
-function guardarActual(){const p=state.people[current];p.xp=Math.max(0,+document.getElementById('xp').value||0);p.fine=Math.max(0,+document.getElementById('multa').value||0);}
-function guardarYSiguiente(){guardarActual();document.getElementById('guardado').textContent=`✓ Datos de ${state.people[current].name} guardados.`;if(current<state.people.length-1)current++;persist();}
-function anterior(){guardarActual();if(current>0)current--;persist();}
-function siguienteSinGuardar(){if(current<state.people.length-1)current++;persist();}
-function renderWeekly(){const r=ranked();document.getElementById('weeklyTable').innerHTML=`<table><thead><tr><th>Pos.</th><th>Participante</th><th>XP</th><th>Multa</th><th>XP efectivos</th></tr></thead><tbody>${r.map((p,i)=>`<tr><td>${i+1}</td><td class="general-name">${p.name}</td><td>${fmt(p.xp)}</td><td class="fine">${p.fine?'-'+fmt(p.fine):'0'}</td><td class="xp">${fmt(effective(p))}</td></tr>`).join('')}</tbody></table>`;}
-function renderGeneral(){const r=[...state.people].sort((a,b)=>b.points-a.points||a.name.localeCompare(b.name));document.getElementById('generalTable').innerHTML=`<table><thead><tr><th>#</th><th>Participante</th><th>Puntos</th></tr></thead><tbody>${r.map((p,i)=>`<tr><td>${i+1}</td><td class="general-name">${p.name}</td><td class="prize">${fmt(p.points)}</td></tr>`).join('')}</tbody></table>`;document.getElementById('history').innerHTML=state.history.length?state.history.slice().reverse().map(h=>`<div class="status"><strong>${h.date}</strong><br>${h.winners.map(w=>`${w.rank}. ${w.name}: +${fmt(w.prize)} puntos`).join('<br>')}</div>`).join(''):'<p class="nota">Todavía no hay cierres guardados.</p>';}
-function cerrarSemana(){const r=ranked();const conDatos=r.filter(p=>(+p.xp||0)>0||(+p.fine||0)>0);if(!conDatos.length){alert('No hay XP registrados para cerrar esta semana.');return;}if(!confirm('¿Seguro que quieres cerrar el concurso? Esto sumará los premios a los puntos acumulados y reiniciará los XP y multas semanales.'))return;const winners=r.slice(0,5).map((p,i)=>({rank:i+1,name:p.name,effective:effective(p),prize:prizes[i]}));winners.forEach(w=>{const p=state.people.find(x=>x.name===w.name);p.points+=w.prize;});state.history.push({date:new Date().toLocaleString('es-CO'),winners});state.people.forEach(p=>{p.xp=0;p.fine=0});current=0;persist();alert('Semana cerrada. Los premios fueron sumados al acumulado.');}
-function showTab(tab){document.getElementById('semanal').classList.toggle('hidden',tab!=='semanal');document.getElementById('general').classList.toggle('hidden',tab!=='general');document.getElementById('tabSemanal').classList.toggle('active',tab==='semanal');document.getElementById('tabGeneral').classList.toggle('active',tab==='general');}
-function renderAll(){renderForm();renderWeekly();renderGeneral();}
-document.getElementById('xp').addEventListener('input',updateEffective);document.getElementById('multa').addEventListener('input',updateEffective);renderAll();
+
+function persist(){
+state.current=current;
+localStorage.setItem(key,JSON.stringify(state));
+renderAll();
+}
+
+function effective(p){
+return Math.max(0,(+p.xp||0)-(+p.fine||0));
+}
+
+function ranked(){
+return [...state.people]
+.sort((a,b)=>
+effective(b)-effective(a)||
+a.name.localeCompare(b.name)
+);
+}
+
+function renderForm(){
+const p=state.people[current];
+
+document.getElementById('contador').textContent=
+`Participante ${current+1} de ${state.people.length}`;
+
+document.getElementById('nombreActual').textContent=p.name;
+document.getElementById('usuarioActual').textContent='@'+p.username;
+document.getElementById('xp').value=p.xp||'';
+document.getElementById('multa').value=p.fine||0;
+
+updateEffective();
+}
+
+function updateEffective(){
+
+const x=Math.max(
+0,
++document.getElementById('xp').value||0
+);
+
+const f=Math.max(
+0,
++document.getElementById('multa').value||0
+);
+
+document.getElementById('efectivos').textContent=
+'XP efectivos: '+fmt(Math.max(0,x-f));
+}
+
+function guardarActual(){
+
+const p=state.people[current];
+
+p.xp=Math.max(
+0,
++document.getElementById('xp').value||0
+);
+
+p.fine=Math.max(
+0,
++document.getElementById('multa').value||0
+);
+}
+
+function guardarYSiguiente(){
+
+guardarActual();
+
+document.getElementById('guardado').textContent=
+`✓ Datos de ${state.people[current].name} guardados.`;
+
+if(current<state.people.length-1){
+current++;
+}
+
+persist();
+}
+
+function anterior(){
+
+guardarActual();
+
+if(current>0){
+current--;
+}
+
+persist();
+}
+
+function siguienteSinGuardar(){
+
+if(current<state.people.length-1){
+current++;
+}
+
+persist();
+}
+
+function renderWeekly(){
+
+const r=ranked();
+
+document.getElementById('weeklyTable').innerHTML=`
+<table>
+<thead>
+<tr>
+<th>Pos.</th>
+<th>Participante</th>
+<th>XP</th>
+<th>Multa</th>
+<th>XP efectivos</th>
+</tr>
+</thead>
+
+<tbody>
+${r.map((p,i)=>`
+<tr>
+<td>${i+1}</td>
+<td class="general-name">${p.name}</td>
+<td>${fmt(p.xp)}</td>
+<td class="fine">${p.fine?'-'+fmt(p.fine):'0'}</td>
+<td class="xp">${fmt(effective(p))}</td>
+</tr>
+`).join('')}
+</tbody>
+</table>`;
+}
+
+function renderGeneral(){
+
+const r=[...state.people]
+.sort((a,b)=>
+b.points-a.points||
+a.name.localeCompare(b.name)
+);
+
+document.getElementById('generalTable').innerHTML=`
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Participante</th>
+<th>Puntos</th>
+</tr>
+</thead>
+
+<tbody>
+${r.map((p,i)=>`
+<tr>
+<td>${i+1}</td>
+<td class="general-name">${p.name}</td>
+<td class="prize">${fmt(p.points)}</td>
+</tr>
+`).join('')}
+</tbody>
+</table>`;
+
+document.getElementById('history').innerHTML=
+state.history.length
+?
+state.history.slice().reverse().map(h=>`
+<div class="status">
+<strong>${h.date}</strong><br>
+${h.winners.map(w=>
+`${w.rank}. ${w.name}: +${fmt(w.prize)} puntos`
+).join('<br>')}
+</div>
+`).join('')
+:
+'<p class="nota">Todavía no hay cierres guardados.</p>';
+}
+
+function cerrarSemana(){
+
+const r=ranked();
+
+const conDatos=r.filter(
+p=>(+p.xp||0)>0||(+p.fine||0)>0
+);
+
+if(!conDatos.length){
+alert('No hay XP registrados para cerrar esta semana.');
+return;
+}
+
+if(!confirm(
+'¿Seguro que quieres cerrar el concurso? Esto sumará los premios a los puntos acumulados y reiniciará los XP y multas semanales.'
+)){
+return;
+}
+
+const winners=r.slice(0,5).map((p,i)=>({
+rank:i+1,
+name:p.name,
+effective:effective(p),
+prize:prizes[i]
+}));
+
+winners.forEach(w=>{
+
+const p=state.people.find(
+x=>x.name===w.name
+);
+
+p.points+=w.prize;
+});
+
+state.history.push({
+date:new Date().toLocaleString('es-CO'),
+winners
+});
+
+state.people.forEach(p=>{
+p.xp=0;
+p.fine=0;
+});
+
+current=0;
+
+persist();
+
+alert(
+'Semana cerrada. Los premios fueron sumados al acumulado.'
+);
+}
+
+function showTab(tab){
+
+document.getElementById('semanal')
+.classList.toggle(
+'hidden',
+tab!=='semanal'
+);
+
+document.getElementById('general')
+.classList.toggle(
+'hidden',
+tab!=='general'
+);
+
+document.getElementById('tabSemanal')
+.classList.toggle(
+'active',
+tab==='semanal'
+);
+
+document.getElementById('tabGeneral')
+.classList.toggle(
+'active',
+tab==='general'
+);
+}
+
+function renderAll(){
+renderForm();
+renderWeekly();
+renderGeneral();
+}
+
+document.getElementById('xp')
+.addEventListener(
+'input',
+updateEffective
+);
+
+document.getElementById('multa')
+.addEventListener(
+'input',
+updateEffective
+);
+
+renderAll();
+
 </script>
+
 </body>
 </html>
