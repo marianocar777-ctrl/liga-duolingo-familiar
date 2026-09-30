@@ -1,4 +1,4 @@
-content = r'''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -144,8 +144,3 @@ renderAll();consultarXpDuolingo();setInterval(consultarXpDuolingo,60000);
 </script>
 </body>
 </html>
-'''
-path="/mnt/data/index.html"
-with open(path,"w",encoding="utf-8") as f:
-    f.write(content)
-print(f"Archivo creado: {path} ({len(content)} caracteres)")
