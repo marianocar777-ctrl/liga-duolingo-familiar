@@ -895,30 +895,6 @@ renderAll();
 
 </script>
 
-  <script>
-async function probarDuolingo() {
-  try {
-    const usuario = "WENDYLAG93";
-    const url =
-      "https://www.duolingo.com/2017-06-30/users?username=" +
-      encodeURIComponent(usuario);
-
-    const respuesta = await fetch(url);
-    const texto = await respuesta.text();
-
-    alert(
-      "Estado HTTP: " +
-      respuesta.status +
-      "\n\nRespuesta:\n" +
-      texto.substring(0, 1000)
-    );
-  } catch (error) {
-    alert("ERROR DE LA PRUEBA:\n" + error);
-  }
-}
-
-probarDuolingo();
-</script>
   
 </body>
 </html>
