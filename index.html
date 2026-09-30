@@ -7,37 +7,21 @@
 
 <style>
 *{box-sizing:border-box}
-
 body{
   margin:0;
   font-family:Arial,sans-serif;
   background:#f5f7fa;
   color:#263238;
 }
-
 header{
   background:linear-gradient(135deg,#58cc02,#46a302);
   color:#fff;
   text-align:center;
   padding:28px 15px;
 }
-
-header h1{
-  margin:0;
-  font-size:30px;
-}
-
-header p{
-  margin:8px 0 0;
-  opacity:.95;
-}
-
-main{
-  max-width:760px;
-  margin:auto;
-  padding:18px;
-}
-
+header h1{margin:0;font-size:30px}
+header p{margin:8px 0 0;opacity:.95}
+main{max-width:760px;margin:auto;padding:18px}
 .card{
   background:#fff;
   border-radius:18px;
@@ -45,34 +29,16 @@ main{
   margin-bottom:18px;
   box-shadow:0 4px 14px rgba(0,0,0,.08);
 }
-
-h2{
-  margin-top:0;
-  color:#58a700;
-}
-
-.tabs{
-  display:flex;
-  gap:8px;
-  margin-bottom:18px;
-}
-
+h2{margin-top:0;color:#58a700}
+.tabs{display:flex;gap:8px;margin-bottom:18px}
 .tabs button{
   margin:0;
   background:#fff;
   color:#58a700;
   border:2px solid #58cc02;
 }
-
-.tabs button.active{
-  background:#58cc02;
-  color:#fff;
-}
-
-.hidden{
-  display:none;
-}
-
+.tabs button.active{background:#58cc02;color:#fff}
+.hidden{display:none!important}
 .participant{
   background:#f3faed;
   border:1px solid #d8efc8;
@@ -81,30 +47,15 @@ h2{
   text-align:center;
   margin:12px 0;
 }
-
-.participant .count{
-  font-size:13px;
-  color:#777;
-}
-
-.participant .name{
-  font-size:24px;
-  font-weight:800;
-  margin:5px 0;
-}
-
-.participant .user{
-  font-size:13px;
-  color:#777;
-}
-
+.participant .count{font-size:13px;color:#777}
+.participant .name{font-size:24px;font-weight:800;margin:5px 0}
+.participant .user{font-size:13px;color:#777}
 label{
   display:block;
   font-weight:bold;
   margin-top:14px;
   margin-bottom:6px;
 }
-
 input{
   width:100%;
   padding:12px;
@@ -112,7 +63,6 @@ input{
   border:1px solid #ccc;
   font-size:17px;
 }
-
 button{
   width:100%;
   margin-top:14px;
@@ -125,28 +75,14 @@ button{
   font-weight:bold;
   cursor:pointer;
 }
-
-.secondary{
-  background:#eef2ee;
-  color:#425047;
-}
-
-.danger{
-  background:#e5484d;
-}
-
+.secondary{background:#eef2ee;color:#425047}
+.danger{background:#e5484d}
 .row{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:10px;
 }
-
-.nota{
-  font-size:13px;
-  color:#777;
-  margin-top:10px;
-}
-
+.nota{font-size:13px;color:#777;margin-top:10px}
 .status{
   padding:10px;
   border-radius:10px;
@@ -154,58 +90,37 @@ button{
   margin-top:12px;
   font-size:14px;
 }
-
+.admin-status{
+  text-align:center;
+  font-size:14px;
+  margin-bottom:12px;
+}
 table{
   width:100%;
   border-collapse:collapse;
   margin-top:10px;
 }
-
 th,td{
   padding:10px 6px;
   text-align:center;
   border-bottom:1px solid #eee;
 }
-
-th{
-  color:#777;
-  font-size:13px;
-}
-
-.xp{
-  color:#58a700;
-  font-weight:bold;
-}
-
-.tribute{
-  color:#c63c3c;
-}
-
-.prize{
-  font-weight:bold;
-  color:#8b6b00;
-}
-
-.general-name{
-  text-align:left;
-  font-weight:bold;
-}
-
+th{color:#777;font-size:13px}
+.xp{color:#58a700;font-weight:bold}
+.tribute{color:#c63c3c}
+.prize{font-weight:bold;color:#8b6b00}
+.general-name{text-align:left;font-weight:bold}
 footer{
   text-align:center;
   padding:25px;
   color:#888;
   font-size:13px;
 }
-
 @media(max-width:600px){
   main{padding:12px}
   .card{padding:15px}
   .row{grid-template-columns:1fr}
-  th,td{
-    font-size:13px;
-    padding:9px 4px;
-  }
+  th,td{font-size:13px;padding:9px 4px}
 }
 </style>
 </head>
@@ -219,17 +134,15 @@ footer{
 
 <main>
 
+<div id="conexion" class="admin-status">
+  Conectando con la liga...
+</div>
+
 <div class="tabs">
-  <button
-    id="tabSemanal"
-    class="active"
-    onclick="showTab('semanal')">
+  <button id="tabSemanal" class="active" onclick="showTab('semanal')">
     Semana
   </button>
-
-  <button
-    id="tabGeneral"
-    onclick="showTab('general')">
+  <button id="tabGeneral" onclick="showTab('general')">
     Acumulado
   </button>
 </div>
@@ -241,8 +154,42 @@ footer{
   <div id="weeklyTable"></div>
 </section>
 
-<section class="card">
+<section id="adminLogin" class="card">
+  <h2>🔐 Administrador</h2>
+  <p class="nota">
+    Solo el administrador puede registrar XP, tributos y cerrar el concurso.
+  </p>
 
+  <label for="adminEmail">Correo electrónico</label>
+  <input id="adminEmail" type="email" autocomplete="username">
+
+  <label for="adminPassword">Contraseña</label>
+  <input
+    id="adminPassword"
+    type="password"
+    autocomplete="current-password"
+  >
+
+  <button onclick="iniciarSesion()">
+    Iniciar sesión
+  </button>
+
+  <div id="loginMensaje" class="nota"></div>
+</section>
+
+<div id="adminArea" class="hidden">
+
+<section class="card">
+  <div class="status">
+    ✓ Sesión de administrador activa
+  </div>
+
+  <button class="secondary" onclick="cerrarSesion()">
+    Cerrar sesión de administrador
+  </button>
+</section>
+
+<section class="card">
   <h2>📝 Registrar XP semanal</h2>
 
   <div class="participant">
@@ -252,7 +199,6 @@ footer{
   </div>
 
   <label for="xp">XP obtenidos</label>
-
   <input
     id="xp"
     type="number"
@@ -262,7 +208,6 @@ footer{
   >
 
   <label for="tributo">Tributo de XP</label>
-
   <input
     id="tributo"
     type="number"
@@ -286,25 +231,19 @@ footer{
   </button>
 
   <div class="row">
-    <button
-      class="secondary"
-      onclick="anterior()">
+    <button class="secondary" onclick="anterior()">
       ← Anterior
     </button>
 
-    <button
-      class="secondary"
-      onclick="siguienteSinGuardar()">
+    <button class="secondary" onclick="siguienteSinGuardar()">
       Siguiente →
     </button>
   </div>
 
   <div id="guardado" class="nota"></div>
-
 </section>
 
 <section class="card">
-
   <h2>🔒 Cierre del concurso semanal</h2>
 
   <p class="nota">
@@ -313,14 +252,12 @@ footer{
     acumulados.
   </p>
 
-  <button
-    class="danger"
-    onclick="cerrarSemana()">
+  <button class="danger" onclick="cerrarSemana()">
     Cerrar concurso y premiar
   </button>
-
 </section>
 
+</div>
 </section>
 
 <section id="general" class="hidden">
@@ -343,7 +280,45 @@ footer{
   Liga Duolingo Familiar 🦉
 </footer>
 
-<script>
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  onSnapshot
+}
+from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAxugpQ-ZCUffI3N4RRx9v_PWkUB36ybbU",
+  authDomain: "liga-duolingo-familiar.firebaseapp.com",
+  projectId: "liga-duolingo-familiar",
+  storageBucket: "liga-duolingo-familiar.firebasestorage.app",
+  messagingSenderId: "842299623478",
+  appId: "1:842299623478:web:e82abf2ac4eaf71fd63097"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+const ADMIN_UID = "obkmRQWbylOkGDi6YznlL9AKEOr1";
+
+const leagueRef = doc(db,"league","state");
 
 const base = [
   {name:'JAIDER',username:'JAIDER110612',points:0},
@@ -370,30 +345,12 @@ const base = [
   {name:'ISABELA AGUIRRE',username:'ISAQUIAGUI13',points:30000}
 ];
 
-const prizes = [
-  50000,
-  40000,
-  30000,
-  20000,
-  10000
-];
+const prizes = [50000,40000,30000,20000,10000];
 
-/*
-  Conservamos exactamente la misma clave de almacenamiento
-  para mantener los datos que ya hayas registrado.
-*/
 const key = 'duolingoFamilyLeagueV2';
 
-let state = JSON.parse(
-  localStorage.getItem(key) || 'null'
-);
-
-if(
-  !state ||
-  !Array.isArray(state.people) ||
-  state.people.length !== base.length
-){
-  state = {
+function nuevoEstado(){
+  return {
     people:base.map(p=>({
       ...p,
       xp:0,
@@ -405,35 +362,38 @@ if(
 }
 
 /*
-  Los datos antiguos se guardaban internamente como "fine".
-  Los mantenemos así para no perder información ya registrada.
-  En pantalla ahora se llama TRIBUTO.
+  Primero recuperamos los datos que ya existen en este celular.
+  Así podemos migrarlos a Firebase sin perderlos.
 */
+let localState = null;
+
+try{
+  localState = JSON.parse(localStorage.getItem(key) || 'null');
+}catch(e){
+  localState = null;
+}
+
+if(
+  !localState ||
+  !Array.isArray(localState.people) ||
+  localState.people.length !== base.length
+){
+  localState = nuevoEstado();
+}
+
+let state = localState;
 
 let current = Math.min(
   Math.max(Number(state.current)||0,0),
   base.length-1
 );
 
+let firebaseTieneDatos = false;
+let usuarioAdmin = false;
+
 const fmt = n =>
   Number(n||0).toLocaleString('es-CO');
 
-function persist(){
-  state.current = current;
-
-  localStorage.setItem(
-    key,
-    JSON.stringify(state)
-  );
-
-  renderAll();
-}
-
-/*
-  IMPORTANTE:
-  Ya NO usamos Math.max(0,...).
-  Por eso los XP efectivos pueden ser negativos.
-*/
 function effective(p){
   return (+p.xp||0) - (+p.fine||0);
 }
@@ -446,36 +406,62 @@ function ranked(){
   );
 }
 
+function guardarCacheLocal(){
+  state.current = current;
+
+  localStorage.setItem(
+    key,
+    JSON.stringify(state)
+  );
+}
+
+async function guardarFirebase(){
+  if(!usuarioAdmin){
+    alert('Debes iniciar sesión como administrador para modificar datos.');
+    return false;
+  }
+
+  state.current = current;
+
+  try{
+    await setDoc(leagueRef,state);
+    guardarCacheLocal();
+    return true;
+  }catch(error){
+    console.error(error);
+    alert(
+      'No fue posible guardar los datos en Firebase. ' +
+      'Revisa tu conexión e inténtalo nuevamente.'
+    );
+    return false;
+  }
+}
+
 function renderForm(){
+  if(!state.people || !state.people.length){
+    return;
+  }
 
   const p = state.people[current];
 
-  document.getElementById(
-    'contador'
-  ).textContent =
+  document.getElementById('contador').textContent =
     `Participante ${current+1} de ${state.people.length}`;
 
-  document.getElementById(
-    'nombreActual'
-  ).textContent = p.name;
+  document.getElementById('nombreActual').textContent = p.name;
 
-  document.getElementById(
-    'usuarioActual'
-  ).textContent = '@' + p.username;
+  document.getElementById('usuarioActual').textContent =
+    '@' + p.username;
 
-  document.getElementById(
-    'xp'
-  ).value = p.xp || '';
+  document.getElementById('xp').value =
+    p.xp || '';
 
-  document.getElementById(
-    'tributo'
-  ).value = p.fine || 0;
+  document.getElementById('tributo').value =
+    p.fine || 0;
 
   updateEffective();
 }
 
 function updateEffective(){
-
   const x = Math.max(
     0,
     +document.getElementById('xp').value || 0
@@ -486,16 +472,11 @@ function updateEffective(){
     +document.getElementById('tributo').value || 0
   );
 
-  const resultado = x - t;
-
-  document.getElementById(
-    'efectivos'
-  ).textContent =
-    'XP efectivos: ' + fmt(resultado);
+  document.getElementById('efectivos').textContent =
+    'XP efectivos: ' + fmt(x-t);
 }
 
 function guardarActual(){
-
   const p = state.people[current];
 
   p.xp = Math.max(
@@ -509,23 +490,28 @@ function guardarActual(){
   );
 }
 
-function guardarYSiguiente(){
+async function guardarYSiguiente(){
+  if(!usuarioAdmin) return;
 
   guardarActual();
 
-  document.getElementById(
-    'guardado'
-  ).textContent =
-    `✓ Datos de ${state.people[current].name} guardados.`;
+  const nombreGuardado = state.people[current].name;
 
   if(current < state.people.length-1){
     current++;
   }
 
-  persist();
+  const ok = await guardarFirebase();
+
+  if(ok){
+    document.getElementById('guardado').textContent =
+      `✓ Datos de ${nombreGuardado} guardados.`;
+    renderAll();
+  }
 }
 
-function anterior(){
+async function anterior(){
+  if(!usuarioAdmin) return;
 
   guardarActual();
 
@@ -533,28 +519,27 @@ function anterior(){
     current--;
   }
 
-  persist();
+  await guardarFirebase();
+  renderAll();
 }
 
-function siguienteSinGuardar(){
+async function siguienteSinGuardar(){
+  if(!usuarioAdmin) return;
 
   if(current < state.people.length-1){
     current++;
   }
 
-  persist();
+  state.current = current;
+  guardarCacheLocal();
+  renderAll();
 }
 
 function renderWeekly(){
-
   const r = ranked();
 
-  document.getElementById(
-    'weeklyTable'
-  ).innerHTML = `
-
+  document.getElementById('weeklyTable').innerHTML = `
   <table>
-
     <thead>
       <tr>
         <th>Pos.</th>
@@ -564,57 +549,32 @@ function renderWeekly(){
         <th>XP efectivos</th>
       </tr>
     </thead>
-
     <tbody>
-
       ${r.map((p,i)=>`
-
         <tr>
-
-          <td>
-            ${i+1}
-          </td>
-
-          <td class="general-name">
-            ${p.name}
-          </td>
-
-          <td>
-            ${fmt(p.xp)}
-          </td>
-
+          <td>${i+1}</td>
+          <td class="general-name">${p.name}</td>
+          <td>${fmt(p.xp)}</td>
           <td class="tribute">
             ${p.fine ? '-' + fmt(p.fine) : '0'}
           </td>
-
-          <td class="xp">
-            ${fmt(effective(p))}
-          </td>
-
+          <td class="xp">${fmt(effective(p))}</td>
         </tr>
-
       `).join('')}
-
     </tbody>
-
   </table>
   `;
 }
 
 function renderGeneral(){
-
   const r = [...state.people].sort(
     (a,b)=>
       b.points-a.points ||
       a.name.localeCompare(b.name)
   );
 
-  document.getElementById(
-    'generalTable'
-  ).innerHTML = `
-
+  document.getElementById('generalTable').innerHTML = `
   <table>
-
     <thead>
       <tr>
         <th>#</th>
@@ -622,69 +582,43 @@ function renderGeneral(){
         <th>Puntos</th>
       </tr>
     </thead>
-
     <tbody>
-
       ${r.map((p,i)=>`
-
         <tr>
-
-          <td>
-            ${i+1}
-          </td>
-
-          <td class="general-name">
-            ${p.name}
-          </td>
-
-          <td class="prize">
-            ${fmt(p.points)}
-          </td>
-
+          <td>${i+1}</td>
+          <td class="general-name">${p.name}</td>
+          <td class="prize">${fmt(p.points)}</td>
         </tr>
-
       `).join('')}
-
     </tbody>
-
   </table>
   `;
 
-  document.getElementById(
-    'history'
-  ).innerHTML =
-
-    state.history.length
-
+  document.getElementById('history').innerHTML =
+    state.history && state.history.length
     ?
-
     state.history
       .slice()
       .reverse()
       .map(h=>`
-
         <div class="status">
-
-          <strong>
-            ${h.date}
-          </strong>
-
+          <strong>${h.date}</strong>
           <br>
-
           ${h.winners.map(w=>
             `${w.rank}. ${w.name}: +${fmt(w.prize)} puntos`
           ).join('<br>')}
-
         </div>
-
       `).join('')
-
     :
-
     '<p class="nota">Todavía no hay cierres guardados.</p>';
 }
 
-function cerrarSemana(){
+async function cerrarSemana(){
+  if(!usuarioAdmin){
+    return;
+  }
+
+  guardarActual();
 
   const r = ranked();
 
@@ -695,11 +629,9 @@ function cerrarSemana(){
   );
 
   if(!conDatos.length){
-
     alert(
       'No hay XP ni tributos registrados para cerrar esta semana.'
     );
-
     return;
   }
 
@@ -716,98 +648,249 @@ function cerrarSemana(){
   const winners = r
     .slice(0,5)
     .map((p,i)=>({
-
       rank:i+1,
       name:p.name,
       effective:effective(p),
       prize:prizes[i]
-
     }));
 
   winners.forEach(w=>{
-
     const p = state.people.find(
       x => x.name === w.name
     );
 
-    p.points += w.prize;
+    if(p){
+      p.points =
+        (+p.points||0) + w.prize;
+    }
   });
 
+  state.history = state.history || [];
+
   state.history.push({
-
     date:new Date().toLocaleString('es-CO'),
-
     winners
-
   });
 
   state.people.forEach(p=>{
-
     p.xp = 0;
     p.fine = 0;
-
   });
 
   current = 0;
 
-  persist();
+  const ok = await guardarFirebase();
 
-  alert(
-    'Semana cerrada. Los premios fueron sumados al acumulado.'
-  );
+  if(ok){
+    renderAll();
+
+    alert(
+      'Semana cerrada. Los premios fueron sumados al acumulado.'
+    );
+  }
 }
 
 function showTab(tab){
-
-  document.getElementById(
-    'semanal'
-  ).classList.toggle(
+  document.getElementById('semanal').classList.toggle(
     'hidden',
     tab !== 'semanal'
   );
 
-  document.getElementById(
-    'general'
-  ).classList.toggle(
+  document.getElementById('general').classList.toggle(
     'hidden',
     tab !== 'general'
   );
 
-  document.getElementById(
-    'tabSemanal'
-  ).classList.toggle(
+  document.getElementById('tabSemanal').classList.toggle(
     'active',
     tab === 'semanal'
   );
 
-  document.getElementById(
-    'tabGeneral'
-  ).classList.toggle(
+  document.getElementById('tabGeneral').classList.toggle(
     'active',
     tab === 'general'
   );
 }
 
 function renderAll(){
-  renderForm();
   renderWeekly();
   renderGeneral();
+
+  if(usuarioAdmin){
+    renderForm();
+  }
 }
 
-document.getElementById(
-  'xp'
-).addEventListener(
+async function iniciarSesion(){
+  const email =
+    document.getElementById('adminEmail').value.trim();
+
+  const password =
+    document.getElementById('adminPassword').value;
+
+  const mensaje =
+    document.getElementById('loginMensaje');
+
+  if(!email || !password){
+    mensaje.textContent =
+      'Escribe tu correo y contraseña.';
+    return;
+  }
+
+  mensaje.textContent =
+    'Iniciando sesión...';
+
+  try{
+    const cred = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    if(cred.user.uid !== ADMIN_UID){
+      await signOut(auth);
+      mensaje.textContent =
+        'Esta cuenta no tiene permiso de administrador.';
+      return;
+    }
+
+    mensaje.textContent = '';
+
+  }catch(error){
+    console.error(error);
+
+    mensaje.textContent =
+      'No fue posible iniciar sesión. Revisa el correo y la contraseña.';
+  }
+}
+
+async function cerrarSesion(){
+  await signOut(auth);
+}
+
+onAuthStateChanged(auth,async user=>{
+
+  usuarioAdmin =
+    !!user &&
+    user.uid === ADMIN_UID;
+
+  document.getElementById('adminLogin').classList.toggle(
+    'hidden',
+    usuarioAdmin
+  );
+
+  document.getElementById('adminArea').classList.toggle(
+    'hidden',
+    !usuarioAdmin
+  );
+
+  if(usuarioAdmin){
+
+    /*
+      MIGRACIÓN INICIAL:
+      Si Firestore todavía está vacío, esta cuenta de administrador
+      sube automáticamente los datos que ya existían en este celular.
+    */
+    try{
+      const snap = await getDoc(leagueRef);
+
+      if(!snap.exists()){
+        state = localState;
+        current = Math.min(
+          Math.max(Number(state.current)||0,0),
+          state.people.length-1
+        );
+
+        await setDoc(leagueRef,state);
+
+        firebaseTieneDatos = true;
+
+        document.getElementById('conexion').textContent =
+          '✓ Datos iniciales guardados en la nube';
+      }
+
+    }catch(error){
+      console.error(error);
+    }
+
+    renderAll();
+  }
+});
+
+onSnapshot(
+  leagueRef,
+  snapshot=>{
+
+    if(snapshot.exists()){
+
+      firebaseTieneDatos = true;
+
+      const datos = snapshot.data();
+
+      if(
+        datos &&
+        Array.isArray(datos.people) &&
+        datos.people.length === base.length
+      ){
+        state = datos;
+
+        current = Math.min(
+          Math.max(Number(state.current)||0,0),
+          state.people.length-1
+        );
+
+        guardarCacheLocal();
+
+        document.getElementById('conexion').textContent =
+          '✓ Liga actualizada';
+
+        renderAll();
+      }
+
+    }else{
+
+      firebaseTieneDatos = false;
+
+      document.getElementById('conexion').textContent =
+        usuarioAdmin
+        ? 'Preparando los datos iniciales...'
+        : 'La liga todavía está esperando su configuración inicial.';
+    }
+  },
+  error=>{
+    console.error(error);
+
+    document.getElementById('conexion').textContent =
+      'No se pudo conectar con la liga.';
+  }
+);
+
+document.getElementById('xp').addEventListener(
   'input',
   updateEffective
 );
 
-document.getElementById(
-  'tributo'
-).addEventListener(
+document.getElementById('tributo').addEventListener(
   'input',
   updateEffective
 );
 
+/*
+  Las funciones usadas por los botones HTML deben quedar
+  disponibles globalmente porque este script es de tipo module.
+*/
+window.showTab = showTab;
+window.iniciarSesion = iniciarSesion;
+window.cerrarSesion = cerrarSesion;
+window.guardarYSiguiente = guardarYSiguiente;
+window.anterior = anterior;
+window.siguienteSinGuardar = siguienteSinGuardar;
+window.cerrarSemana = cerrarSemana;
+
+/*
+  Mientras Firebase responde mostramos los datos existentes
+  del navegador. Cuando llegue Firestore, se actualizan solos.
+*/
 renderAll();
 
 </script>
