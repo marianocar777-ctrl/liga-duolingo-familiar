@@ -67,6 +67,17 @@ footer{text-align:center;padding:25px;color:#888;font-size:13px}
 <div class="row"><button class="secondary" onclick="anterior()">← Anterior</button><button class="secondary" onclick="siguienteSinGuardar()">Siguiente →</button></div>
 <div id="guardado" class="nota"></div>
 </section>
+<section class="card">
+<h2>⚙️ Ajustes manuales del participante</h2>
+<p class="nota">Como administrador puedes corregir los puntos acumulados y los XP iniciales (línea base) del participante seleccionado. Los XP actuales de Duolingo siguen consultándose automáticamente.</p>
+<label for="puntosAcumulados">Puntos acumulados</label>
+<input id="puntosAcumulados" type="number" min="0" inputmode="numeric">
+<label for="xpBase">XP iniciales / línea base</label>
+<input id="xpBase" type="number" min="0" inputmode="numeric">
+<div id="vistaBase" class="status">Línea base: —</div>
+<button onclick="guardarAjustesManuales()">Guardar puntos y XP base</button>
+<div id="ajustesGuardados" class="nota"></div>
+</section>
 <section class="card"><h2>🔒 Cierre del concurso semanal</h2><p class="nota">Al cerrar el concurso se entregan los premios, se guarda el resultado en el histórico y los XP totales actuales de Duolingo se convierten en la línea base para comenzar la semana siguiente.</p><button class="danger" onclick="cerrarSemana()">Cerrar concurso y premiar</button></section>
 </div></section>
 <section id="general" class="hidden">
@@ -119,9 +130,21 @@ async function consultarXpDuolingo(){
  try{const response=await fetch(DUOLINGO_API+"?t="+Date.now(),{cache:"no-store"});if(!response.ok)throw new Error("HTTP "+response.status);const datos=await response.json();if(!datos||!Array.isArray(datos.participantes))throw new Error("Respuesta incompleta");datosDuolingo=datos;aplicarXpAutomaticos();const fecha=datos.actualizadoEn?new Date(datos.actualizadoEn):null;estado.textContent=fecha&&!Number.isNaN(fecha.getTime())?"✓ XP automáticos actualizados: "+fecha.toLocaleString("es-CO"):"✓ XP automáticos actualizados";renderAll();if(usuarioAdmin)await inicializarLineasBase()}
  catch(error){console.error(error);estado.textContent="No fue posible actualizar los XP automáticos. Se mantienen los últimos datos disponibles."}
 }
-function renderForm(){if(!state.people?.length)return;const p=state.people[current];contador.textContent=`Participante ${current+1} de ${state.people.length}`;nombreActual.textContent=p.name;usuarioActual.textContent="@"+p.username;xp.value=p.xp||"";tributo.value=p.fine||0;xpAutomatico.textContent=p.duolingoTotal!=null&&p.baselineXp!=null?"XP automático: "+fmt(p.xp)+" · Total Duolingo: "+fmt(p.duolingoTotal):"XP automático: esperando línea base";updateEffective()}
+function renderForm(){if(!state.people?.length)return;const p=state.people[current];contador.textContent=`Participante ${current+1} de ${state.people.length}`;nombreActual.textContent=p.name;usuarioActual.textContent="@"+p.username;xp.value=p.xp||"";tributo.value=p.fine||0;xpAutomatico.textContent=p.duolingoTotal!=null&&p.baselineXp!=null?"XP automático: "+fmt(p.xp)+" · Total Duolingo: "+fmt(p.duolingoTotal):"XP automático: esperando línea base";puntosAcumulados.value=Number(p.points)||0;xpBase.value=p.baselineXp==null?"":Number(p.baselineXp);vistaBase.textContent="Línea base actual: "+(p.baselineXp==null?"sin definir":fmt(p.baselineXp))+(p.duolingoTotal!=null?" · Total Duolingo actual: "+fmt(p.duolingoTotal):"");updateEffective()}
 function updateEffective(){const x=Math.max(0,+xp.value||0),t=Math.max(0,+tributo.value||0);efectivos.textContent="XP efectivos: "+fmt(x-t)}
 function guardarActual(){const p=state.people[current];p.xp=Math.max(0,+xp.value||0);p.fine=Math.max(0,+tributo.value||0)}
+async function guardarAjustesManuales(){
+ if(!usuarioAdmin)return;
+ const p=state.people[current];
+ const nuevosPuntos=Number(puntosAcumulados.value);
+ const nuevaBase=Number(xpBase.value);
+ if(!Number.isFinite(nuevosPuntos)||nuevosPuntos<0){alert("Escribe un valor válido para los puntos acumulados.");return}
+ if(xpBase.value===""||!Number.isFinite(nuevaBase)||nuevaBase<0){alert("Escribe un valor válido para los XP iniciales.");return}
+ p.points=Math.round(nuevosPuntos);
+ p.baselineXp=Math.round(nuevaBase);
+ if(p.duolingoTotal!=null)p.xp=Math.max(0,Number(p.duolingoTotal)-p.baselineXp);
+ if(await guardarFirebase()){ajustesGuardados.textContent=`✓ Puntos acumulados y XP base de ${p.name} guardados.`;renderAll()}
+}
 async function guardarYSiguiente(){if(!usuarioAdmin)return;guardarActual();const nombre=state.people[current].name;if(current<state.people.length-1)current++;if(await guardarFirebase()){guardado.textContent=`✓ Datos de ${nombre} guardados.`;renderAll()}}
 async function anterior(){if(!usuarioAdmin)return;guardarActual();if(current>0)current--;await guardarFirebase();renderAll()}
 async function siguienteSinGuardar(){if(!usuarioAdmin)return;if(current<state.people.length-1)current++;state.current=current;guardarCacheLocal();renderAll()}
@@ -139,7 +162,7 @@ async function cerrarSesion(){await signOut(auth)}
 onAuthStateChanged(auth,async user=>{usuarioAdmin=!!user&&user.uid===ADMIN_UID;adminLogin.classList.toggle("hidden",usuarioAdmin);adminArea.classList.toggle("hidden",!usuarioAdmin);if(usuarioAdmin){try{const snap=await getDoc(leagueRef);if(!snap.exists()){state=normalizarEstado(localState);current=Math.min(Math.max(Number(state.current)||0,0),state.people.length-1);await setDoc(leagueRef,state);conexion.textContent="✓ Datos iniciales guardados en la nube"}}catch(error){console.error(error)}await inicializarLineasBase();renderAll()}});
 onSnapshot(leagueRef,snapshot=>{if(snapshot.exists()){const datos=snapshot.data();if(datos&&Array.isArray(datos.people)&&datos.people.length===base.length){state=normalizarEstado(datos);current=Math.min(Math.max(Number(state.current)||0,0),state.people.length-1);aplicarXpAutomaticos();guardarCacheLocal();conexion.textContent="✓ Liga actualizada";renderAll();if(usuarioAdmin)inicializarLineasBase()}}else conexion.textContent=usuarioAdmin?"Preparando los datos iniciales...":"La liga todavía está esperando su configuración inicial."},error=>{console.error(error);conexion.textContent="No se pudo conectar con la liga."});
 xp.addEventListener("input",updateEffective);tributo.addEventListener("input",updateEffective);
-window.showTab=showTab;window.iniciarSesion=iniciarSesion;window.cerrarSesion=cerrarSesion;window.guardarYSiguiente=guardarYSiguiente;window.anterior=anterior;window.siguienteSinGuardar=siguienteSinGuardar;window.cerrarSemana=cerrarSemana;
+window.showTab=showTab;window.iniciarSesion=iniciarSesion;window.guardarAjustesManuales=guardarAjustesManuales;window.cerrarSesion=cerrarSesion;window.guardarYSiguiente=guardarYSiguiente;window.anterior=anterior;window.siguienteSinGuardar=siguienteSinGuardar;window.cerrarSemana=cerrarSemana;
 renderAll();consultarXpDuolingo();setInterval(consultarXpDuolingo,60000);
 </script>
 </body>
