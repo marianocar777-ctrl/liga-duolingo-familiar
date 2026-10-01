@@ -122,7 +122,7 @@ button{
   text-align:center;
 }
 
-/* RANKING CON POSICIÓN Y PARTICIPANTE FIJOS */
+/* TABLA DEL RANKING */
 
 .table-scroll{
   width:100%;
@@ -152,7 +152,8 @@ th{
   line-height:1.15;
 }
 
-/* Posición fija */
+/* POSICIÓN FIJA */
+
 th:nth-child(1),
 td:nth-child(1){
   position:sticky;
@@ -163,7 +164,8 @@ td:nth-child(1){
   max-width:42px;
 }
 
-/* Participante fijo y compacto */
+/* PARTICIPANTE FIJO */
+
 th:nth-child(2),
 td:nth-child(2){
   position:sticky;
@@ -183,7 +185,7 @@ th:nth-child(2){
   z-index:5;
 }
 
-/* Columnas móviles compactas */
+/* COLUMNAS DESPLAZABLES */
 
 th:nth-child(3),
 td:nth-child(3){
@@ -214,7 +216,9 @@ td:nth-child(6){
   font-weight:bold;
 }
 
-.tribute{color:#c63c3c}
+.tribute{
+  color:#c63c3c;
+}
 
 .prize{
   font-weight:bold;
@@ -236,8 +240,12 @@ footer{
 @media(max-width:600px){
 
   main{padding:12px}
+
   .card{padding:15px}
-  .row{grid-template-columns:1fr}
+
+  .row{
+    grid-template-columns:1fr;
+  }
 
   th,td{
     font-size:12px;
@@ -249,7 +257,6 @@ footer{
     width:105px;
     min-width:105px;
     max-width:105px;
-    left:42px;
   }
 }
 </style>
@@ -273,9 +280,13 @@ footer{
 </div>
 
 <section class="card">
+
   <h2>🏆 Ranking semanal</h2>
+
   <div id="weeklyTable"></div>
+
 </section>
+
 
 <section id="adminLogin" class="card">
 
@@ -286,11 +297,25 @@ footer{
     líneas base y cerrar el concurso.
   </p>
 
-  <label for="adminEmail">Correo electrónico</label>
-  <input id="adminEmail" type="email" autocomplete="username">
+  <label for="adminEmail">
+    Correo electrónico
+  </label>
 
-  <label for="adminPassword">Contraseña</label>
-  <input id="adminPassword" type="password" autocomplete="current-password">
+  <input
+    id="adminEmail"
+    type="email"
+    autocomplete="username"
+  >
+
+  <label for="adminPassword">
+    Contraseña
+  </label>
+
+  <input
+    id="adminPassword"
+    type="password"
+    autocomplete="current-password"
+  >
 
   <button onclick="iniciarSesion()">
     Iniciar sesión
@@ -300,6 +325,7 @@ footer{
 
 </section>
 
+
 <div id="adminArea" class="hidden">
 
 <section class="card">
@@ -308,32 +334,58 @@ footer{
     ✓ Sesión de administrador activa
   </div>
 
-  <button class="secondary" onclick="cerrarSesion()">
+  <button
+    class="secondary"
+    onclick="cerrarSesion()"
+  >
     Cerrar sesión de administrador
   </button>
 
 </section>
+
 
 <section class="card">
 
   <h2>📝 XP y ajustes del participante</h2>
 
   <div class="participant">
-    <div class="count" id="contador"></div>
-    <div class="name" id="nombreActual"></div>
-    <div class="user" id="usuarioActual"></div>
+
+    <div
+      class="count"
+      id="contador"
+    ></div>
+
+    <div
+      class="name"
+      id="nombreActual"
+    ></div>
+
+    <div
+      class="user"
+      id="usuarioActual"
+    ></div>
+
   </div>
 
-  <div id="xpAutomatico" class="status">
+
+  <div
+    id="xpAutomatico"
+    class="status"
+  >
     XP automático: consultando...
   </div>
 
+
   <p class="nota">
-    Los XP obtenidos se calculan automáticamente a partir del total de
-    Duolingo y la línea base. Este valor no se edita manualmente.
+    Los XP obtenidos se calculan automáticamente
+    a partir del total de Duolingo y la línea base.
+    Este valor no se edita manualmente.
   </p>
 
-  <label for="tributo">Tributo de XP</label>
+
+  <label for="tributo">
+    Tributo de XP
+  </label>
 
   <input
     id="tributo"
@@ -343,15 +395,21 @@ footer{
     inputmode="numeric"
   >
 
+
   <p class="nota">
-    El tributo se resta de los XP obtenidos durante esta semana.
-    Si el tributo supera los XP realizados, los XP efectivos pueden
-    quedar en negativo.
+    El tributo se resta de los XP obtenidos durante
+    esta semana. Si el tributo supera los XP realizados,
+    los XP efectivos pueden quedar en negativo.
   </p>
 
-  <div id="efectivos" class="status">
+
+  <div
+    id="efectivos"
+    class="status"
+  >
     XP efectivos: 0
   </div>
+
 
   <label for="puntosAcumulados">
     Puntos acumulados
@@ -364,6 +422,7 @@ footer{
     inputmode="numeric"
   >
 
+
   <label for="xpBase">
     XP iniciales / línea base
   </label>
@@ -375,13 +434,19 @@ footer{
     inputmode="numeric"
   >
 
-  <div id="vistaBase" class="status">
+
+  <div
+    id="vistaBase"
+    class="status"
+  >
     Línea base: —
   </div>
+
 
   <button onclick="guardarYSiguiente()">
     Guardar y siguiente
   </button>
+
 
   <div class="row">
 
@@ -401,27 +466,37 @@ footer{
 
   </div>
 
-  <div id="guardado" class="nota"></div>
+
+  <div
+    id="guardado"
+    class="nota"
+  ></div>
 
 </section>
+
 
 <section class="card">
 
   <h2>🔒 Cierre del concurso semanal</h2>
 
   <p class="nota">
-    Al cerrar el concurso se entregan los premios, se guarda el resultado
-    en el histórico y los XP totales actuales de Duolingo se convierten
-    en la línea base para comenzar la semana siguiente.
+    Al cerrar el concurso se entregan los premios,
+    se guarda el resultado en el histórico y los XP
+    totales actuales de Duolingo se convierten en la
+    línea base para comenzar la semana siguiente.
   </p>
 
-  <button class="danger" onclick="cerrarSemana()">
+  <button
+    class="danger"
+    onclick="cerrarSemana()"
+  >
     Cerrar concurso y premiar
   </button>
 
 </section>
 
 </div>
+
 
 <section class="card">
 
@@ -433,14 +508,19 @@ footer{
 
 </main>
 
+
 <footer>
   Liga Duolingo Familiar 🦉
 </footer>
 
+
 <script type="module">
 
-import { initializeApp }
+import {
+  initializeApp
+}
 from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+
 
 import {
   getFirestore,
@@ -450,6 +530,7 @@ import {
   onSnapshot
 }
 from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
 
 import {
   getAuth,
@@ -710,13 +791,13 @@ const fmt=n=>
   .toLocaleString("es-CO");
 
 
+/*
+  CORREGIDO:
+  El return y la operación deben formar
+  una sola expresión.
+*/
 function effective(p){
-
-  return
-    (+p.xp||0)
-    -
-    (+p.fine||0);
-
+  return (+p.xp||0)-(+p.fine||0);
 }
 
 
@@ -2129,11 +2210,8 @@ onSnapshot(
 
 
 tributo.addEventListener(
-
   "input",
-
   updateEffective
-
 );
 
 
@@ -2163,11 +2241,8 @@ consultarXpDuolingo();
 
 
 setInterval(
-
   consultarXpDuolingo,
-
   60000
-
 );
 
 </script>
