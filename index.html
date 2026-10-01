@@ -205,8 +205,18 @@ td:nth-child(5){
   min-width:82px;
 }
 
+/* PUNTOS SEMANALES */
+
 th:nth-child(6),
 td:nth-child(6){
+  width:88px;
+  min-width:88px;
+}
+
+/* PUNTOS ACUMULADOS */
+
+th:nth-child(7),
+td:nth-child(7){
   width:88px;
   min-width:88px;
 }
@@ -220,6 +230,10 @@ td:nth-child(6){
   color:#c63c3c;
 }
 
+.weekly-points{
+  font-weight:800;
+}
+
 .prize{
   font-weight:bold;
   color:#8b6b00;
@@ -228,6 +242,79 @@ td:nth-child(6){
 .general-name{
   text-align:left;
   font-weight:bold;
+}
+
+/* COLORES DE LOS CINCO PRIMEROS */
+
+/* 1.º - ORO */
+tr.rank-1 td{
+  background:#fff3b0;
+}
+
+tr.rank-1 td:first-child{
+  font-weight:900;
+  color:#8a6500;
+}
+
+/* 2.º - PLATA */
+tr.rank-2 td{
+  background:#edf0f2;
+}
+
+tr.rank-2 td:first-child{
+  font-weight:900;
+  color:#626b72;
+}
+
+/* 3.º - BRONCE */
+tr.rank-3 td{
+  background:#f3d2b6;
+}
+
+tr.rank-3 td:first-child{
+  font-weight:900;
+  color:#8a4f22;
+}
+
+/* 4.º Y 5.º - VERDE SUAVE */
+tr.rank-4 td,
+tr.rank-5 td{
+  background:#e8f6df;
+}
+
+tr.rank-4 td:first-child,
+tr.rank-5 td:first-child{
+  font-weight:900;
+  color:#477c2b;
+}
+
+/*
+  IMPORTANTE:
+  también coloreamos las columnas fijas para
+  que toda la fila conserve el mismo color
+  al desplazarnos horizontalmente.
+*/
+
+tr.rank-1 td:nth-child(1),
+tr.rank-1 td:nth-child(2){
+  background:#fff3b0;
+}
+
+tr.rank-2 td:nth-child(1),
+tr.rank-2 td:nth-child(2){
+  background:#edf0f2;
+}
+
+tr.rank-3 td:nth-child(1),
+tr.rank-3 td:nth-child(2){
+  background:#f3d2b6;
+}
+
+tr.rank-4 td:nth-child(1),
+tr.rank-4 td:nth-child(2),
+tr.rank-5 td:nth-child(1),
+tr.rank-5 td:nth-child(2){
+  background:#e8f6df;
 }
 
 footer{
@@ -791,11 +878,6 @@ const fmt=n=>
   .toLocaleString("es-CO");
 
 
-/*
-  CORREGIDO:
-  El return y la operación deben formar
-  una sola expresión.
-*/
 function effective(p){
   return (+p.xp||0)-(+p.fine||0);
 }
@@ -1571,6 +1653,8 @@ function renderWeekly(){
 
             <th>XP<br>efectivos</th>
 
+            <th>Puntos<br>semanales</th>
+
             <th>Puntos<br>acumulados</th>
 
           </tr>
@@ -1584,54 +1668,73 @@ function renderWeekly(){
 
             r.map(
 
-              (p,i)=>`
+              (p,i)=>{
 
-                <tr>
+                const puntosSemanales=
+                  prizes[i]||0;
 
-                  <td>
-                    ${i+1}
-                  </td>
+                const claseRanking=
+                  i<5
+                  ?
+                  `rank-${i+1}`
+                  :
+                  "";
 
+                return `
 
-                  <td class="general-name">
-                    ${p.name}
-                  </td>
+                  <tr class="${claseRanking}">
 
-
-                  <td>
-                    ${fmt(p.xp)}
-                  </td>
-
-
-                  <td class="tribute">
-
-                    ${
-                      p.fine
-
-                      ?
-
-                      "-"+fmt(p.fine)
-
-                      :
-
-                      "0"
-                    }
-
-                  </td>
+                    <td>
+                      ${i+1}
+                    </td>
 
 
-                  <td class="xp">
-                    ${fmt(effective(p))}
-                  </td>
+                    <td class="general-name">
+                      ${p.name}
+                    </td>
 
 
-                  <td class="prize">
-                    ${fmt(p.points)}
-                  </td>
+                    <td>
+                      ${fmt(p.xp)}
+                    </td>
 
-                </tr>
 
-              `
+                    <td class="tribute">
+
+                      ${
+                        p.fine
+
+                        ?
+
+                        "-"+fmt(p.fine)
+
+                        :
+
+                        "0"
+                      }
+
+                    </td>
+
+
+                    <td class="xp">
+                      ${fmt(effective(p))}
+                    </td>
+
+
+                    <td class="weekly-points">
+                      ${fmt(puntosSemanales)}
+                    </td>
+
+
+                    <td class="prize">
+                      ${fmt(p.points)}
+                    </td>
+
+                  </tr>
+
+                `;
+
+              }
 
             ).join("")
 
