@@ -7,45 +7,80 @@
 
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f5f7fa;color:#263238}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f5f7fa;
+  color:#263238;
+}
 
 header{
   background:linear-gradient(135deg,#58cc02,#46a302);
-  color:#fff;text-align:center;padding:28px 15px
+  color:#fff;
+  text-align:center;
+  padding:28px 15px;
 }
+
 header h1{margin:0;font-size:30px}
 header p{margin:8px 0 0;opacity:.95}
 
-main{max-width:900px;margin:auto;padding:18px}
+main{
+  max-width:900px;
+  margin:auto;
+  padding:18px;
+}
 
 .card{
-  background:#fff;border-radius:18px;padding:20px;
-  margin-bottom:18px;box-shadow:0 4px 14px rgba(0,0,0,.08)
+  background:#fff;
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:18px;
+  box-shadow:0 4px 14px rgba(0,0,0,.08);
 }
 
 h2{margin-top:0;color:#58a700}
-
 .hidden{display:none!important}
 
 .participant{
-  background:#f3faed;border:1px solid #d8efc8;
-  border-radius:14px;padding:16px;text-align:center;margin:12px 0
+  background:#f3faed;
+  border:1px solid #d8efc8;
+  border-radius:14px;
+  padding:16px;
+  text-align:center;
+  margin:12px 0;
 }
+
 .participant .count{font-size:13px;color:#777}
 .participant .name{font-size:24px;font-weight:800;margin:5px 0}
 .participant .user{font-size:13px;color:#777}
 
-label{display:block;font-weight:bold;margin-top:14px;margin-bottom:6px}
+label{
+  display:block;
+  font-weight:bold;
+  margin-top:14px;
+  margin-bottom:6px;
+}
 
 input{
-  width:100%;padding:12px;border-radius:10px;
-  border:1px solid #ccc;font-size:17px
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #ccc;
+  font-size:17px;
 }
 
 button{
-  width:100%;margin-top:14px;padding:14px;border:0;
-  border-radius:12px;background:#58cc02;color:#fff;
-  font-size:16px;font-weight:bold;cursor:pointer
+  width:100%;
+  margin-top:14px;
+  padding:14px;
+  border:0;
+  border-radius:12px;
+  background:#58cc02;
+  color:#fff;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
 }
 
 .secondary{background:#eef2ee;color:#425047}
@@ -54,25 +89,41 @@ button{
 .row{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:10px
+  gap:10px;
 }
 
-.nota{font-size:13px;color:#777;margin-top:10px}
+.nota{
+  font-size:13px;
+  color:#777;
+  margin-top:10px;
+}
 
 .status{
-  padding:10px;border-radius:10px;
-  background:#eef8e7;margin-top:12px;font-size:14px
+  padding:10px;
+  border-radius:10px;
+  background:#eef8e7;
+  margin-top:12px;
+  font-size:14px;
 }
 
-.admin-status{text-align:center;font-size:14px;margin-bottom:12px}
+.admin-status{
+  text-align:center;
+  font-size:14px;
+  margin-bottom:12px;
+}
 
 .auto-status{
-  background:#eef8e7;border:1px solid #d8efc8;
-  border-radius:12px;padding:12px;margin-bottom:18px;
-  font-size:14px;text-align:center
+  background:#eef8e7;
+  border:1px solid #d8efc8;
+  border-radius:12px;
+  padding:12px;
+  margin-bottom:18px;
+  font-size:14px;
+  text-align:center;
 }
 
-/* Permite desplazar el ranking horizontalmente en celular */
+/* RANKING CON POSICIÓN Y PARTICIPANTE FIJOS */
+
 .table-scroll{
   width:100%;
   overflow-x:auto;
@@ -80,33 +131,126 @@ button{
 }
 
 table{
-  width:100%;
-  min-width:720px;
-  border-collapse:collapse;
-  margin-top:10px
+  width:max-content;
+  min-width:100%;
+  border-collapse:separate;
+  border-spacing:0;
+  margin-top:10px;
 }
 
 th,td{
-  padding:10px 8px;
+  padding:9px 6px;
   text-align:center;
   border-bottom:1px solid #eee;
-  white-space:nowrap
+  white-space:nowrap;
+  background:#fff;
 }
 
-th{color:#777;font-size:13px}
+th{
+  color:#777;
+  font-size:12px;
+  line-height:1.15;
+}
 
-.xp{color:#58a700;font-weight:bold}
+/* Posición fija */
+th:nth-child(1),
+td:nth-child(1){
+  position:sticky;
+  left:0;
+  z-index:3;
+  width:42px;
+  min-width:42px;
+  max-width:42px;
+}
+
+/* Participante fijo y compacto */
+th:nth-child(2),
+td:nth-child(2){
+  position:sticky;
+  left:42px;
+  z-index:3;
+  width:112px;
+  min-width:112px;
+  max-width:112px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  background:#fff;
+  box-shadow:4px 0 5px -5px rgba(0,0,0,.45);
+}
+
+th:nth-child(1),
+th:nth-child(2){
+  z-index:5;
+}
+
+/* Columnas móviles compactas */
+
+th:nth-child(3),
+td:nth-child(3){
+  width:70px;
+  min-width:70px;
+}
+
+th:nth-child(4),
+td:nth-child(4){
+  width:70px;
+  min-width:70px;
+}
+
+th:nth-child(5),
+td:nth-child(5){
+  width:82px;
+  min-width:82px;
+}
+
+th:nth-child(6),
+td:nth-child(6){
+  width:88px;
+  min-width:88px;
+}
+
+.xp{
+  color:#58a700;
+  font-weight:bold;
+}
+
 .tribute{color:#c63c3c}
-.prize{font-weight:bold;color:#8b6b00}
-.general-name{text-align:left;font-weight:bold}
 
-footer{text-align:center;padding:25px;color:#888;font-size:13px}
+.prize{
+  font-weight:bold;
+  color:#8b6b00;
+}
+
+.general-name{
+  text-align:left;
+  font-weight:bold;
+}
+
+footer{
+  text-align:center;
+  padding:25px;
+  color:#888;
+  font-size:13px;
+}
 
 @media(max-width:600px){
+
   main{padding:12px}
   .card{padding:15px}
   .row{grid-template-columns:1fr}
-  th,td{font-size:13px;padding:9px 7px}
+
+  th,td{
+    font-size:12px;
+    padding:8px 5px;
+  }
+
+  th:nth-child(2),
+  td:nth-child(2){
+    width:105px;
+    min-width:105px;
+    max-width:105px;
+    left:42px;
+  }
 }
 </style>
 </head>
@@ -120,8 +264,13 @@ footer{text-align:center;padding:25px;color:#888;font-size:13px}
 
 <main>
 
-<div id="conexion" class="admin-status">Conectando con la liga...</div>
-<div id="estadoDuolingo" class="auto-status">Consultando XP de Duolingo...</div>
+<div id="conexion" class="admin-status">
+  Conectando con la liga...
+</div>
+
+<div id="estadoDuolingo" class="auto-status">
+  Consultando XP de Duolingo...
+</div>
 
 <section class="card">
   <h2>🏆 Ranking semanal</h2>
@@ -129,6 +278,7 @@ footer{text-align:center;padding:25px;color:#888;font-size:13px}
 </section>
 
 <section id="adminLogin" class="card">
+
   <h2>🔐 Administrador</h2>
 
   <p class="nota">
@@ -142,19 +292,26 @@ footer{text-align:center;padding:25px;color:#888;font-size:13px}
   <label for="adminPassword">Contraseña</label>
   <input id="adminPassword" type="password" autocomplete="current-password">
 
-  <button onclick="iniciarSesion()">Iniciar sesión</button>
+  <button onclick="iniciarSesion()">
+    Iniciar sesión
+  </button>
 
   <div id="loginMensaje" class="nota"></div>
+
 </section>
 
 <div id="adminArea" class="hidden">
 
 <section class="card">
-  <div class="status">✓ Sesión de administrador activa</div>
+
+  <div class="status">
+    ✓ Sesión de administrador activa
+  </div>
 
   <button class="secondary" onclick="cerrarSesion()">
     Cerrar sesión de administrador
   </button>
+
 </section>
 
 <section class="card">
@@ -177,6 +334,7 @@ footer{text-align:center;padding:25px;color:#888;font-size:13px}
   </p>
 
   <label for="tributo">Tributo de XP</label>
+
   <input
     id="tributo"
     type="number"
@@ -195,7 +353,10 @@ footer{text-align:center;padding:25px;color:#888;font-size:13px}
     XP efectivos: 0
   </div>
 
-  <label for="puntosAcumulados">Puntos acumulados</label>
+  <label for="puntosAcumulados">
+    Puntos acumulados
+  </label>
+
   <input
     id="puntosAcumulados"
     type="number"
@@ -203,7 +364,10 @@ footer{text-align:center;padding:25px;color:#888;font-size:13px}
     inputmode="numeric"
   >
 
-  <label for="xpBase">XP iniciales / línea base</label>
+  <label for="xpBase">
+    XP iniciales / línea base
+  </label>
+
   <input
     id="xpBase"
     type="number"
@@ -220,8 +384,21 @@ footer{text-align:center;padding:25px;color:#888;font-size:13px}
   </button>
 
   <div class="row">
-    <button class="secondary" onclick="anterior()">← Anterior</button>
-    <button class="secondary" onclick="siguienteSinGuardar()">Siguiente →</button>
+
+    <button
+      class="secondary"
+      onclick="anterior()"
+    >
+      ← Anterior
+    </button>
+
+    <button
+      class="secondary"
+      onclick="siguienteSinGuardar()"
+    >
+      Siguiente →
+    </button>
+
   </div>
 
   <div id="guardado" class="nota"></div>
@@ -229,6 +406,7 @@ footer{text-align:center;padding:25px;color:#888;font-size:13px}
 </section>
 
 <section class="card">
+
   <h2>🔒 Cierre del concurso semanal</h2>
 
   <p class="nota">
@@ -240,24 +418,29 @@ footer{text-align:center;padding:25px;color:#888;font-size:13px}
   <button class="danger" onclick="cerrarSemana()">
     Cerrar concurso y premiar
   </button>
+
 </section>
 
 </div>
 
 <section class="card">
+
   <h2>📚 Histórico de cierres</h2>
+
   <div id="history"></div>
+
 </section>
 
 </main>
 
-<footer>Liga Duolingo Familiar 🦉</footer>
+<footer>
+  Liga Duolingo Familiar 🦉
+</footer>
 
 <script type="module">
 
-import {
-  initializeApp
-} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 
 import {
   getFirestore,
@@ -265,14 +448,16 @@ import {
   getDoc,
   setDoc,
   onSnapshot
-} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+}
+from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 import {
   getAuth,
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+}
+from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 
 
 const firebaseConfig={
@@ -284,180 +469,329 @@ const firebaseConfig={
   appId:"1:842299623478:web:e82abf2ac4eaf71fd63097"
 };
 
+
 const app=initializeApp(firebaseConfig);
+
 const db=getFirestore(app);
+
 const auth=getAuth(app);
 
-const ADMIN_UID="obkmRQWbylOkGDi6YznlL9AKEOr1";
 
-const leagueRef=doc(db,"league","state");
+const ADMIN_UID=
+"obkmRQWbylOkGDi6YznlL9AKEOr1";
+
+
+const leagueRef=
+doc(db,"league","state");
+
 
 const DUOLINGO_API=
 "https://polished-voice-9184.marianocar777.workers.dev/";
 
+
 const base=[
+
 {name:"JAIDER",username:"JAIDER110612",points:0},
+
 {name:"ESTEBAN",username:"ESTEBAAN._.",points:0},
+
 {name:"LUISA",username:"LUISAFERNA212571",points:0},
+
 {name:"ISABELA",username:"LACOLOMBIANIT417",points:20000},
+
 {name:"SILVANA",username:"SILVIXDD",points:0},
+
 {name:"DANILO",username:"ANGELDANILO83",points:0},
+
 {name:"ERIKA",username:"ERIKA7AGUIRRE30",points:50000},
+
 {name:"CRISTIAN",username:"CCARRENOL",points:60000},
+
 {name:"LUCIANA SULO",username:"LUCISULO15",points:50000},
+
 {name:"EMILY",username:"YP53TZR235",points:50000},
+
 {name:"MAPIS",username:"MAPIS01836",points:140000},
+
 {name:"JUAN DIEGO",username:"JUANDIEGOC828037",points:10000},
+
 {name:"MAJO DIAZ",username:"MAJO08_D",points:230000},
+
 {name:"SAMUEL",username:"KEVIN211943",points:0},
+
 {name:"ANDRES DAVID",username:"ANDRESHERN170903",points:0},
+
 {name:"MAJO LOZANO",username:"MAJOLOZANO265",points:0},
+
 {name:"MILE",username:"MILE691276",points:0},
+
 {name:"MARIANO",username:"MARIANO409",points:40000},
+
 {name:"LUCIANA ENCISO",username:"LUCIANA1527.",points:20000},
+
 {name:"VALERIA",username:"VALERIAOSORIO555",points:60000},
+
 {name:"WENDY AGUIRRE",username:"WENDYLAG93",points:130000},
+
 {name:"ISABELA AGUIRRE",username:"ISAQUIAGUI13",points:30000}
+
 ];
 
-const prizes=[50000,40000,30000,20000,10000];
+
+const prizes=[
+  50000,
+  40000,
+  30000,
+  20000,
+  10000
+];
+
 
 const key="duolingoFamilyLeagueV2";
 
+
 function nuevoEstado(){
+
   return{
+
     people:base.map(p=>({
+
       ...p,
+
       xp:0,
+
       fine:0,
+
       baselineXp:null,
+
       duolingoTotal:null
+
     })),
+
     history:[],
+
     current:0
+
   };
+
 }
+
 
 let localState=null;
 
+
 try{
-  localState=JSON.parse(localStorage.getItem(key)||"null");
+
+  localState=
+    JSON.parse(
+      localStorage.getItem(key)||"null"
+    );
+
 }catch(e){}
+
 
 if(
   !localState ||
   !Array.isArray(localState.people) ||
   localState.people.length!==base.length
 ){
+
   localState=nuevoEstado();
+
 }
+
 
 function normalizarEstado(datos){
 
   const nuevo=nuevoEstado();
+
 
   if(
     !datos ||
     !Array.isArray(datos.people) ||
     datos.people.length!==base.length
   ){
+
     return nuevo;
+
   }
 
-  nuevo.people=base.map((bp,i)=>{
 
-    const a=datos.people[i]||{};
+  nuevo.people=
+    base.map((bp,i)=>{
 
-    return{
-      ...bp,
-      ...a,
-      name:bp.name,
-      username:bp.username,
-      points:Number(a.points??bp.points)||0,
-      xp:Number(a.xp)||0,
-      fine:Number(a.fine)||0,
-      baselineXp:
-        a.baselineXp==null ? null : Number(a.baselineXp),
-      duolingoTotal:
-        a.duolingoTotal==null ? null : Number(a.duolingoTotal)
-    };
-  });
+      const a=
+        datos.people[i]||{};
+
+
+      return{
+
+        ...bp,
+
+        ...a,
+
+        name:bp.name,
+
+        username:bp.username,
+
+        points:
+          Number(
+            a.points??bp.points
+          )||0,
+
+        xp:
+          Number(a.xp)||0,
+
+        fine:
+          Number(a.fine)||0,
+
+        baselineXp:
+          a.baselineXp==null
+          ?
+          null
+          :
+          Number(a.baselineXp),
+
+        duolingoTotal:
+          a.duolingoTotal==null
+          ?
+          null
+          :
+          Number(a.duolingoTotal)
+
+      };
+
+    });
+
 
   nuevo.history=
-    Array.isArray(datos.history) ? datos.history : [];
+    Array.isArray(datos.history)
+    ?
+    datos.history
+    :
+    [];
 
-  nuevo.current=Number(datos.current)||0;
+
+  nuevo.current=
+    Number(datos.current)||0;
+
 
   return nuevo;
+
 }
 
-localState=normalizarEstado(localState);
+
+localState=
+  normalizarEstado(localState);
+
 
 let state=localState;
 
-let current=Math.min(
-  Math.max(Number(state.current)||0,0),
-  base.length-1
-);
+
+let current=
+  Math.min(
+    Math.max(
+      Number(state.current)||0,
+      0
+    ),
+    base.length-1
+  );
+
 
 let usuarioAdmin=false;
+
 let datosDuolingo=null;
+
 let inicializandoBase=false;
 
 
 const fmt=n=>
-  Number(n||0).toLocaleString("es-CO");
+  Number(n||0)
+  .toLocaleString("es-CO");
 
 
 function effective(p){
-  return (+p.xp||0)-(+p.fine||0);
+
+  return
+    (+p.xp||0)
+    -
+    (+p.fine||0);
+
 }
 
 
 function ranked(){
-  return [...state.people].sort(
+
+  return [...state.people]
+  .sort(
     (a,b)=>
-      effective(b)-effective(a) ||
+      effective(b)
+      -
+      effective(a)
+      ||
       a.name.localeCompare(b.name)
   );
+
 }
 
 
 function guardarCacheLocal(){
+
   state.current=current;
-  localStorage.setItem(key,JSON.stringify(state));
+
+  localStorage.setItem(
+    key,
+    JSON.stringify(state)
+  );
+
 }
 
 
 async function guardarFirebase(){
 
   if(!usuarioAdmin){
+
     alert(
       "Debes iniciar sesión como administrador para modificar datos."
     );
+
     return false;
+
   }
+
 
   state.current=current;
 
+
   try{
 
-    await setDoc(leagueRef,state);
+    await setDoc(
+      leagueRef,
+      state
+    );
+
+
     guardarCacheLocal();
 
+
     return true;
+
 
   }catch(error){
 
     console.error(error);
+
 
     alert(
       "No fue posible guardar los datos en Firebase. " +
       "Revisa tu conexión e inténtalo nuevamente."
     );
 
+
     return false;
+
   }
+
 }
 
 
@@ -465,16 +799,30 @@ function buscarRemoto(p){
 
   if(
     !datosDuolingo ||
-    !Array.isArray(datosDuolingo.participantes)
+    !Array.isArray(
+      datosDuolingo.participantes
+    )
   ){
+
     return null;
+
   }
 
+
   return datosDuolingo.participantes.find(
+
     x=>
-      String(x.username).toLowerCase()===
-      String(p.username).toLowerCase()
+
+      String(x.username)
+      .toLowerCase()
+
+      ===
+
+      String(p.username)
+      .toLowerCase()
+
   );
+
 }
 
 
@@ -482,53 +830,82 @@ function aplicarXpAutomaticos(){
 
   if(
     !datosDuolingo ||
-    !Array.isArray(datosDuolingo.participantes)
+    !Array.isArray(
+      datosDuolingo.participantes
+    )
   ){
+
     return false;
+
   }
+
 
   let cambio=false;
 
+
   state.people.forEach(p=>{
 
-    const r=buscarRemoto(p);
+    const r=
+      buscarRemoto(p);
+
 
     if(
       !r ||
       r.ok===false ||
       r.totalXp==null
     ){
+
       return;
+
     }
 
-    const total=Number(r.totalXp);
+
+    const total=
+      Number(r.totalXp);
+
 
     if(!Number.isFinite(total)){
+
       return;
+
     }
+
 
     p.duolingoTotal=total;
 
+
     if(p.baselineXp!=null){
-      p.xp=Math.max(
-        0,
-        total-Number(p.baselineXp||0)
-      );
+
+      p.xp=
+        Math.max(
+          0,
+          total
+          -
+          Number(p.baselineXp||0)
+        );
+
     }
 
+
     cambio=true;
+
   });
+
 
   guardarCacheLocal();
 
+
   return cambio;
+
 }
 
 
 function faltanLineasBase(){
+
   return state.people.some(
     p=>p.baselineXp==null
   );
+
 }
 
 
@@ -538,23 +915,35 @@ async function inicializarLineasBase(){
     !usuarioAdmin ||
     inicializandoBase ||
     !datosDuolingo ||
-    !Array.isArray(datosDuolingo.participantes) ||
+    !Array.isArray(
+      datosDuolingo.participantes
+    ) ||
     !faltanLineasBase()
   ){
+
     return;
+
   }
+
 
   inicializandoBase=true;
 
+
   let cambio=false;
+
 
   state.people.forEach(p=>{
 
     if(p.baselineXp!=null){
+
       return;
+
     }
 
-    const r=buscarRemoto(p);
+
+    const r=
+      buscarRemoto(p);
+
 
     if(
       r &&
@@ -562,399 +951,710 @@ async function inicializarLineasBase(){
       r.totalXp!=null
     ){
 
-      const total=Number(r.totalXp);
+      const total=
+        Number(r.totalXp);
+
 
       if(Number.isFinite(total)){
 
         p.baselineXp=total;
+
         p.duolingoTotal=total;
+
         p.xp=0;
 
         cambio=true;
+
       }
+
     }
+
   });
 
+
   if(cambio){
+
     await guardarFirebase();
+
   }
+
 
   inicializandoBase=false;
 
+
   aplicarXpAutomaticos();
+
   renderAll();
+
 }
 
 
 async function consultarXpDuolingo(){
 
   const estado=
-    document.getElementById("estadoDuolingo");
+    document.getElementById(
+      "estadoDuolingo"
+    );
+
 
   try{
 
-    const response=await fetch(
-      DUOLINGO_API+"?t="+Date.now(),
-      {cache:"no-store"}
-    );
+    const response=
+      await fetch(
+
+        DUOLINGO_API
+        +
+        "?t="
+        +
+        Date.now(),
+
+        {cache:"no-store"}
+
+      );
+
 
     if(!response.ok){
-      throw new Error("HTTP "+response.status);
+
+      throw new Error(
+        "HTTP "+response.status
+      );
+
     }
 
-    const datos=await response.json();
+
+    const datos=
+      await response.json();
+
 
     if(
       !datos ||
-      !Array.isArray(datos.participantes)
+      !Array.isArray(
+        datos.participantes
+      )
     ){
-      throw new Error("Respuesta incompleta");
+
+      throw new Error(
+        "Respuesta incompleta"
+      );
+
     }
+
 
     datosDuolingo=datos;
 
+
     aplicarXpAutomaticos();
 
+
     const fecha=
-      datos.actualizadoEn ?
-      new Date(datos.actualizadoEn) :
+
+      datos.actualizadoEn
+
+      ?
+
+      new Date(
+        datos.actualizadoEn
+      )
+
+      :
+
       null;
 
+
     estado.textContent=
-      fecha && !Number.isNaN(fecha.getTime())
-      ? "✓ XP automáticos actualizados: "+
-        fecha.toLocaleString("es-CO")
-      : "✓ XP automáticos actualizados";
+
+      fecha &&
+      !Number.isNaN(
+        fecha.getTime()
+      )
+
+      ?
+
+      "✓ XP automáticos actualizados: "
+      +
+      fecha.toLocaleString("es-CO")
+
+      :
+
+      "✓ XP automáticos actualizados";
+
 
     renderAll();
 
+
     if(usuarioAdmin){
+
       await inicializarLineasBase();
+
     }
+
 
   }catch(error){
 
     console.error(error);
 
+
     estado.textContent=
+
       "No fue posible actualizar los XP automáticos. " +
       "Se mantienen los últimos datos disponibles.";
+
   }
+
 }
 
 
 function renderForm(){
 
   if(!state.people?.length){
+
     return;
+
   }
 
-  const p=state.people[current];
+
+  const p=
+    state.people[current];
+
 
   contador.textContent=
+
     `Participante ${current+1} de ${state.people.length}`;
 
-  nombreActual.textContent=p.name;
-  usuarioActual.textContent="@"+p.username;
 
-  tributo.value=p.fine||0;
+  nombreActual.textContent=
+    p.name;
+
+
+  usuarioActual.textContent=
+    "@"+p.username;
+
+
+  tributo.value=
+    p.fine||0;
+
 
   xpAutomatico.textContent=
+
     p.duolingoTotal!=null &&
     p.baselineXp!=null
+
     ?
-      "XP automático semanal: "+
-      fmt(p.xp)+
-      " · Total Duolingo: "+
-      fmt(p.duolingoTotal)
+
+    "XP automático semanal: "
+    +
+    fmt(p.xp)
+    +
+    " · Total Duolingo: "
+    +
+    fmt(p.duolingoTotal)
+
     :
-      "XP automático: esperando línea base";
+
+    "XP automático: esperando línea base";
+
 
   puntosAcumulados.value=
     Number(p.points)||0;
 
+
   xpBase.value=
+
     p.baselineXp==null
-    ? ""
-    : Number(p.baselineXp);
+
+    ?
+
+    ""
+
+    :
+
+    Number(p.baselineXp);
+
 
   vistaBase.textContent=
-    "Línea base actual: "+
+
+    "Línea base actual: "
+
+    +
+
     (
       p.baselineXp==null
-      ? "sin definir"
-      : fmt(p.baselineXp)
-    )+
+
+      ?
+
+      "sin definir"
+
+      :
+
+      fmt(p.baselineXp)
+    )
+
+    +
+
     (
       p.duolingoTotal!=null
-      ? " · Total Duolingo actual: "+
-        fmt(p.duolingoTotal)
-      : ""
+
+      ?
+
+      " · Total Duolingo actual: "
+      +
+      fmt(p.duolingoTotal)
+
+      :
+
+      ""
     );
 
+
   updateEffective();
+
 }
 
 
 function updateEffective(){
 
-  const p=state.people[current];
+  const p=
+    state.people[current];
+
 
   const xpSemanal=
-    Math.max(0,Number(p?.xp)||0);
+    Math.max(
+      0,
+      Number(p?.xp)||0
+    );
+
 
   const t=
-    Math.max(0,+tributo.value||0);
+    Math.max(
+      0,
+      +tributo.value||0
+    );
+
 
   efectivos.textContent=
-    "XP efectivos: "+
-    fmt(xpSemanal-t);
+    "XP efectivos: "
+    +
+    fmt(
+      xpSemanal-t
+    );
+
 }
 
 
-/*
- Guarda en memoria los tres campos editables:
- tributo, puntos acumulados y línea base.
-*/
 function guardarActual(){
 
-  const p=state.people[current];
+  const p=
+    state.people[current];
+
 
   const nuevoTributo=
-    Number(tributo.value);
+    Number(
+      tributo.value
+    );
+
 
   const nuevosPuntos=
-    Number(puntosAcumulados.value);
+    Number(
+      puntosAcumulados.value
+    );
+
 
   const nuevaBase=
-    Number(xpBase.value);
+    Number(
+      xpBase.value
+    );
+
 
   if(
-    !Number.isFinite(nuevoTributo) ||
+    !Number.isFinite(
+      nuevoTributo
+    )
+    ||
     nuevoTributo<0
   ){
+
     alert(
       "Escribe un valor válido para el tributo."
     );
+
     return false;
+
   }
 
+
   if(
-    !Number.isFinite(nuevosPuntos) ||
+    !Number.isFinite(
+      nuevosPuntos
+    )
+    ||
     nuevosPuntos<0
   ){
+
     alert(
       "Escribe un valor válido para los puntos acumulados."
     );
+
     return false;
+
   }
 
+
   if(
-    xpBase.value==="" ||
-    !Number.isFinite(nuevaBase) ||
+    xpBase.value===""
+    ||
+    !Number.isFinite(
+      nuevaBase
+    )
+    ||
     nuevaBase<0
   ){
+
     alert(
       "Escribe un valor válido para los XP iniciales."
     );
+
     return false;
+
   }
 
-  p.fine=Math.round(nuevoTributo);
-  p.points=Math.round(nuevosPuntos);
-  p.baselineXp=Math.round(nuevaBase);
 
-  /*
-   Al cambiar la línea base, los XP semanales
-   se recalculan automáticamente.
-  */
+  p.fine=
+    Math.round(
+      nuevoTributo
+    );
+
+
+  p.points=
+    Math.round(
+      nuevosPuntos
+    );
+
+
+  p.baselineXp=
+    Math.round(
+      nuevaBase
+    );
+
+
   if(p.duolingoTotal!=null){
 
-    p.xp=Math.max(
-      0,
-      Number(p.duolingoTotal)-p.baselineXp
-    );
+    p.xp=
+      Math.max(
+        0,
+        Number(p.duolingoTotal)
+        -
+        p.baselineXp
+      );
+
   }
 
+
   return true;
+
 }
 
 
 async function guardarYSiguiente(){
 
   if(!usuarioAdmin){
+
     return;
+
   }
+
 
   if(!guardarActual()){
+
     return;
+
   }
 
-  const nombre=state.people[current].name;
 
-  if(current<state.people.length-1){
+  const nombre=
+    state.people[current].name;
+
+
+  if(
+    current
+    <
+    state.people.length-1
+  ){
+
     current++;
+
   }
 
-  if(await guardarFirebase()){
+
+  if(
+    await guardarFirebase()
+  ){
 
     guardado.textContent=
       `✓ Datos de ${nombre} guardados.`;
 
+
     renderAll();
+
   }
+
 }
 
 
 async function anterior(){
 
   if(!usuarioAdmin){
+
     return;
+
   }
 
-  /*
-   "Anterior" conserva el comportamiento anterior:
-   guarda los cambios antes de cambiar de participante.
-  */
+
   if(!guardarActual()){
+
     return;
+
   }
+
 
   if(current>0){
+
     current--;
+
   }
 
+
   await guardarFirebase();
+
+
   renderAll();
+
 }
 
 
 async function siguienteSinGuardar(){
 
   if(!usuarioAdmin){
+
     return;
+
   }
 
-  if(current<state.people.length-1){
+
+  if(
+    current
+    <
+    state.people.length-1
+  ){
+
     current++;
+
   }
+
 
   state.current=current;
 
+
   guardarCacheLocal();
+
+
   renderAll();
+
 }
 
 
-/*
- Ranking semanal + puntos acumulados
- en una sola tabla.
-*/
+/* RANKING SEMANAL */
+
 function renderWeekly(){
 
-  const r=ranked();
+  const r=
+    ranked();
+
 
   weeklyTable.innerHTML=`
+
     <div class="table-scroll">
+
       <table>
+
         <thead>
+
           <tr>
+
             <th>Pos.</th>
+
             <th>Participante</th>
+
             <th>XP</th>
+
             <th>Tributo</th>
-            <th>XP efectivos</th>
-            <th>Puntos acumulados</th>
+
+            <th>XP<br>efectivos</th>
+
+            <th>Puntos<br>acumulados</th>
+
           </tr>
+
         </thead>
 
+
         <tbody>
+
           ${
+
             r.map(
+
               (p,i)=>`
+
                 <tr>
-                  <td>${i+1}</td>
+
+                  <td>
+                    ${i+1}
+                  </td>
+
 
                   <td class="general-name">
                     ${p.name}
                   </td>
 
+
                   <td>
                     ${fmt(p.xp)}
                   </td>
 
+
                   <td class="tribute">
+
                     ${
                       p.fine
-                      ? "-"+fmt(p.fine)
-                      : "0"
+
+                      ?
+
+                      "-"+fmt(p.fine)
+
+                      :
+
+                      "0"
                     }
+
                   </td>
+
 
                   <td class="xp">
                     ${fmt(effective(p))}
                   </td>
 
+
                   <td class="prize">
                     ${fmt(p.points)}
                   </td>
+
                 </tr>
+
               `
+
             ).join("")
+
           }
+
         </tbody>
+
       </table>
+
     </div>
+
   `;
+
 }
 
 
 function renderHistory(){
 
   history.innerHTML=
+
     state.history?.length
+
     ?
-      state.history
-        .slice()
-        .reverse()
-        .map(
-          h=>`
-            <div class="status">
-              <strong>${h.date}</strong>
-              <br>
-              ${
-                h.winners.map(
-                  w=>
-                    `${w.rank}. ${w.name}: +${fmt(w.prize)} puntos`
-                ).join("<br>")
-              }
-            </div>
-          `
-        ).join("")
+
+    state.history
+
+      .slice()
+
+      .reverse()
+
+      .map(
+
+        h=>`
+
+          <div class="status">
+
+            <strong>
+              ${h.date}
+            </strong>
+
+            <br>
+
+            ${
+
+              h.winners.map(
+
+                w=>
+
+                  `${w.rank}. ${w.name}: +${fmt(w.prize)} puntos`
+
+              ).join("<br>")
+
+            }
+
+          </div>
+
+        `
+
+      ).join("")
+
     :
-      '<p class="nota">Todavía no hay cierres guardados.</p>';
+
+    '<p class="nota">Todavía no hay cierres guardados.</p>';
+
 }
 
 
 async function cerrarSemana(){
 
   if(!usuarioAdmin){
+
     return;
+
   }
 
+
   if(!guardarActual()){
+
     return;
+
   }
+
 
   aplicarXpAutomaticos();
 
-  const r=ranked();
 
-  const conDatos=r.filter(
-    p=>
-      (+p.xp||0)>0 ||
-      (+p.fine||0)>0
-  );
+  const r=
+    ranked();
+
+
+  const conDatos=
+
+    r.filter(
+
+      p=>
+
+        (+p.xp||0)>0
+
+        ||
+
+        (+p.fine||0)>0
+
+    );
+
 
   if(!conDatos.length){
 
@@ -963,86 +1663,161 @@ async function cerrarSemana(){
     );
 
     return;
+
   }
+
 
   if(
+
     !confirm(
+
       "¿Seguro que quieres cerrar el concurso? " +
+
       "Esto sumará los premios a los puntos acumulados, " +
+
       "guardará el resultado y comenzará una nueva semana " +
+
       "tomando los XP actuales como nueva línea base."
+
     )
+
   ){
+
     return;
+
   }
 
+
   const winners=
-    r.slice(0,5).map(
+
+    r.slice(0,5)
+
+    .map(
+
       (p,i)=>({
+
         rank:i+1,
+
         name:p.name,
-        effective:effective(p),
-        prize:prizes[i]
+
+        effective:
+          effective(p),
+
+        prize:
+          prizes[i]
+
       })
+
     );
+
 
   winners.forEach(w=>{
 
     const p=
+
       state.people.find(
-        x=>x.name===w.name
+
+        x=>
+          x.name===w.name
+
       );
 
+
     if(p){
+
       p.points=
-        (+p.points||0)+w.prize;
+        (+p.points||0)
+        +
+        w.prize;
+
     }
+
   });
+
 
   state.history=
     state.history||[];
 
+
   state.history.push({
-    date:new Date().toLocaleString("es-CO"),
+
+    date:
+      new Date()
+      .toLocaleString("es-CO"),
+
     winners
+
   });
+
 
   state.people.forEach(p=>{
 
     p.baselineXp=
+
       p.duolingoTotal!=null
+
       ?
-        Number(p.duolingoTotal)
+
+      Number(
+        p.duolingoTotal
+      )
+
       :
-        Number(p.baselineXp||0)+
-        Number(p.xp||0);
+
+      Number(
+        p.baselineXp||0
+      )
+
+      +
+
+      Number(
+        p.xp||0
+      );
+
 
     p.xp=0;
+
     p.fine=0;
+
   });
+
 
   current=0;
 
-  if(await guardarFirebase()){
+
+  if(
+    await guardarFirebase()
+  ){
 
     renderAll();
 
+
     alert(
+
       "Semana cerrada. Los premios fueron sumados al acumulado " +
+
       "y los XP actuales quedaron como línea base de la nueva semana."
+
     );
+
   }
+
 }
 
 
 function renderAll(){
 
   renderWeekly();
+
   renderHistory();
 
+
   if(usuarioAdmin){
+
     renderForm();
+
   }
+
 }
 
 
@@ -1051,121 +1826,202 @@ async function iniciarSesion(){
   const email=
     adminEmail.value.trim();
 
+
   const password=
     adminPassword.value;
+
 
   const mensaje=
     loginMensaje;
 
-  if(!email||!password){
+
+  if(
+    !email
+    ||
+    !password
+  ){
 
     mensaje.textContent=
       "Escribe tu correo y contraseña.";
 
     return;
+
   }
+
 
   mensaje.textContent=
     "Iniciando sesión...";
 
+
   try{
 
     const cred=
+
       await signInWithEmailAndPassword(
+
         auth,
+
         email,
+
         password
+
       );
 
-    if(cred.user.uid!==ADMIN_UID){
+
+    if(
+      cred.user.uid
+      !==
+      ADMIN_UID
+    ){
 
       await signOut(auth);
+
 
       mensaje.textContent=
         "Esta cuenta no tiene permiso de administrador.";
 
+
       return;
+
     }
 
+
     mensaje.textContent="";
+
 
   }catch(error){
 
     console.error(error);
 
+
     mensaje.textContent=
+
       "No fue posible iniciar sesión. " +
+
       "Revisa el correo y la contraseña.";
+
   }
+
 }
 
 
 async function cerrarSesion(){
+
   await signOut(auth);
+
 }
 
 
 onAuthStateChanged(
+
   auth,
+
   async user=>{
 
     usuarioAdmin=
-      !!user &&
+
+      !!user
+
+      &&
+
       user.uid===ADMIN_UID;
 
+
     adminLogin.classList.toggle(
+
       "hidden",
+
       usuarioAdmin
+
     );
 
+
     adminArea.classList.toggle(
+
       "hidden",
+
       !usuarioAdmin
+
     );
+
 
     if(usuarioAdmin){
 
       try{
 
         const snap=
-          await getDoc(leagueRef);
+
+          await getDoc(
+            leagueRef
+          );
+
 
         if(!snap.exists()){
 
           state=
-            normalizarEstado(localState);
+            normalizarEstado(
+              localState
+            );
 
-          current=Math.min(
-            Math.max(
-              Number(state.current)||0,
-              0
-            ),
-            state.people.length-1
-          );
+
+          current=
+
+            Math.min(
+
+              Math.max(
+
+                Number(
+                  state.current
+                )||0,
+
+                0
+
+              ),
+
+              state.people.length-1
+
+            );
+
 
           await setDoc(
+
             leagueRef,
+
             state
+
           );
 
+
           conexion.textContent=
+
             "✓ Datos iniciales guardados en la nube";
+
         }
 
+
       }catch(error){
+
         console.error(error);
+
       }
+
 
       await inicializarLineasBase();
 
+
       renderAll();
+
     }
+
   }
+
 );
 
 
 onSnapshot(
+
   leagueRef,
+
 
   snapshot=>{
 
@@ -1174,83 +2030,144 @@ onSnapshot(
       const datos=
         snapshot.data();
 
+
       if(
-        datos &&
-        Array.isArray(datos.people) &&
-        datos.people.length===base.length
+
+        datos
+
+        &&
+
+        Array.isArray(
+          datos.people
+        )
+
+        &&
+
+        datos.people.length
+        ===
+        base.length
+
       ){
 
         state=
-          normalizarEstado(datos);
+          normalizarEstado(
+            datos
+          );
 
-        current=Math.min(
-          Math.max(
-            Number(state.current)||0,
-            0
-          ),
-          state.people.length-1
-        );
+
+        current=
+
+          Math.min(
+
+            Math.max(
+
+              Number(
+                state.current
+              )||0,
+
+              0
+
+            ),
+
+            state.people.length-1
+
+          );
+
 
         aplicarXpAutomaticos();
+
+
         guardarCacheLocal();
+
 
         conexion.textContent=
           "✓ Liga actualizada";
 
+
         renderAll();
 
+
         if(usuarioAdmin){
+
           inicializarLineasBase();
+
         }
+
       }
 
     }else{
 
       conexion.textContent=
+
         usuarioAdmin
+
         ?
-          "Preparando los datos iniciales..."
+
+        "Preparando los datos iniciales..."
+
         :
-          "La liga todavía está esperando su configuración inicial.";
+
+        "La liga todavía está esperando su configuración inicial.";
+
     }
+
   },
+
 
   error=>{
 
     console.error(error);
 
+
     conexion.textContent=
+
       "No se pudo conectar con la liga.";
+
   }
+
 );
 
 
-/*
- Ya no existe el campo editable de XP.
- Solo necesitamos actualizar los XP efectivos
- cuando cambia el tributo.
-*/
 tributo.addEventListener(
+
   "input",
+
   updateEffective
+
 );
 
 
-window.iniciarSesion=iniciarSesion;
-window.cerrarSesion=cerrarSesion;
-window.guardarYSiguiente=guardarYSiguiente;
-window.anterior=anterior;
-window.siguienteSinGuardar=siguienteSinGuardar;
-window.cerrarSemana=cerrarSemana;
+window.iniciarSesion=
+  iniciarSesion;
+
+window.cerrarSesion=
+  cerrarSesion;
+
+window.guardarYSiguiente=
+  guardarYSiguiente;
+
+window.anterior=
+  anterior;
+
+window.siguienteSinGuardar=
+  siguienteSinGuardar;
+
+window.cerrarSemana=
+  cerrarSemana;
 
 
 renderAll();
 
+
 consultarXpDuolingo();
 
+
 setInterval(
+
   consultarXpDuolingo,
+
   60000
+
 );
 
 </script>
