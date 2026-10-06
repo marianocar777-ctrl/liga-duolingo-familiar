@@ -257,11 +257,6 @@ td:nth-child(7){
   color:#8b6b00;
 }
 
-.speed{
-  font-weight:800;
-  color:#1967a3;
-}
-
 .general-name{
   text-align:left;
   font-weight:bold;
@@ -378,7 +373,6 @@ footer{
   Consultando XP de Duolingo...
 </div>
 
-
 <section class="card">
 
   <h2>🏆 Ranking semanal</h2>
@@ -386,7 +380,6 @@ footer{
   <div id="weeklyTable"></div>
 
 </section>
-
 
 <section id="adminLogin" class="card">
 
@@ -425,7 +418,6 @@ footer{
 
 </section>
 
-
 <div id="adminArea" class="hidden">
 
 <section class="card">
@@ -443,23 +435,19 @@ footer{
 
 </section>
 
-
 <section class="card">
 
   <h2>📝 XP y ajustes del participante</h2>
 
-
   <div id="xpAutomatico" class="status">
     XP automático: esperando actualización...
   </div>
-
 
   <p class="nota">
     Los XP obtenidos se calculan automáticamente
     a partir del total de Duolingo y la línea base.
     Este valor no se edita manualmente.
   </p>
-
 
   <label for="tributo">
     Tributo de XP
@@ -473,18 +461,15 @@ footer{
     inputmode="numeric"
   >
 
-
   <p class="nota">
     El tributo se resta de los XP obtenidos durante
     esta semana. Si el tributo supera los XP realizados,
     los XP efectivos pueden quedar en negativo.
   </p>
 
-
   <div id="efectivos" class="status">
     XP efectivos: 0
   </div>
-
 
   <label for="puntosAcumulados">
     Puntos acumulados
@@ -497,7 +482,6 @@ footer{
     inputmode="numeric"
   >
 
-
   <label for="xpBase">
     XP iniciales / línea base
   </label>
@@ -509,11 +493,9 @@ footer{
     inputmode="numeric"
   >
 
-
   <div id="vistaBase" class="status">
     Línea base: —
   </div>
-
 
   <div class="participant">
 
@@ -534,11 +516,9 @@ footer{
 
   </div>
 
-
   <button onclick="guardarYSiguiente()">
     Guardar y siguiente
   </button>
-
 
   <div class="row">
 
@@ -558,14 +538,12 @@ footer{
 
   </div>
 
-
   <div
     id="guardado"
     class="nota"
   ></div>
 
 </section>
-
 
 <section class="card">
 
@@ -591,11 +569,9 @@ footer{
 
 </main>
 
-
 <footer>
   Liga Duolingo Familiar 🦉
 </footer>
-
 
 <script type="module">
 
@@ -603,7 +579,6 @@ import {
   initializeApp
 }
 from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-
 
 import {
   getFirestore,
@@ -614,7 +589,6 @@ import {
 }
 from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
-
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -622,7 +596,6 @@ import {
   onAuthStateChanged
 }
 from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
-
 
 const firebaseConfig={
 
@@ -640,7 +613,6 @@ const firebaseConfig={
 
 };
 
-
 const app=
   initializeApp(firebaseConfig);
 
@@ -650,10 +622,8 @@ const db=
 const auth=
   getAuth(app);
 
-
 const ADMIN_UID=
   "obkmRQWbylOkGDi6YznlL9AKEOr1";
-
 
 const leagueRef=
   doc(
@@ -662,10 +632,8 @@ const leagueRef=
     "state"
   );
 
-
 const DUOLINGO_API=
   "https://polished-voice-9184.marianocar777.workers.dev/";
-
 
 const base=[
 
@@ -715,7 +683,6 @@ const base=[
 
 ];
 
-
 const prizes=[
   50000,
   40000,
@@ -724,14 +691,8 @@ const prizes=[
   10000
 ];
 
-
 const key=
   "duolingoFamilyLeagueV2";
-
-
-const SPEED_KEY=
-  "duolingoFamilyLeagueAverageSpeedV2";
-
 
 function nuevoEstado(){
 
@@ -763,9 +724,7 @@ function nuevoEstado(){
 
 }
 
-
 let localState=null;
-
 
 try{
 
@@ -777,7 +736,6 @@ try{
     );
 
 }catch(e){}
-
 
 if(
   !localState
@@ -792,12 +750,10 @@ if(
 
 }
 
-
 function normalizarEstado(datos){
 
   const nuevo=
     nuevoEstado();
-
 
   if(
     !datos
@@ -811,7 +767,6 @@ function normalizarEstado(datos){
 
   }
 
-
   nuevo.people=
 
     base.map(
@@ -821,7 +776,6 @@ function normalizarEstado(datos){
           datos.people[i]
           ||
           {};
-
 
         return{
 
@@ -885,7 +839,6 @@ function normalizarEstado(datos){
       }
     );
 
-
   nuevo.history=
 
     Array.isArray(
@@ -900,7 +853,6 @@ function normalizarEstado(datos){
 
     [];
 
-
   nuevo.current=
     Number(
       datos.current
@@ -908,21 +860,17 @@ function normalizarEstado(datos){
     ||
     0;
 
-
   return nuevo;
 
 }
-
 
 localState=
   normalizarEstado(
     localState
   );
 
-
 let state=
   localState;
-
 
 let current=
 
@@ -937,57 +885,11 @@ let current=
 
   );
 
-
 let usuarioAdmin=false;
 
 let datosDuolingo=null;
 
 let inicializandoBase=false;
-
-
-/* =========================
-   DATOS XP/MIN PROMEDIO
-========================= */
-
-let velocidadData={};
-
-
-try{
-
-  velocidadData=
-    JSON.parse(
-      localStorage.getItem(SPEED_KEY)
-      ||
-      "{}"
-    )
-    ||
-    {};
-
-}catch(e){
-
-  velocidadData={};
-
-}
-
-
-function guardarVelocidades(){
-
-  try{
-
-    localStorage.setItem(
-
-      SPEED_KEY,
-
-      JSON.stringify(
-        velocidadData
-      )
-
-    );
-
-  }catch(e){}
-
-}
-
 
 const fmt=
   n=>
@@ -996,38 +898,6 @@ const fmt=
     .toLocaleString(
       "es-CO"
     );
-
-
-const fmtSpeed=
-  n=>{
-
-    if(
-      n==null
-      ||
-      !Number.isFinite(
-        Number(n)
-      )
-    ){
-
-      return "—";
-
-    }
-
-
-    return Number(n)
-      .toLocaleString(
-
-        "es-CO",
-
-        {
-          minimumFractionDigits:1,
-          maximumFractionDigits:1
-        }
-
-      );
-
-  };
-
 
 function effective(p){
 
@@ -1038,7 +908,6 @@ function effective(p){
   );
 
 }
-
 
 function ranked(){
 
@@ -1062,12 +931,10 @@ function ranked(){
 
 }
 
-
 function guardarCacheLocal(){
 
   state.current=
     current;
-
 
   localStorage.setItem(
     key,
@@ -1075,7 +942,6 @@ function guardarCacheLocal(){
   );
 
 }
-
 
 async function guardarFirebase(){
 
@@ -1089,10 +955,8 @@ async function guardarFirebase(){
 
   }
 
-
   state.current=
     current;
-
 
   try{
 
@@ -1101,9 +965,7 @@ async function guardarFirebase(){
       state
     );
 
-
     guardarCacheLocal();
-
 
     return true;
 
@@ -1112,7 +974,6 @@ async function guardarFirebase(){
     console.error(
       error
     );
-
 
     alert(
 
@@ -1124,13 +985,11 @@ async function guardarFirebase(){
 
     );
 
-
     return false;
 
   }
 
 }
-
 
 /* =========================
    BUSCAR PARTICIPANTE
@@ -1150,7 +1009,6 @@ function buscarRemoto(p){
 
   }
 
-
   return datosDuolingo.participantes.find(
 
     x=>
@@ -1166,332 +1024,6 @@ function buscarRemoto(p){
   );
 
 }
-
-
-/* ======================================
-   XP/MIN PROMEDIO
-
-   Solo se incluyen intervalos
-   en los que hubo aumento de XP.
-
-   Los intervalos con 0 XP
-   NO afectan el promedio.
-
-   Promedio =
-   XP acumulados durante actividad
-   dividido entre
-   minutos acumulados durante actividad
-====================================== */
-
-function registrarVelocidades(){
-
-  if(
-    !usuarioAdmin
-    ||
-    !datosDuolingo
-    ||
-    !Array.isArray(
-      datosDuolingo.participantes
-    )
-  ){
-
-    return;
-
-  }
-
-
-  let tiempoLectura=
-    Date.now();
-
-
-  /*
-    Preferimos la fecha de actualización
-    real proporcionada por el Worker.
-
-    Esto evita contar varias veces
-    una misma lectura aunque la página
-    consulte cada minuto.
-  */
-
-  if(
-    datosDuolingo.actualizadoEn
-  ){
-
-    const fechaServidor=
-
-      new Date(
-        datosDuolingo.actualizadoEn
-      );
-
-
-    if(
-      !Number.isNaN(
-        fechaServidor.getTime()
-      )
-    ){
-
-      tiempoLectura=
-        fechaServidor.getTime();
-
-    }
-
-  }
-
-
-  datosDuolingo.participantes.forEach(
-
-    r=>{
-
-      if(
-        !r
-        ||
-        r.ok===false
-        ||
-        r.totalXp==null
-        ||
-        !r.username
-      ){
-
-        return;
-
-      }
-
-
-      const total=
-        Number(
-          r.totalXp
-        );
-
-
-      if(
-        !Number.isFinite(total)
-      ){
-
-        return;
-
-      }
-
-
-      const username=
-
-        String(
-          r.username
-        )
-        .toLowerCase();
-
-
-      const anterior=
-        velocidadData[
-          username
-        ];
-
-
-      /*
-        PRIMERA LECTURA
-
-        Guardamos solamente el punto inicial.
-      */
-
-      if(!anterior){
-
-        velocidadData[
-          username
-        ]={
-
-          lastTotal:total,
-
-          lastTime:tiempoLectura,
-
-          activeXp:0,
-
-          activeMinutes:0,
-
-          speed:null
-
-        };
-
-
-        return;
-
-      }
-
-
-      const lastTotal=
-        Number(
-          anterior.lastTotal
-        );
-
-
-      const lastTime=
-        Number(
-          anterior.lastTime
-        );
-
-
-      if(
-        !Number.isFinite(lastTotal)
-        ||
-        !Number.isFinite(lastTime)
-      ){
-
-        velocidadData[
-          username
-        ]={
-
-          lastTotal:total,
-
-          lastTime:tiempoLectura,
-
-          activeXp:
-            Number(
-              anterior.activeXp
-            )
-            ||
-            0,
-
-          activeMinutes:
-            Number(
-              anterior.activeMinutes
-            )
-            ||
-            0,
-
-          speed:
-            anterior.speed
-            ??
-            null
-
-        };
-
-
-        return;
-
-      }
-
-
-      /*
-        PROTECCIÓN IMPORTANTE:
-
-        Si el Worker todavía devuelve
-        exactamente la misma actualización,
-        no volvemos a calcular nada.
-      */
-
-      if(
-        tiempoLectura
-        <=
-        lastTime
-      ){
-
-        return;
-
-      }
-
-
-      const minutos=
-
-        (
-          tiempoLectura
-          -
-          lastTime
-        )
-
-        /
-
-        60000;
-
-
-      const incremento=
-
-        total
-        -
-        lastTotal;
-
-
-      let activeXp=
-
-        Number(
-          anterior.activeXp
-        )
-        ||
-        0;
-
-
-      let activeMinutes=
-
-        Number(
-          anterior.activeMinutes
-        )
-        ||
-        0;
-
-
-      /*
-        ÚNICAMENTE SI HUBO XP NUEVOS
-        se incorpora el intervalo al promedio.
-      */
-
-      if(
-        incremento>0
-        &&
-        minutos>0
-      ){
-
-        activeXp+=
-          incremento;
-
-
-        activeMinutes+=
-          minutos;
-
-      }
-
-
-      const promedio=
-
-        activeMinutes>0
-
-        ?
-
-        activeXp
-        /
-        activeMinutes
-
-        :
-
-        null;
-
-
-      velocidadData[
-        username
-      ]={
-
-        lastTotal:
-          total,
-
-        lastTime:
-          tiempoLectura,
-
-        activeXp:
-          activeXp,
-
-        activeMinutes:
-          activeMinutes,
-
-        speed:
-          promedio
-
-      };
-
-    }
-
-  );
-
-
-  guardarVelocidades();
-
-}
-
 
 /* =========================
    APLICAR XP AUTOMÁTICOS
@@ -1511,9 +1043,7 @@ function aplicarXpAutomaticos(){
 
   }
 
-
   let cambio=false;
-
 
   state.people.forEach(
 
@@ -1521,7 +1051,6 @@ function aplicarXpAutomaticos(){
 
       const r=
         buscarRemoto(p);
-
 
       if(
         !r
@@ -1535,12 +1064,10 @@ function aplicarXpAutomaticos(){
 
       }
 
-
       const total=
         Number(
           r.totalXp
         );
-
 
       if(
         !Number.isFinite(total)
@@ -1550,10 +1077,8 @@ function aplicarXpAutomaticos(){
 
       }
 
-
       p.duolingoTotal=
         total;
-
 
       if(
         p.baselineXp!=null
@@ -1579,21 +1104,17 @@ function aplicarXpAutomaticos(){
 
       }
 
-
       cambio=true;
 
     }
 
   );
 
-
   guardarCacheLocal();
-
 
   return cambio;
 
 }
-
 
 function faltanLineasBase(){
 
@@ -1605,7 +1126,6 @@ function faltanLineasBase(){
   );
 
 }
-
 
 async function inicializarLineasBase(){
 
@@ -1627,12 +1147,9 @@ async function inicializarLineasBase(){
 
   }
 
-
   inicializandoBase=true;
 
-
   let cambio=false;
-
 
   state.people.forEach(
 
@@ -1646,10 +1163,8 @@ async function inicializarLineasBase(){
 
       }
 
-
       const r=
         buscarRemoto(p);
-
 
       if(
         r
@@ -1663,7 +1178,6 @@ async function inicializarLineasBase(){
           Number(
             r.totalXp
           );
-
 
         if(
           Number.isFinite(total)
@@ -1689,24 +1203,20 @@ async function inicializarLineasBase(){
 
   );
 
-
   if(cambio){
 
     await guardarFirebase();
 
   }
 
-
   inicializandoBase=
     false;
-
 
   aplicarXpAutomaticos();
 
   renderAll();
 
 }
-
 
 /* =========================
    CONSULTA AL WORKER
@@ -1718,7 +1228,6 @@ async function consultarXpDuolingo(){
     document.getElementById(
       "estadoDuolingo"
     );
-
 
   try{
 
@@ -1742,7 +1251,6 @@ async function consultarXpDuolingo(){
 
       );
 
-
     if(!response.ok){
 
       throw new Error(
@@ -1753,10 +1261,8 @@ async function consultarXpDuolingo(){
 
     }
 
-
     const datos=
       await response.json();
-
 
     if(
       !datos
@@ -1772,21 +1278,10 @@ async function consultarXpDuolingo(){
 
     }
 
-
     datosDuolingo=
       datos;
 
-
-    /*
-      Esto NO contará varias veces
-      una misma actualización del Worker.
-    */
-
-    registrarVelocidades();
-
-
     aplicarXpAutomaticos();
-
 
     const fecha=
 
@@ -1801,7 +1296,6 @@ async function consultarXpDuolingo(){
       :
 
       null;
-
 
     estado.textContent=
 
@@ -1823,9 +1317,7 @@ async function consultarXpDuolingo(){
 
       "✓ XP automáticos actualizados";
 
-
     renderAll();
-
 
     if(usuarioAdmin){
 
@@ -1833,13 +1325,11 @@ async function consultarXpDuolingo(){
 
     }
 
-
   }catch(error){
 
     console.error(
       error
     );
-
 
     estado.textContent=
 
@@ -1852,7 +1342,6 @@ async function consultarXpDuolingo(){
   }
 
 }
-
 
 /* =========================
    FORMULARIO
@@ -1868,33 +1357,27 @@ function renderForm(){
 
   }
 
-
   const p=
     state.people[
       current
     ];
 
-
   contador.textContent=
 
     `Participante ${current+1} de ${state.people.length}`;
 
-
   nombreActual.textContent=
     p.name;
-
 
   usuarioActual.textContent=
     "@"
     +
     p.username;
 
-
   tributo.value=
     p.fine
     ||
     0;
-
 
   xpAutomatico.textContent=
 
@@ -1920,7 +1403,6 @@ function renderForm(){
 
     "XP automático: esperando línea base";
 
-
   puntosAcumulados.value=
 
     Number(
@@ -1928,7 +1410,6 @@ function renderForm(){
     )
     ||
     0;
-
 
   xpBase.value=
 
@@ -1943,7 +1424,6 @@ function renderForm(){
     Number(
       p.baselineXp
     );
-
 
   vistaBase.textContent=
 
@@ -1983,11 +1463,9 @@ function renderForm(){
       ""
     );
 
-
   updateEffective();
 
 }
-
 
 function updateEffective(){
 
@@ -1996,7 +1474,6 @@ function updateEffective(){
       current
     ];
 
-
   const xpSemanal=
 
     Math.max(
@@ -2004,14 +1481,12 @@ function updateEffective(){
       Number(p?.xp)||0
     );
 
-
   const t=
 
     Math.max(
       0,
       +tributo.value||0
     );
-
 
   efectivos.textContent=
 
@@ -2027,7 +1502,6 @@ function updateEffective(){
 
 }
 
-
 function guardarActual(){
 
   const p=
@@ -2035,24 +1509,20 @@ function guardarActual(){
       current
     ];
 
-
   const nuevoTributo=
     Number(
       tributo.value
     );
-
 
   const nuevosPuntos=
     Number(
       puntosAcumulados.value
     );
 
-
   const nuevaBase=
     Number(
       xpBase.value
     );
-
 
   if(
     !Number.isFinite(
@@ -2070,7 +1540,6 @@ function guardarActual(){
 
   }
 
-
   if(
     !Number.isFinite(
       nuevosPuntos
@@ -2086,7 +1555,6 @@ function guardarActual(){
     return false;
 
   }
-
 
   if(
     xpBase.value===""
@@ -2106,24 +1574,20 @@ function guardarActual(){
 
   }
 
-
   p.fine=
     Math.round(
       nuevoTributo
     );
-
 
   p.points=
     Math.round(
       nuevosPuntos
     );
 
-
   p.baselineXp=
     Math.round(
       nuevaBase
     );
-
 
   if(
     p.duolingoTotal!=null
@@ -2147,11 +1611,9 @@ function guardarActual(){
 
   }
 
-
   return true;
 
 }
-
 
 async function guardarYSiguiente(){
 
@@ -2161,7 +1623,6 @@ async function guardarYSiguiente(){
 
   }
 
-
   if(
     !guardarActual()
   ){
@@ -2170,12 +1631,10 @@ async function guardarYSiguiente(){
 
   }
 
-
   const nombre=
     state.people[
       current
     ].name;
-
 
   if(
     current
@@ -2186,7 +1645,6 @@ async function guardarYSiguiente(){
     current++;
 
   }
-
 
   if(
     await guardarFirebase()
@@ -2196,13 +1654,11 @@ async function guardarYSiguiente(){
 
       `✓ Datos de ${nombre} guardados.`;
 
-
     renderAll();
 
   }
 
 }
-
 
 async function anterior(){
 
@@ -2212,7 +1668,6 @@ async function anterior(){
 
   }
 
-
   if(
     !guardarActual()
   ){
@@ -2221,21 +1676,17 @@ async function anterior(){
 
   }
 
-
   if(current>0){
 
     current--;
 
   }
 
-
   await guardarFirebase();
-
 
   renderAll();
 
 }
-
 
 async function siguienteSinGuardar(){
 
@@ -2244,7 +1695,6 @@ async function siguienteSinGuardar(){
     return;
 
   }
-
 
   if(
     current
@@ -2256,18 +1706,14 @@ async function siguienteSinGuardar(){
 
   }
 
-
   state.current=
     current;
 
-
   guardarCacheLocal();
-
 
   renderAll();
 
 }
-
 
 /* =========================
    RANKING
@@ -2277,31 +1723,6 @@ function renderWeekly(){
 
   const r=
     ranked();
-
-
-  /*
-    COLUMNA PRIVADA.
-
-    Solamente se genera si el usuario
-    autenticado es el administrador.
-  */
-
-  const encabezadoVelocidad=
-
-    usuarioAdmin
-
-    ?
-
-    `
-      <th>
-        XP/min<br>promedio
-      </th>
-    `
-
-    :
-
-    "";
-
 
   weeklyTable.innerHTML=`
 
@@ -2333,12 +1754,9 @@ function renderWeekly(){
               Puntos<br>acumulados
             </th>
 
-            ${encabezadoVelocidad}
-
           </tr>
 
         </thead>
-
 
         <tbody>
 
@@ -2353,7 +1771,6 @@ function renderWeekly(){
                   ||
                   0;
 
-
                 const claseRanking=
 
                   i<5
@@ -2366,53 +1783,6 @@ function renderWeekly(){
 
                   "";
 
-
-                const infoVelocidad=
-
-                  velocidadData[
-
-                    String(
-                      p.username
-                    )
-                    .toLowerCase()
-
-                  ];
-
-
-                const promedio=
-
-                  infoVelocidad
-                  &&
-                  infoVelocidad.speed!=null
-
-                  ?
-
-                  Number(
-                    infoVelocidad.speed
-                  )
-
-                  :
-
-                  null;
-
-
-                const columnaVelocidad=
-
-                  usuarioAdmin
-
-                  ?
-
-                  `
-                    <td class="speed">
-                      ${fmtSpeed(promedio)}
-                    </td>
-                  `
-
-                  :
-
-                  "";
-
-
                 return`
 
                   <tr class="${claseRanking}">
@@ -2421,16 +1791,13 @@ function renderWeekly(){
                       ${i+1}
                     </td>
 
-
                     <td class="general-name">
                       ${p.name}
                     </td>
 
-
                     <td>
                       ${fmt(p.xp)}
                     </td>
-
 
                     <td class="tribute">
 
@@ -2452,7 +1819,6 @@ function renderWeekly(){
 
                     </td>
 
-
                     <td class="xp">
 
                       ${fmt(
@@ -2460,7 +1826,6 @@ function renderWeekly(){
                       )}
 
                     </td>
-
 
                     <td class="weekly-points">
 
@@ -2470,7 +1835,6 @@ function renderWeekly(){
 
                     </td>
 
-
                     <td class="prize">
 
                       ${fmt(
@@ -2478,9 +1842,6 @@ function renderWeekly(){
                       )}
 
                     </td>
-
-
-                    ${columnaVelocidad}
 
                   </tr>
 
@@ -2502,7 +1863,6 @@ function renderWeekly(){
 
 }
 
-
 /* =========================
    CERRAR SEMANA
 ========================= */
@@ -2515,7 +1875,6 @@ async function cerrarSemana(){
 
   }
 
-
   if(
     !guardarActual()
   ){
@@ -2524,13 +1883,10 @@ async function cerrarSemana(){
 
   }
 
-
   aplicarXpAutomaticos();
-
 
   const r=
     ranked();
-
 
   const conDatos=
 
@@ -2546,7 +1902,6 @@ async function cerrarSemana(){
 
     );
 
-
   if(
     !conDatos.length
   ){
@@ -2558,7 +1913,6 @@ async function cerrarSemana(){
     return;
 
   }
-
 
   if(
 
@@ -2586,7 +1940,6 @@ async function cerrarSemana(){
 
   }
 
-
   const winners=
 
     r.slice(
@@ -2612,7 +1965,6 @@ async function cerrarSemana(){
 
     );
 
-
   winners.forEach(
 
     w=>{
@@ -2625,7 +1977,6 @@ async function cerrarSemana(){
             x.name===w.name
 
         );
-
 
       if(p){
 
@@ -2643,17 +1994,10 @@ async function cerrarSemana(){
 
   );
 
-
-  /*
-    El histórico continúa guardándose
-    internamente en Firebase.
-  */
-
   state.history=
     state.history
     ||
     [];
-
 
   state.history.push({
 
@@ -2667,7 +2011,6 @@ async function cerrarSemana(){
     winners
 
   });
-
 
   state.people.forEach(
 
@@ -2699,7 +2042,6 @@ async function cerrarSemana(){
           0
         );
 
-
       p.xp=
         0;
 
@@ -2710,27 +2052,14 @@ async function cerrarSemana(){
 
   );
 
-
   current=
     0;
-
 
   if(
     await guardarFirebase()
   ){
 
-    /*
-      Reiniciar también el promedio XP/min
-      para comenzar una nueva semana.
-    */
-
-    velocidadData={};
-
-    guardarVelocidades();
-
-
     renderAll();
-
 
     alert(
 
@@ -2746,7 +2075,6 @@ async function cerrarSemana(){
 
 }
 
-
 /* =========================
    RENDER GENERAL
 ========================= */
@@ -2755,7 +2083,6 @@ function renderAll(){
 
   renderWeekly();
 
-
   if(usuarioAdmin){
 
     renderForm();
@@ -2763,7 +2090,6 @@ function renderAll(){
   }
 
 }
-
 
 /* =========================
    LOGIN
@@ -2774,14 +2100,11 @@ async function iniciarSesion(){
   const email=
     adminEmail.value.trim();
 
-
   const password=
     adminPassword.value;
 
-
   const mensaje=
     loginMensaje;
-
 
   if(
     !email
@@ -2796,10 +2119,8 @@ async function iniciarSesion(){
 
   }
 
-
   mensaje.textContent=
     "Iniciando sesión...";
-
 
   try{
 
@@ -2815,7 +2136,6 @@ async function iniciarSesion(){
 
       );
 
-
     if(
       cred.user.uid
       !==
@@ -2826,15 +2146,12 @@ async function iniciarSesion(){
         auth
       );
 
-
       mensaje.textContent=
         "Esta cuenta no tiene permiso de administrador.";
-
 
       return;
 
     }
-
 
     mensaje.textContent=
       "";
@@ -2844,7 +2161,6 @@ async function iniciarSesion(){
     console.error(
       error
     );
-
 
     mensaje.textContent=
 
@@ -2858,7 +2174,6 @@ async function iniciarSesion(){
 
 }
 
-
 async function cerrarSesion(){
 
   await signOut(
@@ -2866,7 +2181,6 @@ async function cerrarSesion(){
   );
 
 }
-
 
 /* =========================
    AUTENTICACIÓN
@@ -2886,7 +2200,6 @@ onAuthStateChanged(
 
       user.uid===ADMIN_UID;
 
-
     adminLogin.classList.toggle(
 
       "hidden",
@@ -2894,7 +2207,6 @@ onAuthStateChanged(
       usuarioAdmin
 
     );
-
 
     adminArea.classList.toggle(
 
@@ -2904,9 +2216,7 @@ onAuthStateChanged(
 
     );
 
-
     renderAll();
-
 
     if(usuarioAdmin){
 
@@ -2918,7 +2228,6 @@ onAuthStateChanged(
             leagueRef
           );
 
-
         if(
           !snap.exists()
         ){
@@ -2928,7 +2237,6 @@ onAuthStateChanged(
             normalizarEstado(
               localState
             );
-
 
           current=
 
@@ -2950,7 +2258,6 @@ onAuthStateChanged(
 
             );
 
-
           await setDoc(
 
             leagueRef,
@@ -2958,7 +2265,6 @@ onAuthStateChanged(
             state
 
           );
-
 
           conexion.textContent=
 
@@ -2974,18 +2280,9 @@ onAuthStateChanged(
 
       }
 
-
       await inicializarLineasBase();
 
-
-      /*
-        Al entrar como administrador
-        consultamos inmediatamente
-        los datos actuales del Worker.
-      */
-
       await consultarXpDuolingo();
-
 
       renderAll();
 
@@ -2994,7 +2291,6 @@ onAuthStateChanged(
   }
 
 );
-
 
 /* =========================
    FIREBASE EN TIEMPO REAL
@@ -3013,7 +2309,6 @@ onSnapshot(
       const datos=
         snapshot.data();
 
-
       if(
         datos
         &&
@@ -3030,7 +2325,6 @@ onSnapshot(
           normalizarEstado(
             datos
           );
-
 
         current=
 
@@ -3052,19 +2346,14 @@ onSnapshot(
 
           );
 
-
         aplicarXpAutomaticos();
 
-
         guardarCacheLocal();
-
 
         conexion.textContent=
           "✓ Liga actualizada";
 
-
         renderAll();
-
 
         if(usuarioAdmin){
 
@@ -3092,13 +2381,11 @@ onSnapshot(
 
   },
 
-
   error=>{
 
     console.error(
       error
     );
-
 
     conexion.textContent=
       "No se pudo conectar con la liga.";
@@ -3106,7 +2393,6 @@ onSnapshot(
   }
 
 );
-
 
 /* =========================
    EVENTOS
@@ -3119,7 +2405,6 @@ tributo.addEventListener(
   updateEffective
 
 );
-
 
 window.iniciarSesion=
   iniciarSesion;
@@ -3139,31 +2424,23 @@ window.siguienteSinGuardar=
 window.cerrarSemana=
   cerrarSemana;
 
-
 /* =========================
    INICIO
 ========================= */
 
 renderAll();
 
-
 /*
-  COMPORTAMIENTO ORIGINAL:
+  La página consulta inmediatamente
+  los datos del Worker al abrirse.
 
-  Se consulta inmediatamente al abrir la página.
-
-  Después la página revisa el Worker cada minuto.
+  Después revisa el Worker cada minuto.
 
   El Worker mantiene su propia actualización
-  real de Duolingo aproximadamente cada
-  10 minutos.
-
-  Si el Worker todavía tiene la misma lectura,
-  el cálculo de XP/min NO vuelve a contarla.
+  real de los XP de Duolingo.
 */
 
 consultarXpDuolingo();
-
 
 setInterval(
 
