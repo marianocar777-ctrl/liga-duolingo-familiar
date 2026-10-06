@@ -375,8 +375,9 @@ footer{
 </div>
 
 <div id="estadoDuolingo" class="auto-status">
-  Preparando actualización automática de XP...
+  Consultando XP de Duolingo...
 </div>
+
 
 <section class="card">
 
@@ -447,9 +448,11 @@ footer{
 
   <h2>📝 XP y ajustes del participante</h2>
 
+
   <div id="xpAutomatico" class="status">
     XP automático: esperando actualización...
   </div>
+
 
   <p class="nota">
     Los XP obtenidos se calculan automáticamente
@@ -469,6 +472,7 @@ footer{
     value="0"
     inputmode="numeric"
   >
+
 
   <p class="nota">
     El tributo se resta de los XP obtenidos durante
@@ -510,8 +514,6 @@ footer{
     Línea base: —
   </div>
 
-
-  <!-- NOMBRE AHORA ABAJO -->
 
   <div class="participant">
 
@@ -726,12 +728,6 @@ const prizes=[
 const key=
   "duolingoFamilyLeagueV2";
 
-
-/*
-  Aquí guardamos únicamente en el navegador
-  del administrador los datos usados para
-  calcular el promedio XP/min.
-*/
 
 const SPEED_KEY=
   "duolingoFamilyLeagueAverageSpeedV2";
@@ -950,7 +946,7 @@ let inicializandoBase=false;
 
 
 /* =========================
-   DATOS DE VELOCIDAD
+   DATOS XP/MIN PROMEDIO
 ========================= */
 
 let velocidadData={};
@@ -1173,22 +1169,18 @@ function buscarRemoto(p){
 
 
 /* ======================================
-   PROMEDIO XP POR MINUTO
+   XP/MIN PROMEDIO
 
-   IMPORTANTE:
+   Solo se incluyen intervalos
+   en los que hubo aumento de XP.
 
-   - Si ganó 0 XP:
-     NO agregamos esos minutos al promedio.
+   Los intervalos con 0 XP
+   NO afectan el promedio.
 
-   - Si ganó XP:
-     agregamos tanto los XP como los minutos
-     de ese intervalo.
-
-   Promedio:
-
-   XP totales obtenidos en periodos activos
-   ----------------------------------------
-   minutos totales de periodos activos
+   Promedio =
+   XP acumulados durante actividad
+   dividido entre
+   minutos acumulados durante actividad
 ====================================== */
 
 function registrarVelocidades(){
@@ -1211,6 +1203,15 @@ function registrarVelocidades(){
   let tiempoLectura=
     Date.now();
 
+
+  /*
+    Preferimos la fecha de actualización
+    real proporcionada por el Worker.
+
+    Esto evita contar varias veces
+    una misma lectura aunque la página
+    consulte cada minuto.
+  */
 
   if(
     datosDuolingo.actualizadoEn
@@ -1288,8 +1289,7 @@ function registrarVelocidades(){
       /*
         PRIMERA LECTURA
 
-        Solo guardamos el punto inicial.
-        Todavía no existe velocidad.
+        Guardamos solamente el punto inicial.
       */
 
       if(!anterior){
@@ -1370,9 +1370,11 @@ function registrarVelocidades(){
 
 
       /*
-        Si recibimos otra vez exactamente la
-        misma actualización del Worker,
-        no hacemos ningún cálculo.
+        PROTECCIÓN IMPORTANTE:
+
+        Si el Worker todavía devuelve
+        exactamente la misma actualización,
+        no volvemos a calcular nada.
       */
 
       if(
@@ -1425,11 +1427,8 @@ function registrarVelocidades(){
 
 
       /*
-        SOLO SI HUBO ACTIVIDAD.
-
-        Si incremento = 0,
-        este intervalo no entra
-        en el promedio.
+        ÚNICAMENTE SI HUBO XP NUEVOS
+        se incorpora el intervalo al promedio.
       */
 
       if(
@@ -1446,12 +1445,6 @@ function registrarVelocidades(){
           minutos;
 
       }
-
-
-      /*
-        Si por algún motivo el total de Duolingo
-        baja, tampoco contaminamos el promedio.
-      */
 
 
       const promedio=
@@ -1716,7 +1709,7 @@ async function inicializarLineasBase(){
 
 
 /* =========================
-   CONSULTA DUOLINGO
+   CONSULTA AL WORKER
 ========================= */
 
 async function consultarXpDuolingo(){
@@ -1725,10 +1718,6 @@ async function consultarXpDuolingo(){
     document.getElementById(
       "estadoDuolingo"
     );
-
-
-  estado.textContent=
-    "Consultando XP de Duolingo...";
 
 
   try{
@@ -1789,8 +1778,8 @@ async function consultarXpDuolingo(){
 
 
     /*
-      Calculamos primero el promedio
-      XP/min del administrador.
+      Esto NO contará varias veces
+      una misma actualización del Worker.
     */
 
     registrarVelocidades();
@@ -1811,7 +1800,7 @@ async function consultarXpDuolingo(){
 
       :
 
-      new Date();
+      null;
 
 
     estado.textContent=
@@ -1861,176 +1850,6 @@ async function consultarXpDuolingo(){
       "Se mantienen los últimos datos disponibles.";
 
   }
-
-}
-
-
-/* =====================================
-   HORARIOS:
-
-   :09
-   :19
-   :29
-   :39
-   :49
-   :59
-===================================== */
-
-let timerConsulta=null;
-
-
-function siguienteHoraConsulta(){
-
-  const ahora=
-    new Date();
-
-
-  const marcas=[
-    9,
-    19,
-    29,
-    39,
-    49,
-    59
-  ];
-
-
-  for(
-    const minuto
-    of marcas
-  ){
-
-    const candidata=
-      new Date(
-        ahora
-      );
-
-
-    candidata.setMinutes(
-      minuto,
-      0,
-      0
-    );
-
-
-    if(
-      candidata.getTime()
-      >
-      ahora.getTime()
-    ){
-
-      return candidata;
-
-    }
-
-  }
-
-
-  const siguiente=
-    new Date(
-      ahora
-    );
-
-
-  siguiente.setHours(
-
-    siguiente.getHours()+1,
-
-    9,
-
-    0,
-
-    0
-
-  );
-
-
-  return siguiente;
-
-}
-
-
-function mostrarProximaConsulta(){
-
-  const siguiente=
-    siguienteHoraConsulta();
-
-
-  const hora=
-
-    siguiente.toLocaleTimeString(
-
-      "es-CO",
-
-      {
-        hour:"2-digit",
-        minute:"2-digit"
-      }
-
-    );
-
-
-  if(!datosDuolingo){
-
-    estadoDuolingo.textContent=
-
-      "Próxima actualización automática de XP: "
-
-      +
-
-      hora;
-
-  }
-
-}
-
-
-function programarSiguienteConsulta(){
-
-  if(timerConsulta){
-
-    clearTimeout(
-      timerConsulta
-    );
-
-  }
-
-
-  const siguiente=
-    siguienteHoraConsulta();
-
-
-  const espera=
-
-    Math.max(
-
-      0,
-
-      siguiente.getTime()
-      -
-      Date.now()
-
-    );
-
-
-  mostrarProximaConsulta();
-
-
-  timerConsulta=
-
-    setTimeout(
-
-      async ()=>{
-
-        await consultarXpDuolingo();
-
-        programarSiguienteConsulta();
-
-      },
-
-      espera
-
-    );
 
 }
 
@@ -2461,8 +2280,10 @@ function renderWeekly(){
 
 
   /*
-    XP/MIN SOLO EXISTE PARA
-    EL ADMINISTRADOR.
+    COLUMNA PRIVADA.
+
+    Solamente se genera si el usuario
+    autenticado es el administrador.
   */
 
   const encabezadoVelocidad=
@@ -2824,9 +2645,8 @@ async function cerrarSemana(){
 
 
   /*
-    El histórico sigue guardándose
-    internamente aunque ya no aparezca
-    en la página.
+    El histórico continúa guardándose
+    internamente en Firebase.
   */
 
   state.history=
@@ -2900,9 +2720,8 @@ async function cerrarSemana(){
   ){
 
     /*
-      Comienza una nueva semana,
-      así que reiniciamos también
-      el promedio XP/min.
+      Reiniciar también el promedio XP/min
+      para comenzar una nueva semana.
     */
 
     velocidadData={};
@@ -3159,6 +2978,15 @@ onAuthStateChanged(
       await inicializarLineasBase();
 
 
+      /*
+        Al entrar como administrador
+        consultamos inmediatamente
+        los datos actuales del Worker.
+      */
+
+      await consultarXpDuolingo();
+
+
       renderAll();
 
     }
@@ -3320,17 +3148,30 @@ renderAll();
 
 
 /*
-  Las consultas quedan sincronizadas a:
+  COMPORTAMIENTO ORIGINAL:
 
-  XX:09
-  XX:19
-  XX:29
-  XX:39
-  XX:49
-  XX:59
+  Se consulta inmediatamente al abrir la página.
+
+  Después la página revisa el Worker cada minuto.
+
+  El Worker mantiene su propia actualización
+  real de Duolingo aproximadamente cada
+  10 minutos.
+
+  Si el Worker todavía tiene la misma lectura,
+  el cálculo de XP/min NO vuelve a contarla.
 */
 
-programarSiguienteConsulta();
+consultarXpDuolingo();
+
+
+setInterval(
+
+  consultarXpDuolingo,
+
+  60000
+
+);
 
 </script>
 
