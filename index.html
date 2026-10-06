@@ -2301,4 +2301,1038 @@ function guardarActual(){
 
 
   p.baselineXp=
-    Math
+    Math.round(
+      nuevaBase
+    );
+
+
+  if(
+    p.duolingoTotal!=null
+  ){
+
+    p.xp=
+
+      Math.max(
+
+        0,
+
+        Number(
+          p.duolingoTotal
+        )
+
+        -
+
+        p.baselineXp
+
+      );
+
+  }
+
+
+  return true;
+
+}
+
+
+async function guardarYSiguiente(){
+
+  if(!usuarioAdmin){
+
+    return;
+
+  }
+
+
+  if(
+    !guardarActual()
+  ){
+
+    return;
+
+  }
+
+
+  const nombre=
+    state.people[
+      current
+    ].name;
+
+
+  if(
+    current
+    <
+    state.people.length-1
+  ){
+
+    current++;
+
+  }
+
+
+  if(
+    await guardarFirebase()
+  ){
+
+    guardado.textContent=
+
+      `✓ Datos de ${nombre} guardados.`;
+
+
+    renderAll();
+
+  }
+
+}
+
+
+async function anterior(){
+
+  if(!usuarioAdmin){
+
+    return;
+
+  }
+
+
+  if(
+    !guardarActual()
+  ){
+
+    return;
+
+  }
+
+
+  if(current>0){
+
+    current--;
+
+  }
+
+
+  await guardarFirebase();
+
+
+  renderAll();
+
+}
+
+
+async function siguienteSinGuardar(){
+
+  if(!usuarioAdmin){
+
+    return;
+
+  }
+
+
+  if(
+    current
+    <
+    state.people.length-1
+  ){
+
+    current++;
+
+  }
+
+
+  state.current=
+    current;
+
+
+  guardarCacheLocal();
+
+
+  renderAll();
+
+}
+
+
+/* =========================
+   RANKING
+========================= */
+
+function renderWeekly(){
+
+  const r=
+    ranked();
+
+
+  /*
+    XP/MIN SOLO EXISTE PARA
+    EL ADMINISTRADOR.
+  */
+
+  const encabezadoVelocidad=
+
+    usuarioAdmin
+
+    ?
+
+    `
+      <th>
+        XP/min<br>promedio
+      </th>
+    `
+
+    :
+
+    "";
+
+
+  weeklyTable.innerHTML=`
+
+    <div class="table-scroll">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>Pos.</th>
+
+            <th>Participante</th>
+
+            <th>XP</th>
+
+            <th>Tributo</th>
+
+            <th>
+              XP<br>efectivos
+            </th>
+
+            <th>
+              Puntos<br>semanales
+            </th>
+
+            <th>
+              Puntos<br>acumulados
+            </th>
+
+            ${encabezadoVelocidad}
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          ${
+
+            r.map(
+
+              (p,i)=>{
+
+                const puntosSemanales=
+                  prizes[i]
+                  ||
+                  0;
+
+
+                const claseRanking=
+
+                  i<5
+
+                  ?
+
+                  `rank-${i+1}`
+
+                  :
+
+                  "";
+
+
+                const infoVelocidad=
+
+                  velocidadData[
+
+                    String(
+                      p.username
+                    )
+                    .toLowerCase()
+
+                  ];
+
+
+                const promedio=
+
+                  infoVelocidad
+                  &&
+                  infoVelocidad.speed!=null
+
+                  ?
+
+                  Number(
+                    infoVelocidad.speed
+                  )
+
+                  :
+
+                  null;
+
+
+                const columnaVelocidad=
+
+                  usuarioAdmin
+
+                  ?
+
+                  `
+                    <td class="speed">
+                      ${fmtSpeed(promedio)}
+                    </td>
+                  `
+
+                  :
+
+                  "";
+
+
+                return`
+
+                  <tr class="${claseRanking}">
+
+                    <td>
+                      ${i+1}
+                    </td>
+
+
+                    <td class="general-name">
+                      ${p.name}
+                    </td>
+
+
+                    <td>
+                      ${fmt(p.xp)}
+                    </td>
+
+
+                    <td class="tribute">
+
+                      ${
+                        p.fine
+
+                        ?
+
+                        "-"
+                        +
+                        fmt(
+                          p.fine
+                        )
+
+                        :
+
+                        "0"
+                      }
+
+                    </td>
+
+
+                    <td class="xp">
+
+                      ${fmt(
+                        effective(p)
+                      )}
+
+                    </td>
+
+
+                    <td class="weekly-points">
+
+                      ${fmt(
+                        puntosSemanales
+                      )}
+
+                    </td>
+
+
+                    <td class="prize">
+
+                      ${fmt(
+                        p.points
+                      )}
+
+                    </td>
+
+
+                    ${columnaVelocidad}
+
+                  </tr>
+
+                `;
+
+              }
+
+            ).join("")
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================
+   CERRAR SEMANA
+========================= */
+
+async function cerrarSemana(){
+
+  if(!usuarioAdmin){
+
+    return;
+
+  }
+
+
+  if(
+    !guardarActual()
+  ){
+
+    return;
+
+  }
+
+
+  aplicarXpAutomaticos();
+
+
+  const r=
+    ranked();
+
+
+  const conDatos=
+
+    r.filter(
+
+      p=>
+
+        (+p.xp||0)>0
+
+        ||
+
+        (+p.fine||0)>0
+
+    );
+
+
+  if(
+    !conDatos.length
+  ){
+
+    alert(
+      "No hay XP ni tributos registrados para cerrar esta semana."
+    );
+
+    return;
+
+  }
+
+
+  if(
+
+    !confirm(
+
+      "¿Seguro que quieres cerrar el concurso? "
+
+      +
+
+      "Esto sumará los premios a los puntos acumulados, "
+
+      +
+
+      "guardará internamente el resultado y comenzará una nueva semana "
+
+      +
+
+      "tomando los XP actuales como nueva línea base."
+
+    )
+
+  ){
+
+    return;
+
+  }
+
+
+  const winners=
+
+    r.slice(
+      0,
+      5
+    )
+
+    .map(
+
+      (p,i)=>({
+
+        rank:i+1,
+
+        name:p.name,
+
+        effective:
+          effective(p),
+
+        prize:
+          prizes[i]
+
+      })
+
+    );
+
+
+  winners.forEach(
+
+    w=>{
+
+      const p=
+
+        state.people.find(
+
+          x=>
+            x.name===w.name
+
+        );
+
+
+      if(p){
+
+        p.points=
+
+          (+p.points||0)
+
+          +
+
+          w.prize;
+
+      }
+
+    }
+
+  );
+
+
+  /*
+    El histórico sigue guardándose
+    internamente aunque ya no aparezca
+    en la página.
+  */
+
+  state.history=
+    state.history
+    ||
+    [];
+
+
+  state.history.push({
+
+    date:
+
+      new Date()
+      .toLocaleString(
+        "es-CO"
+      ),
+
+    winners
+
+  });
+
+
+  state.people.forEach(
+
+    p=>{
+
+      p.baselineXp=
+
+        p.duolingoTotal!=null
+
+        ?
+
+        Number(
+          p.duolingoTotal
+        )
+
+        :
+
+        Number(
+          p.baselineXp
+          ||
+          0
+        )
+
+        +
+
+        Number(
+          p.xp
+          ||
+          0
+        );
+
+
+      p.xp=
+        0;
+
+      p.fine=
+        0;
+
+    }
+
+  );
+
+
+  current=
+    0;
+
+
+  if(
+    await guardarFirebase()
+  ){
+
+    /*
+      Comienza una nueva semana,
+      así que reiniciamos también
+      el promedio XP/min.
+    */
+
+    velocidadData={};
+
+    guardarVelocidades();
+
+
+    renderAll();
+
+
+    alert(
+
+      "Semana cerrada. Los premios fueron sumados al acumulado "
+
+      +
+
+      "y los XP actuales quedaron como línea base de la nueva semana."
+
+    );
+
+  }
+
+}
+
+
+/* =========================
+   RENDER GENERAL
+========================= */
+
+function renderAll(){
+
+  renderWeekly();
+
+
+  if(usuarioAdmin){
+
+    renderForm();
+
+  }
+
+}
+
+
+/* =========================
+   LOGIN
+========================= */
+
+async function iniciarSesion(){
+
+  const email=
+    adminEmail.value.trim();
+
+
+  const password=
+    adminPassword.value;
+
+
+  const mensaje=
+    loginMensaje;
+
+
+  if(
+    !email
+    ||
+    !password
+  ){
+
+    mensaje.textContent=
+      "Escribe tu correo y contraseña.";
+
+    return;
+
+  }
+
+
+  mensaje.textContent=
+    "Iniciando sesión...";
+
+
+  try{
+
+    const cred=
+
+      await signInWithEmailAndPassword(
+
+        auth,
+
+        email,
+
+        password
+
+      );
+
+
+    if(
+      cred.user.uid
+      !==
+      ADMIN_UID
+    ){
+
+      await signOut(
+        auth
+      );
+
+
+      mensaje.textContent=
+        "Esta cuenta no tiene permiso de administrador.";
+
+
+      return;
+
+    }
+
+
+    mensaje.textContent=
+      "";
+
+  }catch(error){
+
+    console.error(
+      error
+    );
+
+
+    mensaje.textContent=
+
+      "No fue posible iniciar sesión. "
+
+      +
+
+      "Revisa el correo y la contraseña.";
+
+  }
+
+}
+
+
+async function cerrarSesion(){
+
+  await signOut(
+    auth
+  );
+
+}
+
+
+/* =========================
+   AUTENTICACIÓN
+========================= */
+
+onAuthStateChanged(
+
+  auth,
+
+  async user=>{
+
+    usuarioAdmin=
+
+      !!user
+
+      &&
+
+      user.uid===ADMIN_UID;
+
+
+    adminLogin.classList.toggle(
+
+      "hidden",
+
+      usuarioAdmin
+
+    );
+
+
+    adminArea.classList.toggle(
+
+      "hidden",
+
+      !usuarioAdmin
+
+    );
+
+
+    renderAll();
+
+
+    if(usuarioAdmin){
+
+      try{
+
+        const snap=
+
+          await getDoc(
+            leagueRef
+          );
+
+
+        if(
+          !snap.exists()
+        ){
+
+          state=
+
+            normalizarEstado(
+              localState
+            );
+
+
+          current=
+
+            Math.min(
+
+              Math.max(
+
+                Number(
+                  state.current
+                )
+                ||
+                0,
+
+                0
+
+              ),
+
+              state.people.length-1
+
+            );
+
+
+          await setDoc(
+
+            leagueRef,
+
+            state
+
+          );
+
+
+          conexion.textContent=
+
+            "✓ Datos iniciales guardados en la nube";
+
+        }
+
+      }catch(error){
+
+        console.error(
+          error
+        );
+
+      }
+
+
+      await inicializarLineasBase();
+
+
+      renderAll();
+
+    }
+
+  }
+
+);
+
+
+/* =========================
+   FIREBASE EN TIEMPO REAL
+========================= */
+
+onSnapshot(
+
+  leagueRef,
+
+  snapshot=>{
+
+    if(
+      snapshot.exists()
+    ){
+
+      const datos=
+        snapshot.data();
+
+
+      if(
+        datos
+        &&
+        Array.isArray(
+          datos.people
+        )
+        &&
+        datos.people.length
+        ===
+        base.length
+      ){
+
+        state=
+          normalizarEstado(
+            datos
+          );
+
+
+        current=
+
+          Math.min(
+
+            Math.max(
+
+              Number(
+                state.current
+              )
+              ||
+              0,
+
+              0
+
+            ),
+
+            state.people.length-1
+
+          );
+
+
+        aplicarXpAutomaticos();
+
+
+        guardarCacheLocal();
+
+
+        conexion.textContent=
+          "✓ Liga actualizada";
+
+
+        renderAll();
+
+
+        if(usuarioAdmin){
+
+          inicializarLineasBase();
+
+        }
+
+      }
+
+    }else{
+
+      conexion.textContent=
+
+        usuarioAdmin
+
+        ?
+
+        "Preparando los datos iniciales..."
+
+        :
+
+        "La liga todavía está esperando su configuración inicial.";
+
+    }
+
+  },
+
+
+  error=>{
+
+    console.error(
+      error
+    );
+
+
+    conexion.textContent=
+      "No se pudo conectar con la liga.";
+
+  }
+
+);
+
+
+/* =========================
+   EVENTOS
+========================= */
+
+tributo.addEventListener(
+
+  "input",
+
+  updateEffective
+
+);
+
+
+window.iniciarSesion=
+  iniciarSesion;
+
+window.cerrarSesion=
+  cerrarSesion;
+
+window.guardarYSiguiente=
+  guardarYSiguiente;
+
+window.anterior=
+  anterior;
+
+window.siguienteSinGuardar=
+  siguienteSinGuardar;
+
+window.cerrarSemana=
+  cerrarSemana;
+
+
+/* =========================
+   INICIO
+========================= */
+
+renderAll();
+
+
+/*
+  Las consultas quedan sincronizadas a:
+
+  XX:09
+  XX:19
+  XX:29
+  XX:39
+  XX:49
+  XX:59
+*/
+
+programarSiguienteConsulta();
+
+</script>
+
+</body>
+</html>
