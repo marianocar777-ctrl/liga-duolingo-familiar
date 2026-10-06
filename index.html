@@ -26,7 +26,7 @@ header h1{margin:0;font-size:30px}
 header p{margin:8px 0 0;opacity:.95}
 
 main{
-  max-width:900px;
+  max-width:950px;
   margin:auto;
   padding:18px;
 }
@@ -39,8 +39,14 @@ main{
   box-shadow:0 4px 14px rgba(0,0,0,.08);
 }
 
-h2{margin-top:0;color:#58a700}
-.hidden{display:none!important}
+h2{
+  margin-top:0;
+  color:#58a700;
+}
+
+.hidden{
+  display:none!important;
+}
 
 .participant{
   background:#f3faed;
@@ -48,12 +54,24 @@ h2{margin-top:0;color:#58a700}
   border-radius:14px;
   padding:16px;
   text-align:center;
-  margin:12px 0;
+  margin:18px 0 12px;
 }
 
-.participant .count{font-size:13px;color:#777}
-.participant .name{font-size:24px;font-weight:800;margin:5px 0}
-.participant .user{font-size:13px;color:#777}
+.participant .count{
+  font-size:13px;
+  color:#777;
+}
+
+.participant .name{
+  font-size:24px;
+  font-weight:800;
+  margin:5px 0;
+}
+
+.participant .user{
+  font-size:13px;
+  color:#777;
+}
 
 label{
   display:block;
@@ -83,8 +101,14 @@ button{
   cursor:pointer;
 }
 
-.secondary{background:#eef2ee;color:#425047}
-.danger{background:#e5484d}
+.secondary{
+  background:#eef2ee;
+  color:#425047;
+}
+
+.danger{
+  background:#e5484d;
+}
 
 .row{
   display:grid;
@@ -122,7 +146,7 @@ button{
   text-align:center;
 }
 
-/* TABLA DEL RANKING */
+/* TABLA */
 
 .table-scroll{
   width:100%;
@@ -185,8 +209,6 @@ th:nth-child(2){
   z-index:5;
 }
 
-/* COLUMNAS DESPLAZABLES */
-
 th:nth-child(3),
 td:nth-child(3){
   width:70px;
@@ -205,15 +227,11 @@ td:nth-child(5){
   min-width:82px;
 }
 
-/* PUNTOS SEMANALES */
-
 th:nth-child(6),
 td:nth-child(6){
   width:88px;
   min-width:88px;
 }
-
-/* PUNTOS ACUMULADOS */
 
 th:nth-child(7),
 td:nth-child(7){
@@ -239,14 +257,18 @@ td:nth-child(7){
   color:#8b6b00;
 }
 
+.speed{
+  font-weight:800;
+  color:#1967a3;
+}
+
 .general-name{
   text-align:left;
   font-weight:bold;
 }
 
-/* COLORES DE LOS CINCO PRIMEROS */
+/* TOP 5 */
 
-/* 1.º - ORO */
 tr.rank-1 td{
   background:#fff3b0;
 }
@@ -256,7 +278,6 @@ tr.rank-1 td:first-child{
   color:#8a6500;
 }
 
-/* 2.º - PLATA */
 tr.rank-2 td{
   background:#edf0f2;
 }
@@ -266,7 +287,6 @@ tr.rank-2 td:first-child{
   color:#626b72;
 }
 
-/* 3.º - BRONCE */
 tr.rank-3 td{
   background:#f3d2b6;
 }
@@ -276,7 +296,6 @@ tr.rank-3 td:first-child{
   color:#8a4f22;
 }
 
-/* 4.º Y 5.º - VERDE SUAVE */
 tr.rank-4 td,
 tr.rank-5 td{
   background:#e8f6df;
@@ -287,13 +306,6 @@ tr.rank-5 td:first-child{
   font-weight:900;
   color:#477c2b;
 }
-
-/*
-  IMPORTANTE:
-  también coloreamos las columnas fijas para
-  que toda la fila conserve el mismo color
-  al desplazarnos horizontalmente.
-*/
 
 tr.rank-1 td:nth-child(1),
 tr.rank-1 td:nth-child(2){
@@ -363,7 +375,7 @@ footer{
 </div>
 
 <div id="estadoDuolingo" class="auto-status">
-  Consultando XP de Duolingo...
+  Preparando actualización automática de XP...
 </div>
 
 <section class="card">
@@ -380,8 +392,8 @@ footer{
   <h2>🔐 Administrador</h2>
 
   <p class="nota">
-    Solo el administrador puede modificar tributos, puntos acumulados,
-    líneas base y cerrar el concurso.
+    Solo el administrador puede modificar tributos,
+    puntos acumulados, líneas base y cerrar el concurso.
   </p>
 
   <label for="adminEmail">
@@ -435,33 +447,9 @@ footer{
 
   <h2>📝 XP y ajustes del participante</h2>
 
-  <div class="participant">
-
-    <div
-      class="count"
-      id="contador"
-    ></div>
-
-    <div
-      class="name"
-      id="nombreActual"
-    ></div>
-
-    <div
-      class="user"
-      id="usuarioActual"
-    ></div>
-
+  <div id="xpAutomatico" class="status">
+    XP automático: esperando actualización...
   </div>
-
-
-  <div
-    id="xpAutomatico"
-    class="status"
-  >
-    XP automático: consultando...
-  </div>
-
 
   <p class="nota">
     Los XP obtenidos se calculan automáticamente
@@ -482,7 +470,6 @@ footer{
     inputmode="numeric"
   >
 
-
   <p class="nota">
     El tributo se resta de los XP obtenidos durante
     esta semana. Si el tributo supera los XP realizados,
@@ -490,10 +477,7 @@ footer{
   </p>
 
 
-  <div
-    id="efectivos"
-    class="status"
-  >
+  <div id="efectivos" class="status">
     XP efectivos: 0
   </div>
 
@@ -522,11 +506,30 @@ footer{
   >
 
 
-  <div
-    id="vistaBase"
-    class="status"
-  >
+  <div id="vistaBase" class="status">
     Línea base: —
+  </div>
+
+
+  <!-- NOMBRE AHORA ABAJO -->
+
+  <div class="participant">
+
+    <div
+      class="count"
+      id="contador"
+    ></div>
+
+    <div
+      class="name"
+      id="nombreActual"
+    ></div>
+
+    <div
+      class="user"
+      id="usuarioActual"
+    ></div>
+
   </div>
 
 
@@ -568,7 +571,7 @@ footer{
 
   <p class="nota">
     Al cerrar el concurso se entregan los premios,
-    se guarda el resultado en el histórico y los XP
+    se guarda internamente el resultado y los XP
     totales actuales de Duolingo se convierten en la
     línea base para comenzar la semana siguiente.
   </p>
@@ -583,15 +586,6 @@ footer{
 </section>
 
 </div>
-
-
-<section class="card">
-
-  <h2>📚 Histórico de cierres</h2>
-
-  <div id="history"></div>
-
-</section>
 
 </main>
 
@@ -629,32 +623,46 @@ from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 
 
 const firebaseConfig={
+
   apiKey:"AIzaSyAxugpQ-ZCUffI3N4RRx9v_PWkUB36ybbU",
+
   authDomain:"liga-duolingo-familiar.firebaseapp.com",
+
   projectId:"liga-duolingo-familiar",
+
   storageBucket:"liga-duolingo-familiar.firebasestorage.app",
+
   messagingSenderId:"842299623478",
+
   appId:"1:842299623478:web:e82abf2ac4eaf71fd63097"
+
 };
 
 
-const app=initializeApp(firebaseConfig);
+const app=
+  initializeApp(firebaseConfig);
 
-const db=getFirestore(app);
+const db=
+  getFirestore(app);
 
-const auth=getAuth(app);
+const auth=
+  getAuth(app);
 
 
 const ADMIN_UID=
-"obkmRQWbylOkGDi6YznlL9AKEOr1";
+  "obkmRQWbylOkGDi6YznlL9AKEOr1";
 
 
 const leagueRef=
-doc(db,"league","state");
+  doc(
+    db,
+    "league",
+    "state"
+  );
 
 
 const DUOLINGO_API=
-"https://polished-voice-9184.marianocar777.workers.dev/";
+  "https://polished-voice-9184.marianocar777.workers.dev/";
 
 
 const base=[
@@ -715,26 +723,41 @@ const prizes=[
 ];
 
 
-const key="duolingoFamilyLeagueV2";
+const key=
+  "duolingoFamilyLeagueV2";
+
+
+/*
+  Aquí guardamos únicamente en el navegador
+  del administrador los datos usados para
+  calcular el promedio XP/min.
+*/
+
+const SPEED_KEY=
+  "duolingoFamilyLeagueAverageSpeedV2";
 
 
 function nuevoEstado(){
 
   return{
 
-    people:base.map(p=>({
+    people:
 
-      ...p,
+      base.map(
+        p=>({
 
-      xp:0,
+          ...p,
 
-      fine:0,
+          xp:0,
 
-      baselineXp:null,
+          fine:0,
 
-      duolingoTotal:null
+          baselineXp:null,
 
-    })),
+          duolingoTotal:null
+
+        })
+      ),
 
     history:[],
 
@@ -752,31 +775,39 @@ try{
 
   localState=
     JSON.parse(
-      localStorage.getItem(key)||"null"
+      localStorage.getItem(key)
+      ||
+      "null"
     );
 
 }catch(e){}
 
 
 if(
-  !localState ||
-  !Array.isArray(localState.people) ||
+  !localState
+  ||
+  !Array.isArray(localState.people)
+  ||
   localState.people.length!==base.length
 ){
 
-  localState=nuevoEstado();
+  localState=
+    nuevoEstado();
 
 }
 
 
 function normalizarEstado(datos){
 
-  const nuevo=nuevoEstado();
+  const nuevo=
+    nuevoEstado();
 
 
   if(
-    !datos ||
-    !Array.isArray(datos.people) ||
+    !datos
+    ||
+    !Array.isArray(datos.people)
+    ||
     datos.people.length!==base.length
   ){
 
@@ -786,62 +817,100 @@ function normalizarEstado(datos){
 
 
   nuevo.people=
-    base.map((bp,i)=>{
 
-      const a=
-        datos.people[i]||{};
+    base.map(
+      (bp,i)=>{
+
+        const a=
+          datos.people[i]
+          ||
+          {};
 
 
-      return{
+        return{
 
-        ...bp,
+          ...bp,
 
-        ...a,
+          ...a,
 
-        name:bp.name,
+          name:bp.name,
 
-        username:bp.username,
+          username:bp.username,
 
-        points:
-          Number(
-            a.points??bp.points
-          )||0,
+          points:
+            Number(
+              a.points
+              ??
+              bp.points
+            )
+            ||
+            0,
 
-        xp:
-          Number(a.xp)||0,
+          xp:
+            Number(a.xp)
+            ||
+            0,
 
-        fine:
-          Number(a.fine)||0,
+          fine:
+            Number(a.fine)
+            ||
+            0,
 
-        baselineXp:
-          a.baselineXp==null
-          ?
-          null
-          :
-          Number(a.baselineXp),
+          baselineXp:
 
-        duolingoTotal:
-          a.duolingoTotal==null
-          ?
-          null
-          :
-          Number(a.duolingoTotal)
+            a.baselineXp==null
 
-      };
+            ?
 
-    });
+            null
+
+            :
+
+            Number(
+              a.baselineXp
+            ),
+
+          duolingoTotal:
+
+            a.duolingoTotal==null
+
+            ?
+
+            null
+
+            :
+
+            Number(
+              a.duolingoTotal
+            )
+
+        };
+
+      }
+    );
 
 
   nuevo.history=
-    Array.isArray(datos.history)
+
+    Array.isArray(
+      datos.history
+    )
+
     ?
+
     datos.history
+
     :
+
     [];
 
 
   nuevo.current=
-    Number(datos.current)||0;
+    Number(
+      datos.current
+    )
+    ||
+    0;
 
 
   return nuevo;
@@ -850,19 +919,26 @@ function normalizarEstado(datos){
 
 
 localState=
-  normalizarEstado(localState);
+  normalizarEstado(
+    localState
+  );
 
 
-let state=localState;
+let state=
+  localState;
 
 
 let current=
+
   Math.min(
+
     Math.max(
       Number(state.current)||0,
       0
     ),
+
     base.length-1
+
   );
 
 
@@ -873,34 +949,129 @@ let datosDuolingo=null;
 let inicializandoBase=false;
 
 
-const fmt=n=>
-  Number(n||0)
-  .toLocaleString("es-CO");
+/* =========================
+   DATOS DE VELOCIDAD
+========================= */
+
+let velocidadData={};
+
+
+try{
+
+  velocidadData=
+    JSON.parse(
+      localStorage.getItem(SPEED_KEY)
+      ||
+      "{}"
+    )
+    ||
+    {};
+
+}catch(e){
+
+  velocidadData={};
+
+}
+
+
+function guardarVelocidades(){
+
+  try{
+
+    localStorage.setItem(
+
+      SPEED_KEY,
+
+      JSON.stringify(
+        velocidadData
+      )
+
+    );
+
+  }catch(e){}
+
+}
+
+
+const fmt=
+  n=>
+
+    Number(n||0)
+    .toLocaleString(
+      "es-CO"
+    );
+
+
+const fmtSpeed=
+  n=>{
+
+    if(
+      n==null
+      ||
+      !Number.isFinite(
+        Number(n)
+      )
+    ){
+
+      return "—";
+
+    }
+
+
+    return Number(n)
+      .toLocaleString(
+
+        "es-CO",
+
+        {
+          minimumFractionDigits:1,
+          maximumFractionDigits:1
+        }
+
+      );
+
+  };
 
 
 function effective(p){
-  return (+p.xp||0)-(+p.fine||0);
+
+  return(
+    (+p.xp||0)
+    -
+    (+p.fine||0)
+  );
+
 }
 
 
 function ranked(){
 
   return [...state.people]
-  .sort(
-    (a,b)=>
-      effective(b)
-      -
-      effective(a)
-      ||
-      a.name.localeCompare(b.name)
-  );
+
+    .sort(
+
+      (a,b)=>
+
+        effective(b)
+        -
+        effective(a)
+
+        ||
+
+        a.name.localeCompare(
+          b.name
+        )
+
+    );
 
 }
 
 
 function guardarCacheLocal(){
 
-  state.current=current;
+  state.current=
+    current;
+
 
   localStorage.setItem(
     key,
@@ -923,7 +1094,8 @@ async function guardarFirebase(){
   }
 
 
-  state.current=current;
+  state.current=
+    current;
 
 
   try{
@@ -939,15 +1111,21 @@ async function guardarFirebase(){
 
     return true;
 
-
   }catch(error){
 
-    console.error(error);
+    console.error(
+      error
+    );
 
 
     alert(
-      "No fue posible guardar los datos en Firebase. " +
+
+      "No fue posible guardar los datos en Firebase. "
+
+      +
+
       "Revisa tu conexión e inténtalo nuevamente."
+
     );
 
 
@@ -958,10 +1136,15 @@ async function guardarFirebase(){
 }
 
 
+/* =========================
+   BUSCAR PARTICIPANTE
+========================= */
+
 function buscarRemoto(p){
 
   if(
-    !datosDuolingo ||
+    !datosDuolingo
+    ||
     !Array.isArray(
       datosDuolingo.participantes
     )
@@ -989,10 +1172,343 @@ function buscarRemoto(p){
 }
 
 
+/* ======================================
+   PROMEDIO XP POR MINUTO
+
+   IMPORTANTE:
+
+   - Si ganó 0 XP:
+     NO agregamos esos minutos al promedio.
+
+   - Si ganó XP:
+     agregamos tanto los XP como los minutos
+     de ese intervalo.
+
+   Promedio:
+
+   XP totales obtenidos en periodos activos
+   ----------------------------------------
+   minutos totales de periodos activos
+====================================== */
+
+function registrarVelocidades(){
+
+  if(
+    !usuarioAdmin
+    ||
+    !datosDuolingo
+    ||
+    !Array.isArray(
+      datosDuolingo.participantes
+    )
+  ){
+
+    return;
+
+  }
+
+
+  let tiempoLectura=
+    Date.now();
+
+
+  if(
+    datosDuolingo.actualizadoEn
+  ){
+
+    const fechaServidor=
+
+      new Date(
+        datosDuolingo.actualizadoEn
+      );
+
+
+    if(
+      !Number.isNaN(
+        fechaServidor.getTime()
+      )
+    ){
+
+      tiempoLectura=
+        fechaServidor.getTime();
+
+    }
+
+  }
+
+
+  datosDuolingo.participantes.forEach(
+
+    r=>{
+
+      if(
+        !r
+        ||
+        r.ok===false
+        ||
+        r.totalXp==null
+        ||
+        !r.username
+      ){
+
+        return;
+
+      }
+
+
+      const total=
+        Number(
+          r.totalXp
+        );
+
+
+      if(
+        !Number.isFinite(total)
+      ){
+
+        return;
+
+      }
+
+
+      const username=
+
+        String(
+          r.username
+        )
+        .toLowerCase();
+
+
+      const anterior=
+        velocidadData[
+          username
+        ];
+
+
+      /*
+        PRIMERA LECTURA
+
+        Solo guardamos el punto inicial.
+        Todavía no existe velocidad.
+      */
+
+      if(!anterior){
+
+        velocidadData[
+          username
+        ]={
+
+          lastTotal:total,
+
+          lastTime:tiempoLectura,
+
+          activeXp:0,
+
+          activeMinutes:0,
+
+          speed:null
+
+        };
+
+
+        return;
+
+      }
+
+
+      const lastTotal=
+        Number(
+          anterior.lastTotal
+        );
+
+
+      const lastTime=
+        Number(
+          anterior.lastTime
+        );
+
+
+      if(
+        !Number.isFinite(lastTotal)
+        ||
+        !Number.isFinite(lastTime)
+      ){
+
+        velocidadData[
+          username
+        ]={
+
+          lastTotal:total,
+
+          lastTime:tiempoLectura,
+
+          activeXp:
+            Number(
+              anterior.activeXp
+            )
+            ||
+            0,
+
+          activeMinutes:
+            Number(
+              anterior.activeMinutes
+            )
+            ||
+            0,
+
+          speed:
+            anterior.speed
+            ??
+            null
+
+        };
+
+
+        return;
+
+      }
+
+
+      /*
+        Si recibimos otra vez exactamente la
+        misma actualización del Worker,
+        no hacemos ningún cálculo.
+      */
+
+      if(
+        tiempoLectura
+        <=
+        lastTime
+      ){
+
+        return;
+
+      }
+
+
+      const minutos=
+
+        (
+          tiempoLectura
+          -
+          lastTime
+        )
+
+        /
+
+        60000;
+
+
+      const incremento=
+
+        total
+        -
+        lastTotal;
+
+
+      let activeXp=
+
+        Number(
+          anterior.activeXp
+        )
+        ||
+        0;
+
+
+      let activeMinutes=
+
+        Number(
+          anterior.activeMinutes
+        )
+        ||
+        0;
+
+
+      /*
+        SOLO SI HUBO ACTIVIDAD.
+
+        Si incremento = 0,
+        este intervalo no entra
+        en el promedio.
+      */
+
+      if(
+        incremento>0
+        &&
+        minutos>0
+      ){
+
+        activeXp+=
+          incremento;
+
+
+        activeMinutes+=
+          minutos;
+
+      }
+
+
+      /*
+        Si por algún motivo el total de Duolingo
+        baja, tampoco contaminamos el promedio.
+      */
+
+
+      const promedio=
+
+        activeMinutes>0
+
+        ?
+
+        activeXp
+        /
+        activeMinutes
+
+        :
+
+        null;
+
+
+      velocidadData[
+        username
+      ]={
+
+        lastTotal:
+          total,
+
+        lastTime:
+          tiempoLectura,
+
+        activeXp:
+          activeXp,
+
+        activeMinutes:
+          activeMinutes,
+
+        speed:
+          promedio
+
+      };
+
+    }
+
+  );
+
+
+  guardarVelocidades();
+
+}
+
+
+/* =========================
+   APLICAR XP AUTOMÁTICOS
+========================= */
+
 function aplicarXpAutomaticos(){
 
   if(
-    !datosDuolingo ||
+    !datosDuolingo
+    ||
     !Array.isArray(
       datosDuolingo.participantes
     )
@@ -1006,53 +1522,76 @@ function aplicarXpAutomaticos(){
   let cambio=false;
 
 
-  state.people.forEach(p=>{
+  state.people.forEach(
 
-    const r=
-      buscarRemoto(p);
+    p=>{
 
-
-    if(
-      !r ||
-      r.ok===false ||
-      r.totalXp==null
-    ){
-
-      return;
-
-    }
+      const r=
+        buscarRemoto(p);
 
 
-    const total=
-      Number(r.totalXp);
+      if(
+        !r
+        ||
+        r.ok===false
+        ||
+        r.totalXp==null
+      ){
+
+        return;
+
+      }
 
 
-    if(!Number.isFinite(total)){
-
-      return;
-
-    }
-
-
-    p.duolingoTotal=total;
-
-
-    if(p.baselineXp!=null){
-
-      p.xp=
-        Math.max(
-          0,
-          total
-          -
-          Number(p.baselineXp||0)
+      const total=
+        Number(
+          r.totalXp
         );
 
+
+      if(
+        !Number.isFinite(total)
+      ){
+
+        return;
+
+      }
+
+
+      p.duolingoTotal=
+        total;
+
+
+      if(
+        p.baselineXp!=null
+      ){
+
+        p.xp=
+
+          Math.max(
+
+            0,
+
+            total
+
+            -
+
+            Number(
+              p.baselineXp
+              ||
+              0
+            )
+
+          );
+
+      }
+
+
+      cambio=true;
+
     }
 
-
-    cambio=true;
-
-  });
+  );
 
 
   guardarCacheLocal();
@@ -1066,7 +1605,10 @@ function aplicarXpAutomaticos(){
 function faltanLineasBase(){
 
   return state.people.some(
-    p=>p.baselineXp==null
+
+    p=>
+      p.baselineXp==null
+
   );
 
 }
@@ -1075,12 +1617,16 @@ function faltanLineasBase(){
 async function inicializarLineasBase(){
 
   if(
-    !usuarioAdmin ||
-    inicializandoBase ||
-    !datosDuolingo ||
+    !usuarioAdmin
+    ||
+    inicializandoBase
+    ||
+    !datosDuolingo
+    ||
     !Array.isArray(
       datosDuolingo.participantes
-    ) ||
+    )
+    ||
     !faltanLineasBase()
   ){
 
@@ -1095,44 +1641,60 @@ async function inicializarLineasBase(){
   let cambio=false;
 
 
-  state.people.forEach(p=>{
+  state.people.forEach(
 
-    if(p.baselineXp!=null){
+    p=>{
 
-      return;
+      if(
+        p.baselineXp!=null
+      ){
 
-    }
+        return;
 
-
-    const r=
-      buscarRemoto(p);
-
-
-    if(
-      r &&
-      r.ok!==false &&
-      r.totalXp!=null
-    ){
-
-      const total=
-        Number(r.totalXp);
+      }
 
 
-      if(Number.isFinite(total)){
+      const r=
+        buscarRemoto(p);
 
-        p.baselineXp=total;
 
-        p.duolingoTotal=total;
+      if(
+        r
+        &&
+        r.ok!==false
+        &&
+        r.totalXp!=null
+      ){
 
-        p.xp=0;
+        const total=
+          Number(
+            r.totalXp
+          );
 
-        cambio=true;
+
+        if(
+          Number.isFinite(total)
+        ){
+
+          p.baselineXp=
+            total;
+
+          p.duolingoTotal=
+            total;
+
+          p.xp=
+            0;
+
+          cambio=
+            true;
+
+        }
 
       }
 
     }
 
-  });
+  );
 
 
   if(cambio){
@@ -1142,7 +1704,8 @@ async function inicializarLineasBase(){
   }
 
 
-  inicializandoBase=false;
+  inicializandoBase=
+    false;
 
 
   aplicarXpAutomaticos();
@@ -1152,6 +1715,10 @@ async function inicializarLineasBase(){
 }
 
 
+/* =========================
+   CONSULTA DUOLINGO
+========================= */
+
 async function consultarXpDuolingo(){
 
   const estado=
@@ -1160,18 +1727,29 @@ async function consultarXpDuolingo(){
     );
 
 
+  estado.textContent=
+    "Consultando XP de Duolingo...";
+
+
   try{
 
     const response=
+
       await fetch(
 
         DUOLINGO_API
+
         +
+
         "?t="
+
         +
+
         Date.now(),
 
-        {cache:"no-store"}
+        {
+          cache:"no-store"
+        }
 
       );
 
@@ -1179,7 +1757,9 @@ async function consultarXpDuolingo(){
     if(!response.ok){
 
       throw new Error(
-        "HTTP "+response.status
+        "HTTP "
+        +
+        response.status
       );
 
     }
@@ -1190,7 +1770,8 @@ async function consultarXpDuolingo(){
 
 
     if(
-      !datos ||
+      !datos
+      ||
       !Array.isArray(
         datos.participantes
       )
@@ -1203,7 +1784,16 @@ async function consultarXpDuolingo(){
     }
 
 
-    datosDuolingo=datos;
+    datosDuolingo=
+      datos;
+
+
+    /*
+      Calculamos primero el promedio
+      XP/min del administrador.
+    */
+
+    registrarVelocidades();
 
 
     aplicarXpAutomaticos();
@@ -1221,12 +1811,13 @@ async function consultarXpDuolingo(){
 
       :
 
-      null;
+      new Date();
 
 
     estado.textContent=
 
-      fecha &&
+      fecha
+      &&
       !Number.isNaN(
         fecha.getTime()
       )
@@ -1235,7 +1826,9 @@ async function consultarXpDuolingo(){
 
       "✓ XP automáticos actualizados: "
       +
-      fecha.toLocaleString("es-CO")
+      fecha.toLocaleString(
+        "es-CO"
+      )
 
       :
 
@@ -1254,12 +1847,17 @@ async function consultarXpDuolingo(){
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      error
+    );
 
 
     estado.textContent=
 
-      "No fue posible actualizar los XP automáticos. " +
+      "No fue posible actualizar los XP automáticos. "
+
+      +
+
       "Se mantienen los últimos datos disponibles.";
 
   }
@@ -1267,9 +1865,185 @@ async function consultarXpDuolingo(){
 }
 
 
+/* =====================================
+   HORARIOS:
+
+   :09
+   :19
+   :29
+   :39
+   :49
+   :59
+===================================== */
+
+let timerConsulta=null;
+
+
+function siguienteHoraConsulta(){
+
+  const ahora=
+    new Date();
+
+
+  const marcas=[
+    9,
+    19,
+    29,
+    39,
+    49,
+    59
+  ];
+
+
+  for(
+    const minuto
+    of marcas
+  ){
+
+    const candidata=
+      new Date(
+        ahora
+      );
+
+
+    candidata.setMinutes(
+      minuto,
+      0,
+      0
+    );
+
+
+    if(
+      candidata.getTime()
+      >
+      ahora.getTime()
+    ){
+
+      return candidata;
+
+    }
+
+  }
+
+
+  const siguiente=
+    new Date(
+      ahora
+    );
+
+
+  siguiente.setHours(
+
+    siguiente.getHours()+1,
+
+    9,
+
+    0,
+
+    0
+
+  );
+
+
+  return siguiente;
+
+}
+
+
+function mostrarProximaConsulta(){
+
+  const siguiente=
+    siguienteHoraConsulta();
+
+
+  const hora=
+
+    siguiente.toLocaleTimeString(
+
+      "es-CO",
+
+      {
+        hour:"2-digit",
+        minute:"2-digit"
+      }
+
+    );
+
+
+  if(!datosDuolingo){
+
+    estadoDuolingo.textContent=
+
+      "Próxima actualización automática de XP: "
+
+      +
+
+      hora;
+
+  }
+
+}
+
+
+function programarSiguienteConsulta(){
+
+  if(timerConsulta){
+
+    clearTimeout(
+      timerConsulta
+    );
+
+  }
+
+
+  const siguiente=
+    siguienteHoraConsulta();
+
+
+  const espera=
+
+    Math.max(
+
+      0,
+
+      siguiente.getTime()
+      -
+      Date.now()
+
+    );
+
+
+  mostrarProximaConsulta();
+
+
+  timerConsulta=
+
+    setTimeout(
+
+      async ()=>{
+
+        await consultarXpDuolingo();
+
+        programarSiguienteConsulta();
+
+      },
+
+      espera
+
+    );
+
+}
+
+
+/* =========================
+   FORMULARIO
+========================= */
+
 function renderForm(){
 
-  if(!state.people?.length){
+  if(
+    !state.people?.length
+  ){
 
     return;
 
@@ -1277,7 +2051,9 @@ function renderForm(){
 
 
   const p=
-    state.people[current];
+    state.people[
+      current
+    ];
 
 
   contador.textContent=
@@ -1290,27 +2066,36 @@ function renderForm(){
 
 
   usuarioActual.textContent=
-    "@"+p.username;
+    "@"
+    +
+    p.username;
 
 
   tributo.value=
-    p.fine||0;
+    p.fine
+    ||
+    0;
 
 
   xpAutomatico.textContent=
 
-    p.duolingoTotal!=null &&
+    p.duolingoTotal!=null
+    &&
     p.baselineXp!=null
 
     ?
 
     "XP automático semanal: "
     +
-    fmt(p.xp)
+    fmt(
+      p.xp
+    )
     +
     " · Total Duolingo: "
     +
-    fmt(p.duolingoTotal)
+    fmt(
+      p.duolingoTotal
+    )
 
     :
 
@@ -1318,7 +2103,12 @@ function renderForm(){
 
 
   puntosAcumulados.value=
-    Number(p.points)||0;
+
+    Number(
+      p.points
+    )
+    ||
+    0;
 
 
   xpBase.value=
@@ -1331,7 +2121,9 @@ function renderForm(){
 
     :
 
-    Number(p.baselineXp);
+    Number(
+      p.baselineXp
+    );
 
 
   vistaBase.textContent=
@@ -1349,7 +2141,9 @@ function renderForm(){
 
       :
 
-      fmt(p.baselineXp)
+      fmt(
+        p.baselineXp
+      )
     )
 
     +
@@ -1361,7 +2155,9 @@ function renderForm(){
 
       " · Total Duolingo actual: "
       +
-      fmt(p.duolingoTotal)
+      fmt(
+        p.duolingoTotal
+      )
 
       :
 
@@ -1377,10 +2173,13 @@ function renderForm(){
 function updateEffective(){
 
   const p=
-    state.people[current];
+    state.people[
+      current
+    ];
 
 
   const xpSemanal=
+
     Math.max(
       0,
       Number(p?.xp)||0
@@ -1388,6 +2187,7 @@ function updateEffective(){
 
 
   const t=
+
     Math.max(
       0,
       +tributo.value||0
@@ -1395,10 +2195,15 @@ function updateEffective(){
 
 
   efectivos.textContent=
+
     "XP efectivos: "
+
     +
+
     fmt(
-      xpSemanal-t
+      xpSemanal
+      -
+      t
     );
 
 }
@@ -1407,7 +2212,9 @@ function updateEffective(){
 function guardarActual(){
 
   const p=
-    state.people[current];
+    state.people[
+      current
+    ];
 
 
   const nuevoTributo=
@@ -1494,861 +2301,4 @@ function guardarActual(){
 
 
   p.baselineXp=
-    Math.round(
-      nuevaBase
-    );
-
-
-  if(p.duolingoTotal!=null){
-
-    p.xp=
-      Math.max(
-        0,
-        Number(p.duolingoTotal)
-        -
-        p.baselineXp
-      );
-
-  }
-
-
-  return true;
-
-}
-
-
-async function guardarYSiguiente(){
-
-  if(!usuarioAdmin){
-
-    return;
-
-  }
-
-
-  if(!guardarActual()){
-
-    return;
-
-  }
-
-
-  const nombre=
-    state.people[current].name;
-
-
-  if(
-    current
-    <
-    state.people.length-1
-  ){
-
-    current++;
-
-  }
-
-
-  if(
-    await guardarFirebase()
-  ){
-
-    guardado.textContent=
-      `✓ Datos de ${nombre} guardados.`;
-
-
-    renderAll();
-
-  }
-
-}
-
-
-async function anterior(){
-
-  if(!usuarioAdmin){
-
-    return;
-
-  }
-
-
-  if(!guardarActual()){
-
-    return;
-
-  }
-
-
-  if(current>0){
-
-    current--;
-
-  }
-
-
-  await guardarFirebase();
-
-
-  renderAll();
-
-}
-
-
-async function siguienteSinGuardar(){
-
-  if(!usuarioAdmin){
-
-    return;
-
-  }
-
-
-  if(
-    current
-    <
-    state.people.length-1
-  ){
-
-    current++;
-
-  }
-
-
-  state.current=current;
-
-
-  guardarCacheLocal();
-
-
-  renderAll();
-
-}
-
-
-/* RANKING SEMANAL */
-
-function renderWeekly(){
-
-  const r=
-    ranked();
-
-
-  weeklyTable.innerHTML=`
-
-    <div class="table-scroll">
-
-      <table>
-
-        <thead>
-
-          <tr>
-
-            <th>Pos.</th>
-
-            <th>Participante</th>
-
-            <th>XP</th>
-
-            <th>Tributo</th>
-
-            <th>XP<br>efectivos</th>
-
-            <th>Puntos<br>semanales</th>
-
-            <th>Puntos<br>acumulados</th>
-
-          </tr>
-
-        </thead>
-
-
-        <tbody>
-
-          ${
-
-            r.map(
-
-              (p,i)=>{
-
-                const puntosSemanales=
-                  prizes[i]||0;
-
-                const claseRanking=
-                  i<5
-                  ?
-                  `rank-${i+1}`
-                  :
-                  "";
-
-                return `
-
-                  <tr class="${claseRanking}">
-
-                    <td>
-                      ${i+1}
-                    </td>
-
-
-                    <td class="general-name">
-                      ${p.name}
-                    </td>
-
-
-                    <td>
-                      ${fmt(p.xp)}
-                    </td>
-
-
-                    <td class="tribute">
-
-                      ${
-                        p.fine
-
-                        ?
-
-                        "-"+fmt(p.fine)
-
-                        :
-
-                        "0"
-                      }
-
-                    </td>
-
-
-                    <td class="xp">
-                      ${fmt(effective(p))}
-                    </td>
-
-
-                    <td class="weekly-points">
-                      ${fmt(puntosSemanales)}
-                    </td>
-
-
-                    <td class="prize">
-                      ${fmt(p.points)}
-                    </td>
-
-                  </tr>
-
-                `;
-
-              }
-
-            ).join("")
-
-          }
-
-        </tbody>
-
-      </table>
-
-    </div>
-
-  `;
-
-}
-
-
-function renderHistory(){
-
-  history.innerHTML=
-
-    state.history?.length
-
-    ?
-
-    state.history
-
-      .slice()
-
-      .reverse()
-
-      .map(
-
-        h=>`
-
-          <div class="status">
-
-            <strong>
-              ${h.date}
-            </strong>
-
-            <br>
-
-            ${
-
-              h.winners.map(
-
-                w=>
-
-                  `${w.rank}. ${w.name}: +${fmt(w.prize)} puntos`
-
-              ).join("<br>")
-
-            }
-
-          </div>
-
-        `
-
-      ).join("")
-
-    :
-
-    '<p class="nota">Todavía no hay cierres guardados.</p>';
-
-}
-
-
-async function cerrarSemana(){
-
-  if(!usuarioAdmin){
-
-    return;
-
-  }
-
-
-  if(!guardarActual()){
-
-    return;
-
-  }
-
-
-  aplicarXpAutomaticos();
-
-
-  const r=
-    ranked();
-
-
-  const conDatos=
-
-    r.filter(
-
-      p=>
-
-        (+p.xp||0)>0
-
-        ||
-
-        (+p.fine||0)>0
-
-    );
-
-
-  if(!conDatos.length){
-
-    alert(
-      "No hay XP ni tributos registrados para cerrar esta semana."
-    );
-
-    return;
-
-  }
-
-
-  if(
-
-    !confirm(
-
-      "¿Seguro que quieres cerrar el concurso? " +
-
-      "Esto sumará los premios a los puntos acumulados, " +
-
-      "guardará el resultado y comenzará una nueva semana " +
-
-      "tomando los XP actuales como nueva línea base."
-
-    )
-
-  ){
-
-    return;
-
-  }
-
-
-  const winners=
-
-    r.slice(0,5)
-
-    .map(
-
-      (p,i)=>({
-
-        rank:i+1,
-
-        name:p.name,
-
-        effective:
-          effective(p),
-
-        prize:
-          prizes[i]
-
-      })
-
-    );
-
-
-  winners.forEach(w=>{
-
-    const p=
-
-      state.people.find(
-
-        x=>
-          x.name===w.name
-
-      );
-
-
-    if(p){
-
-      p.points=
-        (+p.points||0)
-        +
-        w.prize;
-
-    }
-
-  });
-
-
-  state.history=
-    state.history||[];
-
-
-  state.history.push({
-
-    date:
-      new Date()
-      .toLocaleString("es-CO"),
-
-    winners
-
-  });
-
-
-  state.people.forEach(p=>{
-
-    p.baselineXp=
-
-      p.duolingoTotal!=null
-
-      ?
-
-      Number(
-        p.duolingoTotal
-      )
-
-      :
-
-      Number(
-        p.baselineXp||0
-      )
-
-      +
-
-      Number(
-        p.xp||0
-      );
-
-
-    p.xp=0;
-
-    p.fine=0;
-
-  });
-
-
-  current=0;
-
-
-  if(
-    await guardarFirebase()
-  ){
-
-    renderAll();
-
-
-    alert(
-
-      "Semana cerrada. Los premios fueron sumados al acumulado " +
-
-      "y los XP actuales quedaron como línea base de la nueva semana."
-
-    );
-
-  }
-
-}
-
-
-function renderAll(){
-
-  renderWeekly();
-
-  renderHistory();
-
-
-  if(usuarioAdmin){
-
-    renderForm();
-
-  }
-
-}
-
-
-async function iniciarSesion(){
-
-  const email=
-    adminEmail.value.trim();
-
-
-  const password=
-    adminPassword.value;
-
-
-  const mensaje=
-    loginMensaje;
-
-
-  if(
-    !email
-    ||
-    !password
-  ){
-
-    mensaje.textContent=
-      "Escribe tu correo y contraseña.";
-
-    return;
-
-  }
-
-
-  mensaje.textContent=
-    "Iniciando sesión...";
-
-
-  try{
-
-    const cred=
-
-      await signInWithEmailAndPassword(
-
-        auth,
-
-        email,
-
-        password
-
-      );
-
-
-    if(
-      cred.user.uid
-      !==
-      ADMIN_UID
-    ){
-
-      await signOut(auth);
-
-
-      mensaje.textContent=
-        "Esta cuenta no tiene permiso de administrador.";
-
-
-      return;
-
-    }
-
-
-    mensaje.textContent="";
-
-
-  }catch(error){
-
-    console.error(error);
-
-
-    mensaje.textContent=
-
-      "No fue posible iniciar sesión. " +
-
-      "Revisa el correo y la contraseña.";
-
-  }
-
-}
-
-
-async function cerrarSesion(){
-
-  await signOut(auth);
-
-}
-
-
-onAuthStateChanged(
-
-  auth,
-
-  async user=>{
-
-    usuarioAdmin=
-
-      !!user
-
-      &&
-
-      user.uid===ADMIN_UID;
-
-
-    adminLogin.classList.toggle(
-
-      "hidden",
-
-      usuarioAdmin
-
-    );
-
-
-    adminArea.classList.toggle(
-
-      "hidden",
-
-      !usuarioAdmin
-
-    );
-
-
-    if(usuarioAdmin){
-
-      try{
-
-        const snap=
-
-          await getDoc(
-            leagueRef
-          );
-
-
-        if(!snap.exists()){
-
-          state=
-            normalizarEstado(
-              localState
-            );
-
-
-          current=
-
-            Math.min(
-
-              Math.max(
-
-                Number(
-                  state.current
-                )||0,
-
-                0
-
-              ),
-
-              state.people.length-1
-
-            );
-
-
-          await setDoc(
-
-            leagueRef,
-
-            state
-
-          );
-
-
-          conexion.textContent=
-
-            "✓ Datos iniciales guardados en la nube";
-
-        }
-
-
-      }catch(error){
-
-        console.error(error);
-
-      }
-
-
-      await inicializarLineasBase();
-
-
-      renderAll();
-
-    }
-
-  }
-
-);
-
-
-onSnapshot(
-
-  leagueRef,
-
-
-  snapshot=>{
-
-    if(snapshot.exists()){
-
-      const datos=
-        snapshot.data();
-
-
-      if(
-
-        datos
-
-        &&
-
-        Array.isArray(
-          datos.people
-        )
-
-        &&
-
-        datos.people.length
-        ===
-        base.length
-
-      ){
-
-        state=
-          normalizarEstado(
-            datos
-          );
-
-
-        current=
-
-          Math.min(
-
-            Math.max(
-
-              Number(
-                state.current
-              )||0,
-
-              0
-
-            ),
-
-            state.people.length-1
-
-          );
-
-
-        aplicarXpAutomaticos();
-
-
-        guardarCacheLocal();
-
-
-        conexion.textContent=
-          "✓ Liga actualizada";
-
-
-        renderAll();
-
-
-        if(usuarioAdmin){
-
-          inicializarLineasBase();
-
-        }
-
-      }
-
-    }else{
-
-      conexion.textContent=
-
-        usuarioAdmin
-
-        ?
-
-        "Preparando los datos iniciales..."
-
-        :
-
-        "La liga todavía está esperando su configuración inicial.";
-
-    }
-
-  },
-
-
-  error=>{
-
-    console.error(error);
-
-
-    conexion.textContent=
-
-      "No se pudo conectar con la liga.";
-
-  }
-
-);
-
-
-tributo.addEventListener(
-  "input",
-  updateEffective
-);
-
-
-window.iniciarSesion=
-  iniciarSesion;
-
-window.cerrarSesion=
-  cerrarSesion;
-
-window.guardarYSiguiente=
-  guardarYSiguiente;
-
-window.anterior=
-  anterior;
-
-window.siguienteSinGuardar=
-  siguienteSinGuardar;
-
-window.cerrarSemana=
-  cerrarSemana;
-
-
-renderAll();
-
-
-consultarXpDuolingo();
-
-
-setInterval(
-  consultarXpDuolingo,
-  60000
-);
-
-</script>
-
-</body>
-</html>
+    Math
